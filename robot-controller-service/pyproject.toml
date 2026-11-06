@@ -9,12 +9,12 @@ dependencies = [
     "opentelemetry-exporter-otlp-proto-grpc>=1.15.0",
     "numpy>=2.2.6",
     "workmesh",
-    "reachy-mini==1.1.4",
+    "reachy-mini==1.13.0",
 ]
 
 [dependency-groups]
 dev = [
-    "reachy-mini[mujoco]==1.1.4",
+    "reachy-mini[mujoco]==1.13.0",
 ]
 
 [tool.uv.sources]

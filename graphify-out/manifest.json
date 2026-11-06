@@ -690,10 +690,10 @@
     "semantic_hash": "2ee49e34a007580c6a5787ebd3a82081"
   },
   "robot-controller-service/compose.yaml": {
-    "mtime": 1793860538.593751,
-    "seen": 1793864539.7728884,
-    "ast_hash": "cacc5b9fbbfaa3216de13f766567fddc",
-    "semantic_hash": "cacc5b9fbbfaa3216de13f766567fddc"
+    "mtime": 1793935586.124887,
+    "seen": 1793935603.2743824,
+    "ast_hash": "5f3e4bc95db6adbf21b3429f207080a3",
+    "semantic_hash": ""
   },
   "robot-controller-service/data/hardware_config.yaml": {
     "mtime": 1793860538.593751,
@@ -702,10 +702,10 @@
     "semantic_hash": "a2fa80157a41062458da4e0c75380ccb"
   },
   "robot-controller-service/pyproject.toml": {
-    "mtime": 1793860538.593751,
-    "seen": 1793864539.7728894,
-    "ast_hash": "20e1f2dabb2415506494c08868f9c926",
-    "semantic_hash": "20e1f2dabb2415506494c08868f9c926"
+    "mtime": 1793933075.9024038,
+    "seen": 1793933209.3732202,
+    "ast_hash": "3e3a3c344a0d7c222bbab07555303bda",
+    "semantic_hash": ""
   },
   "robot-controller-service/scripts/extract_positions.py": {
     "mtime": 1793860538.593751,
@@ -732,16 +732,16 @@
     "semantic_hash": "764a47888d01560150d4b161f7ab5378"
   },
   "robot-controller-service/src/configuration.py": {
-    "mtime": 1793860538.5938673,
-    "seen": 1793864539.7728922,
-    "ast_hash": "a7821231d8a136a8dbec38c55e16dd32",
-    "semantic_hash": "a7821231d8a136a8dbec38c55e16dd32"
+    "mtime": 1793933057.8666372,
+    "seen": 1793933209.373224,
+    "ast_hash": "1ed704bbd4c124904f733505580809e4",
+    "semantic_hash": ""
   },
   "robot-controller-service/src/main.py": {
-    "mtime": 1793860538.5939453,
-    "seen": 1793864539.772893,
-    "ast_hash": "a99fa5c7e6258e9a8fe0aa7df0b8ee0a",
-    "semantic_hash": "a99fa5c7e6258e9a8fe0aa7df0b8ee0a"
+    "mtime": 1793933072.429391,
+    "seen": 1793933209.3732245,
+    "ast_hash": "f9e52d03f1501df5324f0db6b43c3030",
+    "semantic_hash": ""
   },
   "robot-controller-service/src/utils.py": {
     "mtime": 1793860538.5939453,
@@ -1546,5 +1546,761 @@
     "seen": 1793864539.7729764,
     "ast_hash": "e64c8e229a8363599d490f44aa2bde04",
     "semantic_hash": "e64c8e229a8363599d490f44aa2bde04"
+  },
+  "README.md": {
+    "mtime": 1793860538.509,
+    "seen": 1793933209.3733149,
+    "ast_hash": "6852d5da173df950282e69853143a962",
+    "semantic_hash": ""
+  },
+  "robot-controller-service/README.md": {
+    "mtime": 1793860538.593751,
+    "seen": 1793933209.373327,
+    "ast_hash": "85293ec46ba260118edbb196cfdb3b0b",
+    "semantic_hash": ""
+  },
+  "ui-server-service/README.md": {
+    "mtime": 1793860538.648237,
+    "seen": 1793933209.3733332,
+    "ast_hash": "01f5e82b03e2e1fba5a05f5530fe1f9e",
+    "semantic_hash": ""
+  },
+  "wireless-reachy-conn.md": {
+    "mtime": 1793876392.2917109,
+    "seen": 1793933209.3733346,
+    "ast_hash": "8ab1c7bfeebc80f8265ecae473fd2bf0",
+    "semantic_hash": ""
+  },
+  "workmesh/README.md": {
+    "mtime": 1793860538.6483212,
+    "seen": 1793933209.3733354,
+    "ast_hash": "3d4662ea20cffe37f190003a7730cfc5",
+    "semantic_hash": ""
+  },
+  "agent-service/src/Dell_Technologies_logo.png": {
+    "mtime": 1793860538.5124753,
+    "seen": 1793933209.3733358,
+    "ast_hash": "5de80017c9e26c9feea964ecd467683c",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/antennaLargeWiggle/antennaLargeWiggle.gif": {
+    "mtime": 1793860538.519,
+    "seen": 1793933209.3733363,
+    "ast_hash": "1f70d9d74d89241290a4be46e072ba30",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/antennaSmallWiggle/antennaSmallWiggle.gif": {
+    "mtime": 1793860538.524,
+    "seen": 1793933209.373337,
+    "ast_hash": "2c8c493c4ae2bee9bcac0f7fcd3181c1",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/attentive/attentive.gif": {
+    "mtime": 1793860538.525,
+    "seen": 1793933209.3733377,
+    "ast_hash": "4ae09dac17df2aa90da9eb6a70418013",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/focus/focus.gif": {
+    "mtime": 1793860538.529,
+    "seen": 1793933209.3733385,
+    "ast_hash": "0b4aa8fc9cc8db78975862a45aae6f14",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/idle3old/idle3old.gif": {
+    "mtime": 1793860538.538,
+    "seen": 1793933209.3733392,
+    "ast_hash": "2caf26690b7a3b742bd3845e25f64f28",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/intrigued5/intrigued5.gif": {
+    "mtime": 1793860538.543,
+    "seen": 1793933209.3733397,
+    "ast_hash": "1f62f10ac9cde2f2b6ebded15713fa87",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/listen1/listen1.gif": {
+    "mtime": 1793860538.549,
+    "seen": 1793933209.3733404,
+    "ast_hash": "8e1d40f5bf43264bb73f1e11bb896960",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/lookAroundShort/lookAroundShort.gif": {
+    "mtime": 1793860538.554,
+    "seen": 1793933209.3733408,
+    "ast_hash": "d81396624bd2cf03ae6fa6b4d2f99157",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/nod/nod.gif": {
+    "mtime": 1793860538.5589533,
+    "seen": 1793933209.3733413,
+    "ast_hash": "a98f5ef7addb389306ce5b31343fe1ff",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/picturePreparation/picturePreparation.gif": {
+    "mtime": 1793860538.5605888,
+    "seen": 1793933209.3733423,
+    "ast_hash": "ddc4ef00de7eb0d662c9bc835ef21708",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/scan/scan.gif": {
+    "mtime": 1793860538.566,
+    "seen": 1793933209.3733428,
+    "ast_hash": "be59dbb9604ea06176b78a6ad906f458",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/sleep3/sleep3.gif": {
+    "mtime": 1793860538.57,
+    "seen": 1793933209.3733435,
+    "ast_hash": "8f7fd5b271b038680796023ade674c46",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/takePicture/takePicture.gif": {
+    "mtime": 1793860538.573494,
+    "seen": 1793933209.373344,
+    "ast_hash": "be2f6b5f84e5ddb25f29f210cee6ea97",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talking/talking.gif": {
+    "mtime": 1793860538.5759525,
+    "seen": 1793933209.3733447,
+    "ast_hash": "82fc8cc0017ba4a01a77ecd51c70d2aa",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talkingLeftShoulder/talkingLeftShoulder.gif": {
+    "mtime": 1793860538.577,
+    "seen": 1793933209.3733454,
+    "ast_hash": "9473b117039ace726e008e84039cdc37",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talkingRightShoulder/talkingRightShoulder.gif": {
+    "mtime": 1793860538.58,
+    "seen": 1793933209.3733459,
+    "ast_hash": "0d308d36bba0a4c4c3befccd91861d88",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/wakeUp1/wakeUp1.gif": {
+    "mtime": 1793860538.5827692,
+    "seen": 1793933209.3733466,
+    "ast_hash": "d1a62fa8973d2cc182643105b218a6ba",
+    "semantic_hash": ""
+  },
+  "docs/images/image-generator-access.png": {
+    "mtime": 1793860538.586,
+    "seen": 1793933209.3733478,
+    "ast_hash": "fe9f596be6404b4d3d4227f9cdb561c8",
+    "semantic_hash": ""
+  },
+  "docs/images/image-generator-approval.png": {
+    "mtime": 1793860538.586,
+    "seen": 1793933209.3733487,
+    "ast_hash": "c857a81d921a73813281b2d3a8a725dd",
+    "semantic_hash": ""
+  },
+  "docs/images/redpanda-complete-topic.png": {
+    "mtime": 1793860538.587,
+    "seen": 1793933209.37335,
+    "ast_hash": "9bcc4c25f9f4fbc075e2ca6f1ad793de",
+    "semantic_hash": ""
+  },
+  "docs/images/redpanda-create-topic.png": {
+    "mtime": 1793860538.587,
+    "seen": 1793933209.3733506,
+    "ast_hash": "d0333205b2d643c7c18b4bbd700bdb22",
+    "semantic_hash": ""
+  },
+  "docs/images/redpanda-homepage-topic.png": {
+    "mtime": 1793860538.587,
+    "seen": 1793933209.373351,
+    "ast_hash": "b5713ccca0024b6374c25251bdd351da",
+    "semantic_hash": ""
+  },
+  "docs/images/redpanda-produce-message-button.png": {
+    "mtime": 1793860538.587,
+    "seen": 1793933209.373352,
+    "ast_hash": "7d86591c51b8a5c01cc00b1602d3c573",
+    "semantic_hash": ""
+  },
+  "docs/images/redpanda-produce-message-dialog.png": {
+    "mtime": 1793860538.588,
+    "seen": 1793933209.3733525,
+    "ast_hash": "df428754a5602d68b5fd94b3b1475be7",
+    "semantic_hash": ""
+  },
+  "docs/images/redpanda-select-ping-topic.png": {
+    "mtime": 1793860538.588,
+    "seen": 1793933209.373353,
+    "ast_hash": "2d8794b3a6577befed8c0dba4137cf13",
+    "semantic_hash": ""
+  },
+  "docs/images/setup.jpg": {
+    "mtime": 1793860538.591,
+    "seen": 1793933209.3733542,
+    "ast_hash": "19d34393fc806c9e27e9225c05b4289f",
+    "semantic_hash": ""
+  },
+  "docs/images/teaser.jpg": {
+    "mtime": 1793860538.591,
+    "seen": 1793933209.373355,
+    "ast_hash": "85e368d5331066ef795a5c807308a397",
+    "semantic_hash": ""
+  },
+  "remote-control-service/teaser.png": {
+    "mtime": 1793860538.593635,
+    "seen": 1793933209.3733556,
+    "ast_hash": "02492fd6025e9cffd847f98abf6d1501",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/binoculars.svg": {
+    "mtime": 1793860538.5957534,
+    "seen": 1793933209.373356,
+    "ast_hash": "9f95fbfb2a3f161c517019a0d07f0d8d",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/camera-crosshair.png": {
+    "mtime": 1793860538.5960107,
+    "seen": 1793933209.3733568,
+    "ast_hash": "29a3ecf5dcf46585ae597d9fefb36be7",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/mic.png": {
+    "mtime": 1793860538.5960107,
+    "seen": 1793933209.3733573,
+    "ast_hash": "017b3b48f4caa8ba062b0714e84ea17d",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/2D Game Art.png": {
+    "mtime": 1793860538.5960107,
+    "seen": 1793933209.373358,
+    "ast_hash": "e3dbb8f1d10cd53922c1ed9220587e55",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/3D Animation Character.jpg": {
+    "mtime": 1793860538.5964913,
+    "seen": 1793933209.3733585,
+    "ast_hash": "387a105978c7c047969ebe8bc42c70b5",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/3D Cartoon.png": {
+    "mtime": 1793860538.5964913,
+    "seen": 1793933209.3733592,
+    "ast_hash": "195721986717da85a71561204bae379b",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/3D Character.jpg": {
+    "mtime": 1793860538.5964913,
+    "seen": 1793933209.3733597,
+    "ast_hash": "8068b7b14e879b1773d3ef547615af2e",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Adventure Illustration.png": {
+    "mtime": 1793860538.5964913,
+    "seen": 1793933209.3733604,
+    "ast_hash": "05f809f7d92b2dfcb77b1b1fdda587f6",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/American Comic Book.png": {
+    "mtime": 1793860538.597,
+    "seen": 1793933209.373361,
+    "ast_hash": "cf26adec53c7bf2b6e79d8dc235c48cd",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Anime.png": {
+    "mtime": 1793860538.603,
+    "seen": 1793933209.3733616,
+    "ast_hash": "fb0d622591a2a525618a8cc5c7862005",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Art Nouveu.png": {
+    "mtime": 1793860538.604,
+    "seen": 1793933209.3733625,
+    "ast_hash": "65cf737eea5567098ffabe9954632be9",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Cartoon.jpg": {
+    "mtime": 1793860538.605,
+    "seen": 1793933209.373363,
+    "ast_hash": "dd3483ada93d923aa8d1ce9df45a93af",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Character Concept Art.png": {
+    "mtime": 1793860538.605,
+    "seen": 1793933209.3733635,
+    "ast_hash": "669eea651c19f9c5ec27640ce6ccd404",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Charcoal Drawing.png": {
+    "mtime": 1793860538.606,
+    "seen": 1793933209.373364,
+    "ast_hash": "45480166cb964f5fd863c88bf3eb9cba",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Chibi.png": {
+    "mtime": 1793860538.606,
+    "seen": 1793933209.3733647,
+    "ast_hash": "b71f89a07f347e4b300c29b311454b82",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Children's Book Illustration.png": {
+    "mtime": 1793860538.609,
+    "seen": 1793933209.3733652,
+    "ast_hash": "b323c9bcfd0759844bce2fc4940ef6b7",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Cinematic Photography.png": {
+    "mtime": 1793860538.609,
+    "seen": 1793933209.3733659,
+    "ast_hash": "9be810485cb6ca5210fa1d93d132b231",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Clay Animation.png": {
+    "mtime": 1793860538.609,
+    "seen": 1793933209.3733664,
+    "ast_hash": "1dfc9cfce0f5fa86b5dd0509b5c394ff",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Comic Book.png": {
+    "mtime": 1793860538.61,
+    "seen": 1793933209.373367,
+    "ast_hash": "912fa6fb2cdaae0ad8c37eea7ec22c08",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Doll.png": {
+    "mtime": 1793860538.61,
+    "seen": 1793933209.3733675,
+    "ast_hash": "94bf61dcf8c57d49dc8b46f5603ca9f9",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Embroidery.png": {
+    "mtime": 1793860538.611,
+    "seen": 1793933209.373368,
+    "ast_hash": "ae5df0565676cd9f55ec111d58a69bf8",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Film Noir.png": {
+    "mtime": 1793860538.611,
+    "seen": 1793933209.3733687,
+    "ast_hash": "ea231982b1bab182449aa995be1c8fb3",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Gothic.png": {
+    "mtime": 1793860538.612,
+    "seen": 1793933209.3733695,
+    "ast_hash": "41849a835d6368e2e7ba033d647b47bb",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Graphic Novel.png": {
+    "mtime": 1793860538.612,
+    "seen": 1793933209.37337,
+    "ast_hash": "e3680e2344b9ff3984e36d0cfc99dbf8",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/HDR Photography.png": {
+    "mtime": 1793860538.613,
+    "seen": 1793933209.3733706,
+    "ast_hash": "bb72a91a1d320143e1c49891c9ae308a",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/High Fantasy.png": {
+    "mtime": 1793860538.613,
+    "seen": 1793933209.3733711,
+    "ast_hash": "806b4f4a19ba08af8d56c9aed443cc51",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Impressionist.jpg": {
+    "mtime": 1793860538.613,
+    "seen": 1793933209.3733716,
+    "ast_hash": "1362d1487770037acc1562c9cb0a91fe",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Infographic.png": {
+    "mtime": 1793860538.614,
+    "seen": 1793933209.3733723,
+    "ast_hash": "4abdf9642735ac56aeea543def74b2ee",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Japaneses Traditional Art.png": {
+    "mtime": 1793860538.614,
+    "seen": 1793933209.373373,
+    "ast_hash": "a2a24c33d6fe7f89846be11de800d223",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Kawaii Character.png": {
+    "mtime": 1793860538.615,
+    "seen": 1793933209.3733735,
+    "ast_hash": "601569508c0d3c7d3970964731aa5d8e",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Manga.jpg": {
+    "mtime": 1793860538.616,
+    "seen": 1793933209.3733742,
+    "ast_hash": "747876faec1283bf0bd1a7d75dd7372d",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Marble Statue.jpg": {
+    "mtime": 1793860538.624,
+    "seen": 1793933209.3733747,
+    "ast_hash": "37e5fa7fae357bea52de022a9a267186",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Minimalist.png": {
+    "mtime": 1793860538.624,
+    "seen": 1793933209.3733754,
+    "ast_hash": "4c92fe52e4531f4e3db96e5993add05a",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Neon Comic Book.png": {
+    "mtime": 1793860538.625,
+    "seen": 1793933209.373376,
+    "ast_hash": "d72c03768c2f700aa46647b98d602092",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Oil Painting.png": {
+    "mtime": 1793860538.626,
+    "seen": 1793933209.3733766,
+    "ast_hash": "2a68702f4a23f13c5ff36b01604ae3b1",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Paper Craft.png": {
+    "mtime": 1793860538.627,
+    "seen": 1793933209.3733773,
+    "ast_hash": "241aa9ae57df6a583b0d60fe5eb063fd",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Paper Doll.png": {
+    "mtime": 1793860538.627,
+    "seen": 1793933209.3733778,
+    "ast_hash": "8630d4baf6541226b5dade0a794190e2",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Papercut.png": {
+    "mtime": 1793860538.627,
+    "seen": 1793933209.3733783,
+    "ast_hash": "a8315074a62980a776a656b1f98404cd",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Pencil Sketch.png": {
+    "mtime": 1793860538.629,
+    "seen": 1793933209.373379,
+    "ast_hash": "616d478a21d42f748ef7766a16400da4",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Pixel Art.png": {
+    "mtime": 1793860538.63,
+    "seen": 1793933209.3733795,
+    "ast_hash": "706fa4539a9ed46596c1a8af020ed00c",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Plush Toy.png": {
+    "mtime": 1793860538.63,
+    "seen": 1793933209.3733804,
+    "ast_hash": "277005e949347297982c930f2257c1ae",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Pop Art.png": {
+    "mtime": 1793860538.631,
+    "seen": 1793933209.373381,
+    "ast_hash": "301ddc18ba25d51d4f4be27ddc68dac4",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Steampunk.png": {
+    "mtime": 1793860538.631,
+    "seen": 1793933209.3733814,
+    "ast_hash": "e3fc2d817dd6315e42dacf6b070292e5",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Sticker Art.png": {
+    "mtime": 1793860538.633,
+    "seen": 1793933209.373382,
+    "ast_hash": "c4bc7e9582899269880bcf439f19d810",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Street Art.png": {
+    "mtime": 1793860538.642,
+    "seen": 1793933209.3733826,
+    "ast_hash": "16dadec2524eecd8d7627ebdb9659467",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Tarot Card Illustration.png": {
+    "mtime": 1793860538.643,
+    "seen": 1793933209.3733833,
+    "ast_hash": "a2d2000635d4d19407234a00ab5c3c74",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Tattoo Art.png": {
+    "mtime": 1793860538.644,
+    "seen": 1793933209.373384,
+    "ast_hash": "dc339cec72e0ce784f1eea4cc6b0a0da",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Vibrant Vintage Postcard.png": {
+    "mtime": 1793860538.646,
+    "seen": 1793933209.3733845,
+    "ast_hash": "4eb7fac22cd2dd44013b259143da7558",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Wanted Poster.png": {
+    "mtime": 1793860538.646,
+    "seen": 1793933209.3733852,
+    "ast_hash": "8b9143aca17f6e8b69ebc674deaae839",
+    "semantic_hash": ""
+  },
+  "ui-frontend/src/assets/pre-generated-images/Watercolor.jpg": {
+    "mtime": 1793860538.646,
+    "seen": 1793933209.3733857,
+    "ast_hash": "4431fc7be706099a8a935695b22a261f",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/antennaLargeWiggle/antennaLargeWiggle.mp4": {
+    "mtime": 1793860538.52,
+    "seen": 1793933209.3733885,
+    "ast_hash": "9af1b1d7acad8bdcc341189542ff10f0",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/antennaLargeWiggle/antennaLargeWiggle.wav": {
+    "mtime": 1793860538.523,
+    "seen": 1793933209.373389,
+    "ast_hash": "e12c4e52559bbe3b50c9c80578e76dca",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/antennaSmallWiggle/antennaSmallWiggle.mp4": {
+    "mtime": 1793860538.524,
+    "seen": 1793933209.3733895,
+    "ast_hash": "73520634b66f3251951146adc567d128",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/antennaSmallWiggle/antennaSmallWiggle.wav": {
+    "mtime": 1793860538.524,
+    "seen": 1793933209.3733904,
+    "ast_hash": "8f1b35a7b384804159fd454e8c7460d2",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/attentive/attentive.mp4": {
+    "mtime": 1793860538.525,
+    "seen": 1793933209.373391,
+    "ast_hash": "fcf6933cd9428f94348ee70760d0d46c",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/beep/beep_sfx.wav": {
+    "mtime": 1793860538.526,
+    "seen": 1793933209.3733914,
+    "ast_hash": "a601be39c0eaf374c2deb3a50585621f",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/focus/focus.mp4": {
+    "mtime": 1793860538.531,
+    "seen": 1793933209.373392,
+    "ast_hash": "2fd103be25389f27a83aff539ea8fdb7",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/focus/focus.wav": {
+    "mtime": 1793860538.535,
+    "seen": 1793933209.3733926,
+    "ast_hash": "5a0bb8e53266095185595a83e460161e",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/focus/focus_sfx.wav": {
+    "mtime": 1793860538.535,
+    "seen": 1793933209.373393,
+    "ast_hash": "00123a48037fa81e9a787ed60a988f53",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/idle3old/idle3old.mp4": {
+    "mtime": 1793860538.539,
+    "seen": 1793933209.373394,
+    "ast_hash": "21ca3a9b330cf8b06475efcf8d07e376",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/idle3old/idle3old.wav": {
+    "mtime": 1793860538.542,
+    "seen": 1793933209.3733945,
+    "ast_hash": "8ae30c7cbab42b5eb20bd9707812c518",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/intrigued5/intrigued5.mp4": {
+    "mtime": 1793860538.544,
+    "seen": 1793933209.373395,
+    "ast_hash": "8c06b0622d58d33f6ddc5f519518e506",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/intrigued5/intrigued5.wav": {
+    "mtime": 1793860538.545,
+    "seen": 1793933209.3733957,
+    "ast_hash": "9e0cc460566abf8286a8064d1fdd0e55",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/intrigued5/intrigued5_sfx.wav": {
+    "mtime": 1793860538.547,
+    "seen": 1793933209.3733962,
+    "ast_hash": "327ec4ec58269eb75a907cb7b998b2b0",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/listen1/listen1.mp4": {
+    "mtime": 1793860538.55,
+    "seen": 1793933209.3733966,
+    "ast_hash": "ef45587ea8deac0279ea34ba78d6c864",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/listen1/listen1.wav": {
+    "mtime": 1793860538.553,
+    "seen": 1793933209.3733974,
+    "ast_hash": "d085cf60fcc9e4fedd7d4892ee912991",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/lookAroundShort/lookAroundShort.mp4": {
+    "mtime": 1793860538.555,
+    "seen": 1793933209.373398,
+    "ast_hash": "6820fa69bea92dc3a9d72272d085885f",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/lookAroundShort/lookAroundShort.wav": {
+    "mtime": 1793860538.557,
+    "seen": 1793933209.3733985,
+    "ast_hash": "fe2bacf8a5007e4050e7f90ded3d6ece",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/nod/nod.mp4": {
+    "mtime": 1793860538.5589533,
+    "seen": 1793933209.373399,
+    "ast_hash": "27040f54fa8d477e333370d8f910e649",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/nod/nod.wav": {
+    "mtime": 1793860538.559,
+    "seen": 1793933209.3733997,
+    "ast_hash": "e6d44580b2bc23777968a6a6de946d21",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/nod/nod_sfx.wav": {
+    "mtime": 1793860538.559,
+    "seen": 1793933209.3734002,
+    "ast_hash": "13d855131454c67198a74eb354576ca4",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/picturePreparation/picturePreparation.mp4": {
+    "mtime": 1793860538.5605888,
+    "seen": 1793933209.373401,
+    "ast_hash": "3b54c2a496157dc4ff5d069f63cd0353",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/picturePreparation/picturePreparation.wav": {
+    "mtime": 1793860538.562,
+    "seen": 1793933209.3734016,
+    "ast_hash": "1f0946fdf0e9055da175d1a8cac47bb0",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/picturePreparation/picturePreparation_sfx.wav": {
+    "mtime": 1793860538.563,
+    "seen": 1793933209.373402,
+    "ast_hash": "a72affd7c298e43fc405a24d522450bd",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/scan/scan.mp4": {
+    "mtime": 1793860538.567,
+    "seen": 1793933209.3734026,
+    "ast_hash": "e219cb74eb72321528861376f7cc6f6d",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/scan/scan.wav": {
+    "mtime": 1793860538.567,
+    "seen": 1793933209.3734033,
+    "ast_hash": "be17af21a2c7f1e5174a8a3d103ae050",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/sleep3/sleep3.mp4": {
+    "mtime": 1793860538.57,
+    "seen": 1793933209.3734038,
+    "ast_hash": "472f9ee3b39f1463110777bf675f059a",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/sleep3/sleep3.wav": {
+    "mtime": 1793860538.571,
+    "seen": 1793933209.3734045,
+    "ast_hash": "1f69bd94c862600c1596865910032de6",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/sleep3/sleep3_sfx.wav": {
+    "mtime": 1793860538.572,
+    "seen": 1793933209.3734052,
+    "ast_hash": "5c809b0393bbe59b47bcb6b13c64495f",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/takePicture/takePicture.mp4": {
+    "mtime": 1793860538.573494,
+    "seen": 1793933209.3734057,
+    "ast_hash": "ae6b5f86916fe338079277f63347cc77",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/takePicture/takePicture.wav": {
+    "mtime": 1793860538.574,
+    "seen": 1793933209.3734062,
+    "ast_hash": "ed3d03d371bb6f6cfb81026789f85857",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/takePicture/takePicture_sfx.wav": {
+    "mtime": 1793860538.574,
+    "seen": 1793933209.373407,
+    "ast_hash": "7615ed24aa202d833448175dce1a9e32",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talking/talking.mp4": {
+    "mtime": 1793860538.576,
+    "seen": 1793933209.3734076,
+    "ast_hash": "011b4dcfa043aab7102e70fa48d1f0e8",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talking/talking.wav": {
+    "mtime": 1793860538.576,
+    "seen": 1793933209.373408,
+    "ast_hash": "93482f7a728dacd9aea68bb84d0a5467",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talkingLeftShoulder/talkingLeftShoulder.mp4": {
+    "mtime": 1793860538.578,
+    "seen": 1793933209.3734086,
+    "ast_hash": "b221315a202804df798b8b6d6dc50bf2",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talkingLeftShoulder/talkingLeftShoulder.wav": {
+    "mtime": 1793860538.579,
+    "seen": 1793933209.3734093,
+    "ast_hash": "b7be61908236245a4c0b03242e36776d",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talkingRightShoulder/talkingRightShoulder.mp4": {
+    "mtime": 1793860538.58,
+    "seen": 1793933209.3734097,
+    "ast_hash": "3dcaba1c35401ac8bc6d2832fc8d4a09",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/talkingRightShoulder/talkingRightShoulder.wav": {
+    "mtime": 1793860538.581,
+    "seen": 1793933209.3734102,
+    "ast_hash": "ef9706222f55e771a28a9fbd1770e58b",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/wakeUp1/wakeUp1.mp4": {
+    "mtime": 1793860538.5827692,
+    "seen": 1793933209.3734112,
+    "ast_hash": "4b9d08103f15ac51c9b39f776a0b1f4e",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/wakeUp1/wakeUp1.wav": {
+    "mtime": 1793860538.583,
+    "seen": 1793933209.3734117,
+    "ast_hash": "8dd561810eee7f67294c76a639fdf72b",
+    "semantic_hash": ""
+  },
+  "animation-database-service/assets/animLibrary/wakeUp1/wakeUp1_sfx.wav": {
+    "mtime": 1793860538.583,
+    "seen": 1793933209.3734121,
+    "ast_hash": "5fa373188be0c41092af05048b0feef9",
+    "semantic_hash": ""
+  },
+  "ui-frontend/package-lock.json": {
+    "mtime": 1793860538.5952528,
+    "seen": 1793933209.3734128,
+    "ast_hash": "100ae05223d9ae9b646e2a78336eaab4",
+    "semantic_hash": ""
   }
 }

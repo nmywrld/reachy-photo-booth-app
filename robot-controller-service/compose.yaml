@@ -25,16 +25,18 @@ services:
       args:
         UV_FLAGS: --dev
     healthcheck:
-        test: ["CMD", "curl", "-f", "http://127.0.0.1:8000/api/daemon/status"]
+        # Wireless mode: no local daemon; probe the robot's on-board daemon.
+        # If you set a fixed robot IP in the config below, use it here too.
+        test: ["CMD", "curl", "-f", "http://reachy-mini.local:8000/api/daemon/status"]
         start_period: 10m
         start_interval: 5s
         interval: 5s
         timeout: 3s
         retries: 5
-    ports:
-      - 8000:8000 # Reachy dashboard
+    # No port mapping needed: the Reachy dashboard now runs on the robot
+    # itself (http://reachy-mini.local:8000/dashboard), not in this container.
     devices:
-      - /dev/ttyACM0:/dev/ttyACM0
+      #- /dev/ttyACM0:/dev/ttyACM0 # wired serial link; unused by a wireless robot
       - /dev/bus/usb:/dev/bus/usb:rw # USB devices (for ReSpeaker) - with read/write
     environment:
       - LIBGL_ALWAYS_SOFTWARE=1
@@ -43,3 +45,16 @@ services:
       # NOTE: Uncomment if you want to use the simulator
       # Comment if you want to use the real robot
       #- /tmp/.X11-unix:/tmp/.X11-unix
+    configs:
+      - source: config_robot_controller
+        target: /config.yaml
+
+configs:
+  config_robot_controller:
+    content: |
+      reachy_config:
+        connection_mode: network
+        host: reachy-mini.local
+        port: 8000
+        timeout: 5.0
+

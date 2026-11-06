@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from enum import Enum
-from typing import Any, Self
+from typing import Any, Literal, Self
 
 from pydantic import BaseModel, Field, model_validator
 from reachy_mini.media.audio_control_utils import PARAMETERS as RESPEAKER_PARAMETERS
@@ -23,8 +23,23 @@ class Robot(Enum):
 
 
 class ReachyConfig(BaseModel):
-    localhost_only: bool = Field(
-        default=True, description="Whether to only connect to localhost daemons."
+    connection_mode: Literal["auto", "localhost_only", "network"] = Field(
+        default="network",
+        description=(
+            "How to reach the robot's daemon: 'network' connects to a wireless "
+            "robot at host:port, 'localhost_only' to a daemon on this machine "
+            "(wired robot or simulation), 'auto' tries localhost then host."
+        ),
+    )
+    host: str = Field(
+        default="reachy-mini.local",
+        description=(
+            "Hostname or IP of the robot's daemon. Defaults to the robot's "
+            "mDNS name on the LAN."
+        ),
+    )
+    port: int = Field(
+        default=8000, ge=1, le=65535, description="Port of the daemon's HTTP server."
     )
     use_sim: bool = Field(default=False, description="Whether to use the simulation.")
     timeout: float = Field(default=5.0, description="The timeout for the connection.")

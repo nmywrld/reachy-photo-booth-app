@@ -45,24 +45,26 @@ class RobotService(Service):
             self.config.respeaker_config.microphone_parameters, self.logger
         )
 
+        # A wireless robot runs its daemon on-board; only the simulation needs
+        # a locally spawned daemon.
         # TODO: change it when Pollen adds a way to use hardware config
         # directly in the ReachyMini class
-        start_daemon(
-            logger=self.logger,
-            use_sim=self.config.reachy_config.use_sim,
-            hardware_config_filepath=self.config.reachy_config.hardware_config_filepath,
-            wait_time=self.config.reachy_config.daemon_wait_time,
-        )
+        if self.config.reachy_config.use_sim:
+            start_daemon(
+                logger=self.logger,
+                use_sim=True,
+                hardware_config_filepath=self.config.reachy_config.hardware_config_filepath,
+                wait_time=self.config.reachy_config.daemon_wait_time,
+            )
 
-        # Connect to Reachy
-        self.reachy = ReachyMini(
-            spawn_daemon=False,
-            localhost_only=self.config.reachy_config.localhost_only,
-            use_sim=self.config.reachy_config.use_sim,
-            timeout=self.config.reachy_config.timeout,
-            log_level=self.config.log_level,
-            media_backend=self.config.reachy_config.media_backend.value,
+        # Connect to Reachy. Media stays on this machine: the client-side media
+        # backend opens the local ReSpeaker (USB) and speaker devices directly,
+        # so only motion control travels over the network.
+        reachy_config = self.config.reachy_config
+        connection_mode = (
+            "localhost_only" if reachy_config.use_sim else reachy_config.connection_mode
         )
+        self.reachy = self._connect_with_retry(connection_mode)
 
         self.logger.info("Connected to Reachy Mini!")
 
@@ -75,6 +77,33 @@ class RobotService(Service):
         # Frame rate tracking
         self.frame_timestamps: list[float] = []
         self.last_framerate_log_time: float = time.time()
+
+    def _connect_with_retry(self, connection_mode: str) -> ReachyMini:
+        """Connect to the robot, retrying a few times for wireless flakiness."""
+        reachy_config = self.config.reachy_config
+        last_error: Exception | None = None
+        for attempt in range(1, 4):
+            try:
+                return ReachyMini(
+                    host=reachy_config.host,
+                    port=reachy_config.port,
+                    connection_mode=connection_mode,
+                    spawn_daemon=False,
+                    use_sim=reachy_config.use_sim,
+                    timeout=reachy_config.timeout,
+                    log_level=self.config.log_level,
+                    media_backend=reachy_config.media_backend.value,
+                )
+            except Exception as error:
+                last_error = error
+                self.logger.warning(
+                    f"Reachy connection attempt {attempt}/3 failed: {error}"
+                )
+                time.sleep(2)
+        raise RuntimeError(
+            f"Could not connect to Reachy at "
+            f"{reachy_config.host}:{reachy_config.port}"
+        ) from last_error
 
     @override
     async def stop(self) -> None:
