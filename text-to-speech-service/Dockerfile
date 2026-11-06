@@ -19,7 +19,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=./workmesh,target=/app/workmesh \
-    uv sync --frozen --no-install-project --package text-to-speech --no-editable
+    UV_HTTP_TIMEOUT=120 uv sync --frozen --no-install-project --package text-to-speech --no-editable
 
 RUN --mount=type=bind,source=./text-to-speech-service/scripts,target=/app/scripts \
     /app/.venv/bin/python /app/scripts/cache_kokoro_model_and_voices.py

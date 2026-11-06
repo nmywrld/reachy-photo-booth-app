@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_agent_service_workflows_photo_booth_agent_src_photo_booth_agent_prompt_py", "label": "prompt.py", "file_type": "code", "source_file": "agent-service/workflows/photo_booth_agent/src/photo_booth_agent/prompt.py", "source_location": "L1"}], "edges": [], "raw_calls": []}
