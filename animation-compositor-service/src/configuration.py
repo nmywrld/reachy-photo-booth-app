@@ -33,6 +33,24 @@ class AudioConfig(BaseModel):
     sample_rate: int = Field(ge=1, lt=100000, default=16000)
     bits_per_sample: int = Field(ge=1, lt=100, default=16)
     channel_count: int = Field(ge=1, le=2, default=1)
+    block_duration: float = Field(
+        gt=0,
+        le=0.5,
+        default=0.05,
+        description=(
+            "Seconds of audio mixed per callback. Larger blocks mean fewer Python "
+            "callbacks per second; tiny default blocks caused underruns (stutter)."
+        ),
+    )
+    output_latency: float = Field(
+        gt=0,
+        le=2.0,
+        default=0.2,
+        description=(
+            "Output buffer in seconds. A deeper buffer rides out busy moments in "
+            "the compositor (and Bluetooth speakers) at the cost of audio delay."
+        ),
+    )
 
     @model_validator(mode="after")
     def bits_per_sample_validator(self) -> Self:

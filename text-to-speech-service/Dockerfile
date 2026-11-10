@@ -41,7 +41,11 @@ WORKDIR /app/src
 ENV PATH="/app/.venv/bin:$PATH"
 
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
-COPY --from=builder --chown=app:app /root/.cache/huggingface/hub/models--hexgrad--Kokoro-82M /home/app/.cache/huggingface/hub/models--hexgrad--Kokoro-82M
+# Copy the whole hub cache, not just models--hexgrad--Kokoro-82M: with
+# huggingface_hub >= 1.x a model's blobs/ entries are links into the shared
+# hub/blobs/ folder, so copying the model folder alone leaves every cached
+# voice as a dangling link ("No such file ... voices/af_bella.pt").
+COPY --from=builder --chown=app:app /root/.cache/huggingface/hub /home/app/.cache/huggingface/hub
 COPY --chown=app:app ./text-to-speech-service /app
 
 ENV LD_LIBRARY_PATH=/app/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/:$LD_LIBRARY_PATH

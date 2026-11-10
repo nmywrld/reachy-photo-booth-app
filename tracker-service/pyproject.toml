@@ -10,7 +10,7 @@ dependencies = [
     "requests>=2.32.4",
     "opencv-python-headless>=4.11.0.86",
     "statesman>=1.0.5",
-    "transformers==4.49.0",
+    "transformers>=4.49.0",
     "supervision>=0.26.1",
     "yolox",
     "loguru>=0.7.3",

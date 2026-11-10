@@ -1,0 +1,75 @@
+:root {
+    --fg: #1d1d1f;
+    --muted: #6e6e73;
+    --accent: #ff9900;
+    --bg: #ffffff;
+    --panel: #f5f5f7;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --fg: #f5f5f7;
+        --muted: #a1a1a6;
+        --bg: #1d1d1f;
+        --panel: #2c2c2e;
+    }
+}
+
+body {
+    font-family: system-ui, sans-serif;
+    margin: 0 auto;
+    padding: 16px;
+    max-width: 760px;
+    color: var(--fg);
+    background: var(--bg);
+}
+
+section {
+    background: var(--panel);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+
+h2 {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+}
+
+.hint,
+.muted {
+    color: var(--muted);
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+button {
+    padding: 10px 18px;
+    min-height: 44px;
+    border: none;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #1d1d1f;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#preview {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 6px;
+}
+
+pre {
+    overflow-x: auto;
+    font-size: 0.85rem;
+}
+
+.api code {
+    word-break: break-all;
+}

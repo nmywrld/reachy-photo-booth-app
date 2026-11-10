@@ -74,6 +74,41 @@ To use a physical camera, you need to provide its serial number in the configura
    Replace `<your_serial_number>` with the value you obtained in the previous step.
 
 
+### Wireless Reachy Mini camera
+
+The wireless Reachy Mini's camera is served by the **reachy_booth** app, which
+runs on the robot and reads the camera through the Reachy Mini Python SDK (see
+[docs/wireless-reachy-booth-app.md](../docs/wireless-reachy-booth-app.md) to
+install and start it). Point the service at the robot with a `reachy://` URL:
+
+```yaml
+configs:
+  config_camera:
+    content: |
+      camera_serial_or_url: reachy://192.168.0.25   # robot IP, optional :port (default 8042)
+      fps: 12
+      reachy_stream_quality: 65
+      streaming_resolution: {width: 640, height: 360}
+      capture_resolution: {width: 1280, height: 720}
+```
+
+- Use the robot's IP: `reachy-mini.local` (mDNS) usually does not resolve inside
+  containers. `curl http://<ip>:8042/health` from the host should work.
+- The live stream (`camera_frame` topic, UI preview, tracking) is an MJPEG stream
+  the robot encodes at `streaming_resolution`, `fps` and `reachy_stream_quality`.
+  The defaults fit a weak Wi-Fi link (~0.3 MB/s); raise them on a good one.
+- Photos (`/capture`) are fetched as a separate full-resolution still
+  (`/camera/frame.jpg`), never older than 2 s. If that request fails, the newest
+  stream frame is used and a warning is logged.
+- The stream is read on a background thread over plain HTTP. A Wi-Fi hiccup
+  shows up as lag; if the stream drops, the service reconnects with backoff
+  (up to 10 s) and logs `Reachy video streaming` when video is back.
+
+**Black screen in the UI** means no frames reach the UI server, which then
+sends black. Check `docker compose logs camera` for `Reachy video unavailable`:
+usually the reachy_booth app is not running on the robot. Start it from the
+robot dashboard (`http://<ip>:8000`) and check `http://<ip>:8042/health`.
+
 ### Still-photo detection requirement
 
 `GET /capture` now returns HTTP 409 if there is no fresh person detection

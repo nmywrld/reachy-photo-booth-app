@@ -45,7 +45,9 @@ class CameraConfig(BaseConfig):
 
     camera_serial_or_url: str = Field(
         default="SN0001",
-        description="The serial number or the url of the camera to use",
+        description="The camera to use: a USB serial number, an HTTP stream URL, "
+        "or reachy://<host>[:port] for the wireless Reachy Mini's own camera, "
+        "served by the on-robot reachy_booth app (port defaults to 8042)",
     )
     robot_id: Robot = Field(
         default=Robot.RESEARCHER,
@@ -79,6 +81,14 @@ class CameraConfig(BaseConfig):
     )
     http_bind_port: int = Field(
         default=7071, description="The port to bind the HTTP server to"
+    )
+    reachy_stream_quality: int = Field(
+        default=65,
+        description="JPEG quality (1-100) of the live stream from a wireless "
+        "Reachy (reachy://). Lower it if Wi-Fi bandwidth is short; photos are "
+        "fetched separately at full resolution",
+        ge=1,
+        le=100,
     )
     mirror_horizontal: bool = Field(
         default=False,

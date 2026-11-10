@@ -2,11 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from enum import Enum
-from typing import Any, Literal, Self
 
-from pydantic import BaseModel, Field, model_validator
-from reachy_mini.media.audio_control_utils import PARAMETERS as RESPEAKER_PARAMETERS
-from reachy_mini.media.media_manager import MediaBackend
+from pydantic import BaseModel, Field, HttpUrl
 from workmesh.config import BaseConfig
 from workmesh.messages import Robot as RobotProto
 
@@ -22,56 +19,34 @@ class Robot(Enum):
         raise ValueError(f"Invalid robot: {self}")
 
 
-class ReachyConfig(BaseModel):
-    connection_mode: Literal["auto", "localhost_only", "network"] = Field(
-        default="network",
+class BoothAppConfig(BaseModel):
+    """Where and how to reach the reachy_booth app running on the robot."""
+
+    url: HttpUrl = Field(
+        default=HttpUrl("http://reachy-mini.local:8042"),
         description=(
-            "How to reach the robot's daemon: 'network' connects to a wireless "
-            "robot at host:port, 'localhost_only' to a daemon on this machine "
-            "(wired robot or simulation), 'auto' tries localhost then host."
+            "Base URL of the reachy_booth app on the robot. Use the robot's IP: "
+            "mDNS names (reachy-mini.local) usually don't resolve in containers."
         ),
     )
-    host: str = Field(
-        default="reachy-mini.local",
+    connect_timeout: float = Field(
+        default=5.0, gt=0, description="Timeout in seconds to open the websocket."
+    )
+    heartbeat: float = Field(
+        default=2.0,
+        gt=0,
         description=(
-            "Hostname or IP of the robot's daemon. Defaults to the robot's "
-            "mDNS name on the LAN."
+            "Websocket ping interval in seconds. A link that misses a pong is "
+            "closed and reopened, instead of silently stalling."
         ),
     )
-    port: int = Field(
-        default=8000, ge=1, le=65535, description="Port of the daemon's HTTP server."
+    max_reconnect_delay: float = Field(
+        default=10.0, gt=0, description="Upper bound of the reconnect backoff."
     )
-    use_sim: bool = Field(default=False, description="Whether to use the simulation.")
-    timeout: float = Field(default=5.0, description="The timeout for the connection.")
-    daemon_wait_time: float = Field(
-        default=3.0, description="The wait time for the daemon to initialize."
+    zero_on_stop: bool = Field(
+        default=True,
+        description="Move the robot to the zero pose when this service stops.",
     )
-    media_backend: MediaBackend = Field(default=MediaBackend.DEFAULT_NO_VIDEO, description="The media backend to use.")  # noqa: E501 # fmt: skip
-    hardware_config_filepath: str | None = Field(
-        default="/app/data/hardware_config.yaml",
-        description="The filepath to the hardware configuration file.",
-    )
-
-
-class RespeakerConfig(BaseModel):
-    # Microphone configuration
-    microphone_parameters: dict[str, Any] = Field(
-        default={"PP_ATTNS_MODE": [1]},
-        description="The parameters for the ReSpeaker microphone.",
-    )
-
-    # DoA configuration
-    enable_doa: bool = Field(default=False, description="Whether to enable the DoA.")
-    doa_interval: float = Field(
-        default=0.2, description="The interval in seconds to check the DoA."
-    )
-
-    @model_validator(mode="after")
-    def validate_respeaker_config(self) -> Self:
-        for key in self.microphone_parameters:
-            if key not in RESPEAKER_PARAMETERS:
-                raise ValueError(f"Invalid ReSpeaker parameter: {key}")
-        return self
 
 
 class RobotControllerConfig(BaseConfig):
@@ -82,17 +57,4 @@ class RobotControllerConfig(BaseConfig):
     frame_rate_log_interval: float = Field(
         default=5.0, description="The interval in seconds to log the frame rate."
     )
-    reachy_config: ReachyConfig = ReachyConfig()
-    max_delta_per_frame: dict[str, float] = Field(
-        default={
-            "body_angle": 75.0,  # degrees per frame
-            "r_antenna_angle": 20.0,
-            "l_antenna_angle": 20.0,
-            "head_position_x": 5.0,  # centimeters per frame
-            "head_position_y": 5.0,
-            "head_position_z": 5.0,
-            "head_rotation": 75.0,  # degrees per frame for Euler angles
-        },
-        description="Maximum delta per frame for the animation compositor.",
-    )
-    respeaker_config: RespeakerConfig = RespeakerConfig()
+    booth_app: BoothAppConfig = BoothAppConfig()

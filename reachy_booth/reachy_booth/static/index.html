@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reachy Booth</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h1>Reachy Booth</h1>
+    <p class="hint">On-robot bridge for the photo booth. The booth's host services
+        use the API below; this page is for checking it works.</p>
+
+    <section>
+        <h2>Robot</h2>
+        <div class="buttons">
+            <button data-move="wake_up">Wake up</button>
+            <button data-move="zero">Zero pose</button>
+            <button data-move="sleep">Sleep</button>
+        </div>
+        <div id="move-result" class="muted"></div>
+    </section>
+
+    <section>
+        <h2>Camera</h2>
+        <p class="muted">The preview uses Wi-Fi bandwidth the booth's camera service
+            also needs, so it is off by default.</p>
+        <button id="preview-btn">Show preview</button>
+        <img id="preview" alt="Camera preview" hidden>
+    </section>
+
+    <section>
+        <h2>Health</h2>
+        <p id="daemon" class="muted">Daemon: checking…</p>
+        <button id="reconnect-btn">Reconnect to daemon</button>
+        <pre id="health">Loading…</pre>
+    </section>
+
+    <section>
+        <h2>API</h2>
+        <ul class="api">
+            <li><code>GET /health</code>, <code>GET /status</code></li>
+            <li><code>GET /camera/stream?width=640&amp;height=360&amp;fps=12&amp;quality=65</code> (MJPEG)</li>
+            <li><code>GET /camera/frame.jpg?quality=90</code> (full-resolution still)</li>
+            <li><code>WS /ws/motion</code> (animation frames as JSON, newest wins)</li>
+            <li><code>POST /wake_up</code>, <code>POST /sleep</code>, <code>POST /zero</code></li>
+        </ul>
+    </section>
+
+    <script src="/static/main.js"></script>
+</body>
+
+</html>

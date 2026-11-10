@@ -2,20 +2,44 @@
 
 ## Overview
 
-The Robot Controller Service controls the Reachy Mini robot's hardware, managing motors, sensors (including the ReSpeaker microphone array), and physical robot movements. It bridges the physical robot with the software stack.
+The Robot Controller Service moves the wireless Reachy Mini. It subscribes to the
+`robot_frame` topic (animation frames from the animation compositor) and forwards
+the newest frame over one websocket to the **reachy_booth** app running on the
+robot.
+
+The reachy_booth app ([`reachy_booth/`](../reachy_booth/)) drives the motors with
+the Reachy Mini Python SDK on the robot itself: a 50 Hz control loop, rate
+limiting and unit conversion all happen there. This service has no SDK, USB or
+audio dependency. Setup and publishing of the app:
+[docs/wireless-reachy-booth-app.md](../docs/wireless-reachy-booth-app.md).
+
+```
+animation-compositor ──robot_frame──► robot-controller ──WS /ws/motion──► reachy_booth (robot)
+```
+
+Behaviour on a flaky link:
+
+- Only the newest frame is sent; frames that arrive while the link is busy or
+  down replace each other instead of queueing.
+- A websocket heartbeat (every `heartbeat` seconds) detects a dead link; the
+  service reconnects with backoff (up to `max_reconnect_delay`) and logs
+  `Reachy link down (...)` once per cause and `Connected to the reachy_booth app`
+  when it is back.
+- While no frame arrives, the robot holds its last pose.
+- On shutdown the robot moves to the zero pose (`zero_on_stop`).
 
 ## Running the Service
 
 ### Prerequisites
 
-Start the required infrastructure services:
-
 | Service | Description |
 |---------|-------------|
 | `redpanda` | Message broker for Kafka communication |
 | `agent` | LLM-powered agent service |
+| reachy_booth app | Running on the robot (port 8042) |
 
-These can be started via Docker Compose from the repository root.
+The container is healthy once `http://<robot-ip>:8042/health` answers. Services
+that depend on it wait until then, so start the app on the robot first.
 
 ### Starting the Service
 
@@ -25,210 +49,50 @@ uv run robot-controller-service/src/main.py
 
 ## Configuration
 
-### Using the Robot with Real Hardware
-
-This section guides you through running the `robot-controller` service with an actual Reachy Mini robot, not just the simulator.
-
-#### 1. Enable Device Access in Docker
-
-To let the service communicate with the real robot and its connected sensors (like the ReSpeaker microphone), edit [compose.yaml](./compose.yaml):
-
-- **Uncomment** the `devices` section for the `robot-controller` service:
-
-  ```yaml
-    devices:
-      - /dev/ttyACM0:/dev/ttyACM0         # Serial: connection to Reachy Mini
-      - /dev/bus/usb:/dev/bus/usb:rw      # USB hardware access (e.g., ReSpeaker mic)
-  ```
-
-> If you are **only using the simulator**, **comment out** these lines so Docker doesn’t try to map real hardware.
-
-
-#### 2. Configure Service to Use Real Robot (Not Simulator)
-
-By default, the service uses the real robot hardware. To confirm this, check or update the configuration in your [compose.yaml](./compose.yaml):
+Set in [compose.yaml](./compose.yaml):
 
 ```yaml
 configs:
   config_robot_controller:
     content: |
-      reachy_config:
-        use_sim: False  # ensure this line is present or leave it out (the default is False)
-        # ...other reachy_config options...
+      booth_app:
+        url: http://192.168.0.25:8042   # the robot's IP; mDNS names rarely resolve in containers
+        # heartbeat: 2.0                # websocket ping interval (s)
+        # max_reconnect_delay: 10.0     # reconnect backoff cap (s)
+        # zero_on_stop: true            # zero pose when the service stops
 ```
 
-- To use the robot **simulator** instead, set `use_sim: True`.
+Use the same IP in the `healthcheck` of [compose.yaml](./compose.yaml).
 
+Motion limits (maximum joint speeds) live in the app:
+[`reachy_booth/reachy_booth/motion.py`](../reachy_booth/reachy_booth/motion.py)
+(`DEFAULT_MAX_SPEED`). Motor PID values belong to the robot's own daemon
+configuration, not to this service.
 
-#### 3. Set the Robot’s Speaker Volume
+### Simulation
 
-For clear, audible speech output from your robot, maximize the volume on the ReSpeaker microphone array:
-
-**a. Install audio utilities** (on your robot's computer):
+Run a simulated daemon and the app on the same machine, then point `booth_app.url`
+at it:
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y alsa-utils
+reachy-mini-daemon --sim                     # terminal 1
+cd reachy_booth && python -m reachy_booth.main   # terminal 2 (serves port 8042)
 ```
 
-**b. Run the provided setup script:**
-
-```bash
-./robot-controller-service/scripts/speaker_setup.sh
-```
-
-This [speaker_setup.sh](./scripts/speaker_setup.sh) script will:
-
-- Automatically detect your ReSpeaker XVF3800 4-Mic Array (if present)
-- Set PCM (speaker output) volume to 100% for optimal clarity
-
-
-#### 4. USB Device Permissions for ReSpeaker Microphones
-
-To allow Docker to access the ReSpeaker recording device (for Direction-of-Arrival and recording), you need to set up udev rules on your host system.
-
-1. **Create the udev rules file:**
-
-   ```bash
-   sudo tee /etc/udev/rules.d/99-reachy-mini.rules << 'EOF'
-   SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", MODE="0666", GROUP="dialout" #Reachy Mini
-   SUBSYSTEM=="tty", ATTRS{idVendor}=="38fb", ATTRS{idProduct}=="1001", MODE="0666", GROUP="dialout" #Reachy Mini soundcard
-   SUBSYSTEM=="usb", ATTR{idVendor}=="38fb", ATTR{idProduct}=="1001", GROUP="plugdev", MODE="0660"
-   EOF
-   ```
-
-2. **Reload udev rules:**
-
-   ```bash
-   sudo udevadm control --reload-rules && sudo udevadm trigger
-   ```
-
-3. **Add your user to the required groups:**
-
-   ```bash
-   sudo usermod -aG dialout,plugdev $USER
-   ```
-
-4. **Reconnect the ReSpeaker device:**
-
-   You might need to unplug and re-plug the ReSpeaker USB (or reboot your machine) to ensure the new permissions take effect.
-
-
-### Running the Robot Simulator
-
-To use the robot simulator with graphical output, follow these steps:
-
-1. **Allow Docker containers to access your X server**
-   On your host machine, run:
-   ```bash
-   xhost +local:docker
-   ```
-   This lets Docker containers connect to your running graphical session.
-
-2. **Enable X11 socket sharing in your Docker configuration**
-   In your [compose.yaml](./compose.yaml), make sure the volume for `/tmp/.X11-unix` is enabled (uncommented), like so:
-   ```yaml
-   volumes:
-     - /tmp/.X11-unix:/tmp/.X11-unix
-   ```
-   This allows graphical applications inside the simulator container to display on your host.
-
-    > **Tip:**
-    > If you encounter permissions issues or graphical apps don't show up, ensure your user has access to X and you ran the `xhost` command above in your current session.
-
-3. **Running Without Audio (No Media Mode)**
-
-   If you don't have the Reachy Mini robot connected to your machine, or you don't want to use the robot's audio capabilities, you can disable the media backend by updating this setting in your [compose.yaml](./compose.yaml):
-
-   ```yaml
-   configs:
-     config_robot_controller:
-       content: |
-         reachy_config:
-           media_backend: "no_media"
-   ```
-
-### Troubleshooting: Reducing Vibration in the Base and Antenna
-
-**Problem:**
-If you notice unwanted vibrations in the robot's base or antenna, you may need to tune the PID (Proportional-Integral-Derivative) controller values for the affected motors.
-
-#### How to Adjust PID Values:
-
-Motor PID values are configured in the [`data/hardware_config.yaml`](./data/hardware_config.yaml) file. Each motor entry in this configuration has a `pid` section that specifies its PID gains. For example:
-
-```yaml
-motors:
-  - body_rotation:
-      id: 10
-      ...
-      pid:
-        - 300   # P (Proportional)
-        - 0     # I (Integral)
-        - 250   # D (Derivative)
-  - left_antenna:
-      id: 18
-      ...
-      pid:
-        - 250   # P
-        - 0     # I
-        - 400   # D
-```
-
-To adjust a motor's PID values:
-
-1. **Stop the robot-controller container** (if running).
-2. **Edit `data/hardware_config.yaml`** and update the `pid:` values for the specific motor you wish to tune.
-3. **Restart the robot-controller container** to apply your changes.
-
-##### Tips for PID tuning
-
-- **P (Proportional):** Increasing P can improve accuracy but may cause overshoot or vibration.
-- **I (Integral):** Rarely used; can help with steady-state error but may cause instability.
-- **D (Derivative):** Increasing D can make motion smoother and reduce vibration, but too much may cause sluggish response.
-- Change only one value at a time and record your original settings so you can revert if needed.
-
-Refer to [`data/hardware_config.yaml`](./data/hardware_config.yaml) for more examples and descriptions of the format.
+The simulator has no camera, so only motion works.
 
 ## Development Scripts
 
-The following scripts are available for development and debugging:
-
-### Prerequisites
-
-Install all dependencies:
+`extract_positions.py` and `play_positions.py` talk to the robot with the Reachy
+Mini SDK, which is no longer a dependency of this service. Run them with it added:
 
 ```bash
-uv sync --all-packages
-```
-
-### Speaker Setup (`speaker_setup.sh`)
-
-Configures the ReSpeaker microphone array's speaker output for optimal volume. Automatically detects the device and sets PCM volume to 100%.
-
-```bash
-./robot-controller-service/scripts/speaker_setup.sh
-```
-
-### Extract Positions (`extract_positions.py`)
-
-Extracts robot position data from controller log CSV files. Parses both "Message position" and "Final position" entries into separate CSV files for analysis.
-
-```bash
-# Extract positions from a log file
+# Extract "Message position" entries from controller logs (log_level: DEBUG)
 uv run robot-controller-service/scripts/extract_positions.py logs_data.csv
 
-# Specify custom output file names
-uv run robot-controller-service/scripts/extract_positions.py logs_data.csv message_pos.csv final_pos.csv
+# Replay positions on the robot at 30 FPS
+uv run --with reachy-mini robot-controller-service/scripts/play_positions.py positions.csv
 ```
 
-### Play Positions (`play_positions.py`)
-
-Plays back recorded position data on the Reachy Mini robot. Reads position data from a CSV file (generated by `extract_positions.py`) and replays them at 30 FPS.
-
-```bash
-# Play positions from a CSV file
-uv run robot-controller-service/scripts/play_positions.py positions.csv
-```
-
-> **Note:** Requires a connected Reachy Mini robot. The script will move to the starting position, play back all recorded positions, then return to the zero pose.
+`speaker_setup.sh` sets the volume of a USB-connected ReSpeaker; it does not
+apply to the wireless robot, whose audio is configured from its dashboard.

@@ -21,9 +21,10 @@ services:
   init-volumes:
     image: busybox:latest
     container_name: init-volumes
-    command: sh -c "chmod -R 777 /nim && echo 'Volumes permissions configured'"
+    command: sh -c "chmod -R 777 /nim /minio_data && echo 'Volumes permissions configured'"
     volumes:
       - nim:/nim
+      - minio:/minio_data
     restart: "no"
 
   image-generator:
@@ -273,12 +274,16 @@ services:
       - "9010:9010"
     volumes:
       - minio:/minio_data
-    command: minio server /minio_data --console-address ":9011" --address ":9010"
+    depends_on:
+      init-volumes:
+        condition: service_completed_successfully
+    # The Chainguard image's entrypoint is already `minio`, so pass only the subcommand.
+    command: server /minio_data --console-address ":9011" --address ":9010"
+    # The Chainguard image is minimal and has no curl/shell, so the old curl-based
+    # check could never pass. Check from the host instead:
+    #   curl -f http://127.0.0.1:9010/minio/health/live
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9010/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
+      disable: true
 
 volumes:
   cache: {}

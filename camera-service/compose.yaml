@@ -25,13 +25,29 @@ services:
       - /dev:/dev
     volumes:
       - /dev:/dev
-    #configs:
-    #  - source: config_camera
-    #    target: /config.yaml
-#configs:
-#  config_camera:
-#    content: |
-#      camera_serial_or_url: <name_of_your_camera>
-#      streaming_resolution:
-#        width: 1920
-#        height: 1080
+    configs:
+      - source: config_camera
+        target: /config.yaml
+
+configs:
+  config_camera:
+    # Wireless Reachy Mini camera, served by the on-robot reachy_booth app
+    # (port 8042; see docs/wireless-reachy-booth-app.md). Use the robot's IP:
+    # mDNS names such as reachy-mini.local usually do not resolve in containers.
+    #
+    # The live stream (camera_frame topic, UI preview, person tracking) is
+    # reduced to fit Wi-Fi: 640x360 at 12 fps, JPEG quality 65 is ~0.3 MB/s.
+    # Photos (/capture) are fetched separately at the robot's full 1280x720.
+    #
+    # For a USB webcam instead, set camera_serial_or_url to its serial number
+    # (see README.md) and the resolutions to what the webcam supports.
+    content: |
+      camera_serial_or_url: reachy://192.168.0.25
+      fps: 12
+      reachy_stream_quality: 65
+      streaming_resolution:
+        width: 640
+        height: 360
+      capture_resolution:
+        width: 1280
+        height: 720

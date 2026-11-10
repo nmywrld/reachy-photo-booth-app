@@ -122,7 +122,8 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
         camera = Mock()
         camera.read.return_value = (False, None)
         service = NS(_photo_gate=PhotoGate(), _frame_id=100,
-                     _config=NS(fps=30), _camera=camera, logger=Mock())
+                     _config=NS(fps=30), _camera=camera, logger=Mock(),
+                     _read_capture_frame=AsyncMock(side_effect=lambda: camera.read()))
         response = await method(service, None)
         self.assertEqual(response.status, 409)
         camera.read.assert_not_called()

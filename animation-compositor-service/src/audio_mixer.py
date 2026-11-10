@@ -216,12 +216,17 @@ class AudioMixer:
             outdata[:] = audio_array
 
         try:
+            # Fixed, larger blocks and a deeper buffer: with PortAudio's defaults
+            # the stream ran ~9 ms blocks and the Python mixing callback missed
+            # deadlines, which PipeWire reported as underruns (audible stutter).
             with sd.OutputStream(
                 callback=audio_callback,
                 channels=self.config.channel_count,
                 samplerate=self.config.sample_rate,
                 device=self.output_device_index,
                 dtype=self.dtype,
+                blocksize=int(self.config.sample_rate * self.config.block_duration),
+                latency=self.config.output_latency,
             ) as stream:
                 while stream.active and not self.stop_event.is_set():
                     await asyncio.sleep(0.1)

@@ -25,7 +25,7 @@ FROM python:3.12-slim-bookworm
 
 ENV PYTHONUNBUFFERED=1
 
-RUN useradd -ms /bin/bash -G dialout,video,plugdev app
+RUN useradd -ms /bin/bash app
 
 WORKDIR /app/src
 
@@ -34,7 +34,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
-    apt-get update && apt-get install -y curl libgl-dev libglib2.0-0 libportaudio2 --no-install-recommends
+    apt-get update && apt-get install -y curl --no-install-recommends
+# curl: healthcheck against the reachy_booth app on the robot.
 
 COPY --from=builder --chown=app:app /app/.venv /app/.venv
 COPY --chown=app:app ./robot-controller-service /app

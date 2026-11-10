@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "reachy_booth"
+version = "0.1.0"
+description = "On-robot motion and camera bridge for the Reachy photo booth"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "reachy-mini",
+    # Same OpenCV package as other on-robot apps (e.g. the testbench), so both
+    # can share the robot's apps_venv without two conflicting cv2 builds.
+    "opencv-python",
+]
+keywords = ["reachy-mini-app", "photo-booth", "camera", "motion"]
+
+[project.entry-points."reachy_mini_apps"]
+reachy_booth = "reachy_booth.main:ReachyBooth"
+
+[tool.setuptools]
+package-dir = { "" = "." }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+# Only the app package: without this, discovery also picks up tests/ and a
+# previous build/lib, which then get shipped inside the installed app.
+include = ["reachy_booth*"]
+exclude = ["tests*", "build*"]
+
+[tool.setuptools.package-data]
+reachy_booth = ["**/*"] # Also include all non-.py files

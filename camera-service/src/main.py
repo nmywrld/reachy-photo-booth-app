@@ -11,6 +11,7 @@ import cv2
 import pyudev  # type: ignore
 from aiohttp import web
 from configuration import CameraConfig
+from reachy_booth_camera import ReachyBoothCamera, parse_reachy_url
 from workmesh.config import load_config
 from workmesh.messages import (
     Frame,
@@ -114,7 +115,24 @@ class CameraService(Service):
             self._config.capture_resolution.height,
         )
 
-        if is_valid_url(self._config.camera_serial_or_url):
+        self._reachy: ReachyBoothCamera | None = None
+        reachy_url = parse_reachy_url(self._config.camera_serial_or_url)
+
+        if reachy_url is not None:
+            # Wireless Reachy Mini: the robot's camera, served by the on-robot
+            # reachy_booth app (MJPEG stream + full-resolution stills).
+            self.logger.info(f"Using wireless Reachy camera via {reachy_url}")
+            self._reachy = ReachyBoothCamera(
+                reachy_url,
+                width=self._config.streaming_resolution.width,
+                height=self._config.streaming_resolution.height,
+                fps=self._config.fps,
+                quality=self._config.reachy_stream_quality,
+                logger=self.logger,
+            )
+            self._camera_index = self._config.camera_serial_or_url
+
+        elif is_valid_url(self._config.camera_serial_or_url):
             # Add query parameters for width, height, and fps to the camera URL
             base_url = self._config.camera_serial_or_url
             params = {
@@ -141,14 +159,16 @@ class CameraService(Service):
                     f"Using default camera index {self._camera_index}"
                 )
 
-        self._camera = cv2.VideoCapture(self._camera_index)  # pyright: ignore[reportArgumentType, reportCallIssue]
-        self._camera.set(
-            cv2.CAP_PROP_FOURCC,
-            cv2.VideoWriter_fourcc("M", "J", "P", "G"),  # pyright: ignore[reportAttributeAccessIssue]
-        )
-        self._camera.set(cv2.CAP_PROP_FPS, self._config.fps)
-        self._camera.set(cv2.CAP_PROP_FRAME_WIDTH, max_width)
-        self._camera.set(cv2.CAP_PROP_FRAME_HEIGHT, max_height)
+        self._camera: cv2.VideoCapture | None = None
+        if self._reachy is None:
+            self._camera = cv2.VideoCapture(self._camera_index)  # pyright: ignore[reportArgumentType, reportCallIssue]
+            self._camera.set(
+                cv2.CAP_PROP_FOURCC,
+                cv2.VideoWriter_fourcc("M", "J", "P", "G"),  # pyright: ignore[reportAttributeAccessIssue]
+            )
+            self._camera.set(cv2.CAP_PROP_FPS, self._config.fps)
+            self._camera.set(cv2.CAP_PROP_FRAME_WIDTH, max_width)
+            self._camera.set(cv2.CAP_PROP_FRAME_HEIGHT, max_height)
         self.logger.info(
             f"Serial ID: {self._config.camera_serial_or_url} "
             f"--> Camera Index: {self._camera_index}"
@@ -173,13 +193,40 @@ class CameraService(Service):
         self._is_eof = False
         self.create_task(self.produce_camera_frame())  # pyright: ignore[reportAttributeAccessIssue]
 
+    async def _read_stream_frame(self) -> tuple[bool, Any]:
+        """Next frame for the stream; (False, None) means end of stream."""
+        if self._reachy is None:
+            assert self._camera is not None
+            return self._camera.read()
+        # Network source: wait off the event loop and ride out outages; the
+        # capture reconnects on its own and logs the cause of an outage once.
+        while self._reachy.isOpened():
+            ret, frame = await asyncio.to_thread(self._reachy.read)
+            if ret:
+                return ret, frame
+            self.logger.debug("Waiting for Reachy video...")
+        return False, None
+
+    async def _read_capture_frame(self) -> tuple[bool, Any]:
+        """Frame for a still photo."""
+        if self._reachy is None:
+            assert self._camera is not None
+            return self._camera.read()
+        # Full-resolution still from the robot; the live stream is reduced, so
+        # its newest frame is only a fallback when the still request fails.
+        ret, frame = await asyncio.to_thread(self._reachy.capture_still)
+        if ret:
+            return ret, frame
+        self.logger.warning("Using the newest stream frame for the photo")
+        return self._reachy.latest()
+
     @produces(camera_frame_topic)
     async def produce_camera_frame(self) -> AsyncGenerator[Frame, Any]:
         """Publish camera frames to the camera topic."""
         await asyncio.sleep(2)  # Wait for camera to be ready
 
         while True:
-            ret, frame = self._camera.read()
+            ret, frame = await self._read_stream_frame()
             if not ret:
                 self._is_eof = True
                 self.logger.info(f"EOF received from camera {self._camera_index}")
@@ -239,7 +286,7 @@ class CameraService(Service):
                 status=409, text="No recently detected person; capture cancelled"
             )
         self.logger.info("Capturing image...")
-        ret, frame = self._camera.read()
+        ret, frame = await self._read_capture_frame()
         if not ret:
             return web.Response(status=500, text="Failed to capture image")
         target_width = self._config.capture_resolution.width
@@ -303,7 +350,10 @@ class CameraService(Service):
         """Stop the camera service."""
         await self.stop_http_server()
         await super().stop()
-        self._camera.release()
+        if self._camera is not None:
+            self._camera.release()
+        if self._reachy is not None:
+            await asyncio.to_thread(self._reachy.release)
 
 
 async def main():

@@ -1,33 +1,38 @@
 # SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+"""Forward the booth's robot frames to the reachy_booth app on the robot.
+
+The robot runs the reachy_booth app (``reachy_booth/`` in this repository),
+which drives the motors through the Reachy Mini Python SDK on the robot itself.
+This service subscribes to ``robot_frame`` and sends the newest frame over one
+websocket. The control loop, rate limiting and unit conversion happen on the
+robot, so Wi-Fi delays add lag but never queue stale frames or break motion.
+"""
+
 import asyncio
+import contextlib
+import json
 import time
-from collections.abc import AsyncGenerator
 from typing import Any, override
 
-import numpy as np
+import aiohttp
 from configuration import RobotControllerConfig
-from reachy_mini.reachy_mini import ReachyMini
-from reachy_mini.utils import create_head_pose
-from scipy.spatial.transform import Rotation as R
-from utils import (
-    clip_frame_by_max_delta,
-    config_respeaker,
-    remap_head_translation,
-    start_daemon,
-)
-from workmesh.messages import AnimationFrame, EulerAngle, RealtimeDoA, RobotFrame
+from google.protobuf.json_format import MessageToDict
+from workmesh.messages import AnimationFrame, RobotFrame
 from workmesh.service import subscribe
 from workmesh.service_executor import ServiceExecutor
 
-from workmesh import (
-    Service,
-    load_config,
-    produces,
-    realtime_doa_topic,
-    robot_frame_topic,
-)
+from workmesh import Service, load_config, robot_frame_topic
+
+
+def frame_to_dict(frame: AnimationFrame) -> dict[str, Any]:
+    """AnimationFrame -> the JSON object reachy_booth's /ws/motion expects.
+
+    Zero-valued fields are omitted, as protobuf JSON does; the app reads a
+    missing field as 0.
+    """
+    return MessageToDict(frame, preserving_proto_field_name=True)
 
 
 class RobotService(Service):
@@ -36,146 +41,112 @@ class RobotService(Service):
 
         self.config = config
         self.robot_id = config.robot_id
+        self.base_url = str(config.booth_app.url).rstrip("/")
+        self.ws_url = self.base_url.replace("http", "ws", 1) + "/ws/motion"
 
-        # Start time
+        # Start time: frames older than the service are ignored.
         self.start_time: int = int(time.time() * 1000)
 
-        # Configure ReSpeaker microphone
-        config_respeaker(
-            self.config.respeaker_config.microphone_parameters, self.logger
-        )
-
-        # A wireless robot runs its daemon on-board; only the simulation needs
-        # a locally spawned daemon.
-        # TODO: change it when Pollen adds a way to use hardware config
-        # directly in the ReachyMini class
-        if self.config.reachy_config.use_sim:
-            start_daemon(
-                logger=self.logger,
-                use_sim=True,
-                hardware_config_filepath=self.config.reachy_config.hardware_config_filepath,
-                wait_time=self.config.reachy_config.daemon_wait_time,
-            )
-
-        # Connect to Reachy. Media stays on this machine: the client-side media
-        # backend opens the local ReSpeaker (USB) and speaker devices directly,
-        # so only motion control travels over the network.
-        reachy_config = self.config.reachy_config
-        connection_mode = (
-            "localhost_only" if reachy_config.use_sim else reachy_config.connection_mode
-        )
-        self.reachy = self._connect_with_retry(connection_mode)
-
-        self.logger.info("Connected to Reachy Mini!")
-
-        # Start the doa task
-        self.doa_task: asyncio.Task | None = None
+        # Newest frame not yet sent; the sender always takes the latest one.
+        self._latest: dict[str, Any] | None = None
+        self._new_frame = asyncio.Event()
+        self._connected = False
         self.stop_event: asyncio.Event = asyncio.Event()
-        if self.config.respeaker_config.enable_doa:
-            self.doa_task = self.create_task(self.send_doa())  # type: ignore
 
         # Frame rate tracking
         self.frame_timestamps: list[float] = []
         self.last_framerate_log_time: float = time.time()
+        self.frames_sent = 0
 
-    def _connect_with_retry(self, connection_mode: str) -> ReachyMini:
-        """Connect to the robot, retrying a few times for wireless flakiness."""
-        reachy_config = self.config.reachy_config
-        last_error: Exception | None = None
-        for attempt in range(1, 4):
-            try:
-                return ReachyMini(
-                    host=reachy_config.host,
-                    port=reachy_config.port,
-                    connection_mode=connection_mode,
-                    spawn_daemon=False,
-                    use_sim=reachy_config.use_sim,
-                    timeout=reachy_config.timeout,
-                    log_level=self.config.log_level,
-                    media_backend=reachy_config.media_backend.value,
-                )
-            except Exception as error:
-                last_error = error
-                self.logger.warning(
-                    f"Reachy connection attempt {attempt}/3 failed: {error}"
-                )
-                time.sleep(2)
-        raise RuntimeError(
-            f"Could not connect to Reachy at "
-            f"{reachy_config.host}:{reachy_config.port}"
-        ) from last_error
+        self.sender_task = self.create_task(self._send_loop())
+        self.logger.info(f"Forwarding robot frames to {self.ws_url}")
 
     @override
     async def stop(self) -> None:
-        # Stop service tasks
         self.stop_event.set()
-        if self.doa_task is not None:
-            await self.doa_task
-
-        # Go to zero pose
-        await self._go_to_zero_pose(2.0)
-
-        # Disconnect from Reachy
-        self.reachy.client.disconnect()
-        self.logger.info("Disconnected from Reachy Mini!")
-
-        # Stop the service
+        self.sender_task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await self.sender_task
+        if self.config.booth_app.zero_on_stop:
+            await self._go_to_zero_pose()
         await super().stop()
 
     async def _go_to_zero_pose(self, duration: float = 2.0) -> None:
         self.logger.info("Going to zero pose...")
-        self.reachy.goto_target(
-            head=np.eye(4), antennas=[0, 0], body_yaw=0, duration=duration
-        )
-        await asyncio.sleep(duration)
+        try:
+            async with (
+                aiohttp.ClientSession() as session,
+                session.post(
+                    f"{self.base_url}/zero",
+                    params={"duration": str(duration)},
+                    timeout=aiohttp.ClientTimeout(total=duration + 5),
+                ) as resp,
+            ):
+                resp.raise_for_status()
+        except (aiohttp.ClientError, TimeoutError) as error:
+            self.logger.warning(f"Could not move Reachy to zero pose: {error}")
 
-    def _get_current_position(self) -> AnimationFrame:
-        current_position = self.reachy.get_current_joint_positions()
-        head_position = self.reachy.get_current_head_pose()
-        head_position[:3, 3] *= 100  # Convert from m to cm
+    async def _send_loop(self) -> None:
+        """Keep one websocket open to the robot and send the newest frame."""
+        booth = self.config.booth_app
+        delay, outage = 1.0, None
+        # Bound the connection attempt; once open, the heartbeat detects a dead link.
+        timeout = aiohttp.ClientTimeout(total=None, connect=booth.connect_timeout)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            while not self.stop_event.is_set():
+                try:
+                    async with session.ws_connect(
+                        self.ws_url,
+                        heartbeat=booth.heartbeat,
+                        timeout=aiohttp.ClientWSTimeout(ws_close=booth.connect_timeout),
+                    ) as ws:
+                        self._connected, delay, outage = True, 1.0, None
+                        self.logger.info("Connected to the reachy_booth app")
+                        await self._pump(ws)
+                    reason = "connection closed"
+                except asyncio.CancelledError:
+                    raise
+                except (aiohttp.ClientError, ConnectionError, TimeoutError) as error:
+                    reason = str(error) or type(error).__name__
+                finally:
+                    self._connected = False
+                if self.stop_event.is_set():
+                    break
+                if reason != outage:
+                    self.logger.warning(
+                        f"Reachy link down ({reason}); retrying. Is the "
+                        f"reachy_booth app running at {self.base_url}?"
+                    )
+                    outage = reason
+                await asyncio.sleep(delay)
+                delay = min(delay * 2, booth.max_reconnect_delay)
 
-        # Extract head rotation
-        rot = R.from_matrix(head_position[:3, :3])
-        head_roll, head_pitch, head_yaw = rot.as_euler("xyz", degrees=True)
+    async def _pump(self, ws: aiohttp.ClientWebSocketResponse) -> None:
+        """Send frames until the socket closes. A reader task handles pongs."""
 
-        # Extract translation
-        translation = head_position[:, 3]
-        head_position_x = translation[0]
-        head_position_y = translation[1]
-        head_position_z = translation[2]
+        async def drain() -> None:
+            async for _ in ws:  # the app sends nothing; this processes pongs
+                pass
 
-        return AnimationFrame(
-            r_antenna_angle=np.rad2deg(current_position[1][0]),
-            l_antenna_angle=np.rad2deg(current_position[1][1]),
-            body_angle=np.rad2deg(current_position[0][0]),
-            head_position_x=head_position_x,
-            head_position_y=head_position_y,
-            head_position_z=head_position_z,
-            head_rotation=EulerAngle(
-                roll=head_roll,
-                pitch=head_pitch,
-                yaw=head_yaw,
-            ),
-        )
-
-    @produces(realtime_doa_topic)
-    async def send_doa(self) -> AsyncGenerator[RealtimeDoA, Any]:
-        self.logger.info("Retrieving DoA started!")
-        while not self.stop_event.is_set():
-            doa = None
-            try:
-                if self.reachy.media.audio is not None:
-                    doa = self.reachy.media.audio.get_DoA()
-
-                if doa is not None:
-                    angle = np.rad2deg(doa[0]) - 90  # -90: left, 0: front, 90: right
-                    self.logger.debug(f"[DoA]: {angle}° Speech detected {doa[1]}")
-                    yield RealtimeDoA(angle=angle, speech_detected=doa[1])
-            except Exception as e:
-                self.logger.error(f"Error getting DoA from audio hardware: {e}")
-
-            await asyncio.sleep(self.config.respeaker_config.doa_interval)
-        self.logger.info("Retrieving DoA stopped!")
+        reader = asyncio.create_task(drain())
+        try:
+            # Send the frame that arrived while disconnected, if any.
+            if self._latest is not None:
+                self._new_frame.set()
+            while not reader.done():
+                try:
+                    await asyncio.wait_for(self._new_frame.wait(), timeout=1.0)
+                except TimeoutError:
+                    continue
+                self._new_frame.clear()
+                frame = self._latest
+                if frame is not None:
+                    await ws.send_str(json.dumps(frame))
+                    self.frames_sent += 1
+        finally:
+            reader.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await reader
 
     @subscribe(robot_frame_topic)
     async def on_robot_frame_topic(self, message: RobotFrame):
@@ -202,56 +173,20 @@ class RobotService(Service):
                 time_span = self.frame_timestamps[-1] - self.frame_timestamps[0]
                 if time_span > 0:
                     avg_fps = (len(self.frame_timestamps) - 1) / time_span
+                    link = "up" if self._connected else "down"
                     self.logger.debug(
                         f"Average frame rate: {avg_fps:.2f} FPS (over {time_span:.1f}s,"
-                        f" {len(self.frame_timestamps)} frames)"
+                        f" {len(self.frame_timestamps)} frames), sent "
+                        f"{self.frames_sent}, link {link}"
                     )
 
             # Reset tracking
             self.frame_timestamps.clear()
             self.last_framerate_log_time = current_time
 
-        # Clip frame by max delta
-        current_position = self._get_current_position()
-        clipped_frame, was_clipped = clip_frame_by_max_delta(
-            message.frame,
-            current_position,
-            self.config.max_delta_per_frame,
-        )
-
-        if was_clipped:
-            self.logger.warning(
-                "Frame was clipped due to big delta."
-                + f"\nCurrent frame: {current_position}"
-                + f"\nMessage frame: {message.frame}"
-                + f"\nClipped frame: {clipped_frame}"
-            )
-
-        # Remap head translation
-        head_position = remap_head_translation(
-            clipped_frame, scale=(10, 10, 10), translation_offset=(0.0, 0.0, 0.0)
-        )
-
-        # Set the position
-        body_yaw = np.deg2rad(clipped_frame.body_angle)
-        antennas = np.deg2rad(
-            [clipped_frame.r_antenna_angle, clipped_frame.l_antenna_angle]
-        )
-        head = create_head_pose(
-            x=head_position[0],
-            y=head_position[1],
-            z=head_position[2],
-            roll=clipped_frame.head_rotation.roll,
-            pitch=clipped_frame.head_rotation.pitch,
-            yaw=clipped_frame.head_rotation.yaw,
-            degrees=True,
-            mm=True,
-        )
-
-        self.logger.debug(f"Current position: {current_position}")
         self.logger.debug(f"Message position: {message.frame}")
-        self.logger.debug(f"Final position: {clipped_frame}")
-        self.reachy.set_target(head=head, antennas=antennas, body_yaw=body_yaw)
+        self._latest = frame_to_dict(message.frame)
+        self._new_frame.set()
 
 
 async def main():
