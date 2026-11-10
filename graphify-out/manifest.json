@@ -240,10 +240,10 @@
     "semantic_hash": "9e695d627bb51e29a706159b9565d1a5"
   },
   "animation-compositor-service/src/audio_mixer.py": {
-    "mtime": 1793860538.514509,
-    "seen": 1793864539.7728412,
-    "ast_hash": "b4b4a9c018815b5dfcc196adfaecf9b3",
-    "semantic_hash": "b4b4a9c018815b5dfcc196adfaecf9b3"
+    "mtime": 1794027464.9682403,
+    "seen": 1794290843.382059,
+    "ast_hash": "077ccf5d06885ec055792edd4f11859f",
+    "semantic_hash": ""
   },
   "animation-compositor-service/src/clips/animations.py": {
     "mtime": 1793860538.5146844,
@@ -270,10 +270,10 @@
     "semantic_hash": "bb34d32552c1e83fb21fc0b071d89536"
   },
   "animation-compositor-service/src/configuration.py": {
-    "mtime": 1793860538.514777,
-    "seen": 1793864539.772845,
-    "ast_hash": "2ee6b25a54904e438c4966ea9d9fc597",
-    "semantic_hash": "2ee6b25a54904e438c4966ea9d9fc597"
+    "mtime": 1794027464.1801386,
+    "seen": 1794290843.382063,
+    "ast_hash": "3ff06e99a7e6f9fdcdde4960816ca8d9",
+    "semantic_hash": ""
   },
   "animation-compositor-service/src/main.py": {
     "mtime": 1793860538.514777,
@@ -1560,9 +1560,9 @@
     "semantic_hash": ""
   },
   "wireless-reachy-conn.md": {
-    "mtime": 1793876392.2917109,
-    "seen": 1793933209.3733346,
-    "ast_hash": "8ab1c7bfeebc80f8265ecae473fd2bf0",
+    "mtime": 1794290836.9831336,
+    "seen": 1794290843.3822255,
+    "ast_hash": "2bd2487e0b912b3eaf7cccda3eb381bf",
     "semantic_hash": ""
   },
   "workmesh/README.md": {
@@ -2553,6 +2553,12 @@
     "mtime": 1794024763.9789083,
     "seen": 1794024808.1707013,
     "ast_hash": "1e96bbb2866c61623d2fd1a20c22c60c",
+    "semantic_hash": ""
+  },
+  "docs/reachy-booth-sync.md": {
+    "mtime": 1794290215.3505433,
+    "seen": 1794290843.3822093,
+    "ast_hash": "0cfb4edc22c90c98b85c4ea132fa9a90",
     "semantic_hash": ""
   },
   "ui-frontend/package-lock.json": {
