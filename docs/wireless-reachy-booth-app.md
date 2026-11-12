@@ -44,7 +44,8 @@ and the camera's `GET :7071/capture` endpoint behave as before.
 ## 1. Prerequisites
 
 - The robot is on and reachable: `curl http://192.168.0.25:8000/api/daemon/status`.
-  Replace `192.168.0.25` with your robot's IP everywhere in this guide.
+  Replace `192.168.0.25` with your robot's IP everywhere in this guide
+  (`scripts/reachy-ip.sh` prints it).
 - A Python environment with `reachy-mini` on your workstation, for the app assistant.
   The repository's `.reachy-env` has it, but that venv was moved from `reachy-env/`,
   so its console scripts (`reachy-mini-app-assistant`, `hf`, ...) point to a path
@@ -141,13 +142,24 @@ installed applications.
 
 ## 5. Point the booth at the robot
 
-Both services use the robot's IP (mDNS names such as `reachy-mini.local` usually
-do not resolve inside containers):
+The robot's IP lives in one place, `REACHY_HOST` in the repository's `.env`. Both
+[`camera-service/compose.yaml`](../camera-service/compose.yaml) and
+[`robot-controller-service/compose.yaml`](../robot-controller-service/compose.yaml)
+read it. Containers cannot resolve mDNS names such as `reachy-mini.local`, so it
+holds the IP itself.
 
-- [`camera-service/compose.yaml`](../camera-service/compose.yaml):
-  `camera_serial_or_url: reachy://192.168.0.25` (port 8042 is the default).
-- [`robot-controller-service/compose.yaml`](../robot-controller-service/compose.yaml):
-  `booth_app.url: http://192.168.0.25:8042` and the same IP in its `healthcheck`.
+The robot gets a new IP whenever it joins another network or the router hands out a
+different lease. To follow it:
+
+```bash
+scripts/reachy-ip.sh              # finds reachy-mini.local by mDNS, updates .env,
+                                  # recreates camera + robot-controller if running
+scripts/reachy-ip.sh 10.0.0.42    # or give the IP yourself
+```
+
+To stop the IP changing on a network you control, reserve it for the robot in the
+router's DHCP settings (by the robot's MAC address). A phone hotspot usually can't
+do this, so run the script after switching to one.
 
 Rebuild the two changed images and start the stack:
 

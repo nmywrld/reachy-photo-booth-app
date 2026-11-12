@@ -31,6 +31,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 ENV PYTHONUNBUFFERED=1
 
 RUN useradd -ms /bin/bash app
+# Detectron2 caches downloaded model weights here (iopath, FVCORE_CACHE). The
+# directory must exist and belong to app so the tracker_models volume mounted on
+# it is writable; otherwise iopath silently falls back to /tmp and re-downloads
+# the weights on every container start.
+ENV FVCORE_CACHE=/home/app/.torch/iopath_cache
+RUN mkdir -p /home/app/.torch/iopath_cache && chown -R app:app /home/app/.torch
 
 WORKDIR /app/src
 

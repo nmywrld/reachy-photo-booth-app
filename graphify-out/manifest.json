@@ -210,10 +210,10 @@
     "semantic_hash": "66562c751c1c31dc94f363b269cac731"
   },
   "animation-compositor-service/compose.yaml": {
-    "mtime": 1793860538.5143387,
-    "seen": 1793864539.7728384,
-    "ast_hash": "fde806d1c4d5c57d96a9c579add42743",
-    "semantic_hash": "fde806d1c4d5c57d96a9c579add42743"
+    "mtime": 1794449909.8952203,
+    "seen": 1794461097.1166797,
+    "ast_hash": "f17f00ce701f3b6e6e39423dabbf9782",
+    "semantic_hash": ""
   },
   "animation-compositor-service/pyproject.toml": {
     "mtime": 1793860538.5143387,
@@ -510,9 +510,9 @@
     "semantic_hash": "00880c775a4787862cee9de572138b41"
   },
   "camera-service/compose.yaml": {
-    "mtime": 1794022196.6015258,
-    "seen": 1794022652.054236,
-    "ast_hash": "4119a8fd4f077cd332c9785d8bcd768a",
+    "mtime": 1794448165.4440382,
+    "seen": 1794461097.116719,
+    "ast_hash": "d66d931062b6b1d8b17360f97e743fb6",
     "semantic_hash": ""
   },
   "camera-service/pyproject.toml": {
@@ -540,9 +540,9 @@
     "semantic_hash": "c843a1146a850ae661dce6b6a61b7c3c"
   },
   "docker-compose.yaml": {
-    "mtime": 1793957672.5989807,
-    "seen": 1793958996.2731502,
-    "ast_hash": "e732170ba81653207535456eb2f83e8a",
+    "mtime": 1794463133.1733148,
+    "seen": 1794463137.0887036,
+    "ast_hash": "0b794fcb94336bda5eb2d90300e3c79a",
     "semantic_hash": ""
   },
   "interaction-manager-service/compose.yaml": {
@@ -690,9 +690,9 @@
     "semantic_hash": "2ee49e34a007580c6a5787ebd3a82081"
   },
   "robot-controller-service/compose.yaml": {
-    "mtime": 1794022291.8033495,
-    "seen": 1794022652.0542655,
-    "ast_hash": "767a988cf477918669ccdf6e053286b0",
+    "mtime": 1794448165.4441288,
+    "seen": 1794461097.1167495,
+    "ast_hash": "bca53f2fe412bc1bd2cf053cc7a03c7a",
     "semantic_hash": ""
   },
   "robot-controller-service/data/hardware_config.yaml": {
@@ -930,10 +930,10 @@
     "semantic_hash": "69838532eee8b5a4cc71370bdf65a4a4"
   },
   "tracker-service/compose.yaml": {
-    "mtime": 1793860538.594797,
-    "seen": 1793864539.7729118,
-    "ast_hash": "aab473cbcd15532ced02be96c2d30560",
-    "semantic_hash": "aab473cbcd15532ced02be96c2d30560"
+    "mtime": 1794448730.3468528,
+    "seen": 1794461097.1167803,
+    "ast_hash": "6d32eec244065c8060815eead58ac12d",
+    "semantic_hash": ""
   },
   "tracker-service/pyproject.toml": {
     "mtime": 1793956724.3361168,
@@ -2526,9 +2526,9 @@
     "semantic_hash": ""
   },
   "docs/wireless-reachy-booth-app.md": {
-    "mtime": 1794024787.8661292,
-    "seen": 1794024808.1708014,
-    "ast_hash": "89e8668163c36ab99920df93765766f7",
+    "mtime": 1794448233.5750735,
+    "seen": 1794461097.116842,
+    "ast_hash": "7ff55d0bc8ef8187bcfe3605dbd206a4",
     "semantic_hash": ""
   },
   "reachy_booth/README.md": {
@@ -2559,6 +2559,18 @@
     "mtime": 1794290215.3505433,
     "seen": 1794290843.3822093,
     "ast_hash": "0cfb4edc22c90c98b85c4ea132fa9a90",
+    "semantic_hash": ""
+  },
+  "scripts/audio-output.sh": {
+    "mtime": 1794450007.5888867,
+    "seen": 1794461097.1167562,
+    "ast_hash": "4c379a511e8fb1bf1d02589c86193d8d",
+    "semantic_hash": ""
+  },
+  "scripts/reachy-ip.sh": {
+    "mtime": 1794450007.5898871,
+    "seen": 1794461097.116757,
+    "ast_hash": "e01f86350972b8ea923da67013bdfa98",
     "semantic_hash": ""
   },
   "ui-frontend/package-lock.json": {

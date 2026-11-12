@@ -26,3 +26,10 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    volumes:
+      # Keep Detectron2's downloaded weights across container restarts and
+      # rebuilds, so the tracker doesn't need dl.fbaipublicfiles.com at every start.
+      - tracker_models:/home/app/.torch/iopath_cache
+
+volumes:
+  tracker_models: {}

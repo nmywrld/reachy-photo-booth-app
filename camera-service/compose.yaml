@@ -32,7 +32,8 @@ services:
 configs:
   config_camera:
     # Wireless Reachy Mini camera, served by the on-robot reachy_booth app
-    # (port 8042; see docs/wireless-reachy-booth-app.md). Use the robot's IP:
+    # (port 8042; see docs/wireless-reachy-booth-app.md). The robot's address
+    # comes from REACHY_HOST in the root .env (set it with scripts/reachy-ip.sh);
     # mDNS names such as reachy-mini.local usually do not resolve in containers.
     #
     # The live stream (camera_frame topic, UI preview, person tracking) is
@@ -42,7 +43,7 @@ configs:
     # For a USB webcam instead, set camera_serial_or_url to its serial number
     # (see README.md) and the resolutions to what the webcam supports.
     content: |
-      camera_serial_or_url: reachy://192.168.0.25
+      camera_serial_or_url: reachy://${REACHY_HOST:?set REACHY_HOST in .env (scripts/reachy-ip.sh)}
       fps: 12
       reachy_stream_quality: 65
       streaming_resolution:

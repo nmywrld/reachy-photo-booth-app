@@ -36,9 +36,19 @@ services:
     configs:
      - source: config_animation_compositor
        target: /config.yaml
+     - source: alsa_booth_output
+       target: /etc/alsa/conf.d/60-booth-output.conf
 
 # either reachy default audio output or pipewire (aka bluetooth speaker), comment out the one you don't want to use
 configs:
+  # Which host speaker the robot's voice plays on. AUDIO_SINK in the root .env is
+  # a PipeWire output node name (list them: scripts/audio-output.sh); empty means
+  # the host's default output. If the named output disappears (e.g. Bluetooth
+  # off), PipeWire falls back to the default output.
+  alsa_booth_output:
+    content: |
+      defaults.pipewire.node "${AUDIO_SINK:--1}"
+
   config_animation_compositor:
     content: |
       audio_config:

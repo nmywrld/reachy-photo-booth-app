@@ -23,8 +23,8 @@ services:
       dockerfile: robot-controller-service/Dockerfile
     healthcheck:
         # Healthy once the reachy_booth app answers on the robot (see
-        # docs/wireless-reachy-booth-app.md). Use the same IP as below.
-        test: ["CMD", "curl", "-fsS", "http://192.168.0.25:8042/health"]
+        # docs/wireless-reachy-booth-app.md). REACHY_HOST comes from the root .env.
+        test: ["CMD", "curl", "-fsS", "http://${REACHY_HOST:?set REACHY_HOST in .env}:8042/health"]
         start_period: 10m
         start_interval: 5s
         interval: 10s
@@ -38,6 +38,7 @@ configs:
   config_robot_controller:
     content: |
       booth_app:
-        # The reachy_booth app on the robot. Use the robot's IP: mDNS names
-        # (reachy-mini.local) usually don't resolve inside containers.
-        url: http://192.168.0.25:8042
+        # The reachy_booth app on the robot. REACHY_HOST comes from the root .env
+        # (scripts/reachy-ip.sh sets it); mDNS names (reachy-mini.local) usually
+        # don't resolve inside containers, so it holds the robot's IP.
+        url: http://${REACHY_HOST:?set REACHY_HOST in .env}:8042
