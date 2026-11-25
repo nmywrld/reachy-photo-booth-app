@@ -3,6 +3,8 @@
 
 import inspect
 import logging
+import time
+import uuid
 from abc import ABC, abstractmethod
 from collections.abc import AsyncIterator, Callable, Iterator
 from dataclasses import dataclass
@@ -27,6 +29,7 @@ from nat.plugins.langchain.llm import patch_with_retry
 from pydantic import BaseModel, ConfigDict, Field
 
 from photo_booth_agent.constant import SERVICE_NAME
+from photo_booth_agent.llm import model_wall
 from photo_booth_agent.llm.utils import (
     convert_delta_to_message_chunk,
     convert_message_to_dict,
@@ -735,7 +738,16 @@ class CompletionClient(UnifiedLLM):
         )
 
         logger.info(f"Calling async completion API with model: {self.model_name}")
-        raw_response: litellm.ModelResponse = await litellm.acompletion(**api_params)  # type: ignore
+        call_id = uuid.uuid4().hex
+        started_at = time.perf_counter()
+        model_wall.report_start(call_id)
+        raw_response: litellm.ModelResponse | None = None
+        try:
+            raw_response = await litellm.acompletion(**api_params)  # type: ignore
+        finally:
+            model_wall.report_end(
+                call_id, raw_response, time.perf_counter() - started_at
+            )
         return self._parse_response(raw_response, output_model)
 
     def call_llm_streaming(

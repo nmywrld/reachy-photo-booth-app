@@ -5,6 +5,7 @@ services:
   text-to-speech:
     restart: unless-stopped
     container_name: text-to-speech
+    hostname: text-to-speech
     image: text-to-speech:latest
     depends_on:
       redpanda:

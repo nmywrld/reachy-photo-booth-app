@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Model Wall</title>
+<style>
+  :root {
+    --bg: #0b0f0c; --panel: #151b16; --line: #2a332c; --text: #f2f6f1; --muted: #9aa89c;
+    --free: #1d241f; --other: #4b554d; --m-llm: #76b900; --m-flux: #e8a33d;
+    --m-stt: #45b7d1; --m-tts: #d877c9; --m-vision: #8f8cf2;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); }
+  body { font-family: system-ui, "Segoe UI", Roboto, sans-serif; padding: clamp(16px, 2.5vw, 48px);
+         display: flex; flex-direction: column; gap: clamp(16px, 2vw, 32px); min-height: 100vh; }
+  header { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  h1 { margin: 0; font-size: clamp(24px, 3vw, 56px); letter-spacing: -.02em; }
+  #status { color: var(--muted); font-size: clamp(14px, 1.2vw, 22px); }
+  #status.bad { color: #ff7b6b; }
+  .label { color: var(--muted); font-size: clamp(13px, 1.1vw, 20px); }
+  .memhead { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .memhead b { font-size: clamp(18px, 1.8vw, 34px); font-variant-numeric: tabular-nums; }
+  #bar { display: flex; height: clamp(56px, 10vh, 130px); background: var(--free); border-radius: 10px; overflow: hidden; }
+  .seg { min-width: 0; transition: width .6s ease, opacity .25s, filter .25s; opacity: .42; }
+  .seg.on { opacity: 1; filter: brightness(1.2); }
+  .seg.other { background: var(--other); opacity: .75; }
+  #models { display: grid; gap: clamp(10px, 1.2vw, 22px); flex: 1;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .card { background: var(--panel); border: 2px solid var(--line); border-top: 8px solid var(--c);
+          border-radius: 10px; padding: clamp(14px, 1.4vw, 26px); display: flex; flex-direction: column;
+          gap: 6px; transition: border-color .25s, background .25s, box-shadow .25s; }
+  .card.on { border-color: var(--c); box-shadow: 0 0 34px -8px var(--c); background: #1c251d; }
+  .card h2 { margin: 0; font-size: clamp(18px, 1.7vw, 32px); line-height: 1.15; }
+  .state { margin-top: auto; font-weight: 700; font-size: clamp(14px, 1.2vw, 22px); color: var(--muted); }
+  .card.on .state { color: var(--c); }
+  .mem { font-size: clamp(20px, 2vw, 38px); font-variant-numeric: tabular-nums; }
+  #stats { display: grid; gap: clamp(10px, 1.2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); }
+  .stat { background: var(--panel); border-radius: 10px; padding: clamp(12px, 1.2vw, 22px); }
+  .stat b { display: block; font-size: clamp(26px, 3.2vw, 64px); font-variant-numeric: tabular-nums; line-height: 1.1; }
+</style>
+</head>
+<body>
+<header><h1>Live Model Wall</h1><div id="status" role="status">Connecting…</div></header>
+<section aria-label="Unified memory">
+  <div class="memhead"><span class="label">Unified memory</span><b id="memtext">–</b></div>
+  <div id="bar"></div>
+</section>
+<section id="models" aria-label="Models"></section>
+<section id="stats" aria-label="GPU statistics">
+  <div class="stat"><b id="util">–</b><span class="label">GPU use</span></div>
+  <div class="stat"><b id="tps">–</b><span class="label">Tokens/sec, last reply</span></div>
+  <div class="stat"><b id="avg">–</b><span class="label">Tokens/sec, 60s average</span></div>
+  <div class="stat"><b id="temp">–</b><span class="label">GPU temperature</span></div>
+  <div class="stat"><b id="power">–</b><span class="label">GPU power</span></div>
+</section>
+<script>
+  const $ = id => document.getElementById(id);
+  const gb = b => b == null ? "n/a" : (b / 1024 ** 3).toFixed(1) + " GB";
+  const num = (v, unit = "", digits = 0) => v == null ? "n/a" : v.toFixed(digits) + unit;
+  const cards = new Map();
+
+  function ensure(model) {
+    if (cards.has(model.id)) return cards.get(model.id);
+    const color = `var(--m-${model.id})`;
+    const card = document.createElement("article");
+    card.className = "card";
+    card.style.setProperty("--c", color);
+    const title = document.createElement("h2");
+    title.textContent = model.name;
+    const role = document.createElement("div");
+    role.className = "label";
+    role.textContent = model.role;
+    const mem = document.createElement("div");
+    mem.className = "mem";
+    const state = document.createElement("div");
+    state.className = "state";
+    card.append(title, role, mem, state);
+    $("models").append(card);
+    const seg = document.createElement("div");
+    seg.className = "seg";
+    seg.style.background = color;
+    seg.title = model.name;
+    $("bar").append(seg);
+    const parts = { card, mem, state, seg };
+    cards.set(model.id, parts);
+    return parts;
+  }
+
+  const other = document.createElement("div");
+  other.className = "seg other";
+  other.title = "System and other processes";
+
+  function render(data) {
+    const { total_bytes: total, used_bytes: used } = data.gpu.memory;
+    let attributed = 0;
+    for (const model of data.models) {
+      const parts = ensure(model);
+      const bytes = model.memory_bytes;
+      attributed += bytes || 0;
+      parts.card.classList.toggle("on", model.active);
+      parts.seg.classList.toggle("on", model.active);
+      parts.state.textContent = model.active ? "WORKING" : "Idle";
+      parts.mem.textContent = gb(bytes);
+      parts.seg.style.width = total && bytes ? (bytes / total * 100) + "%" : "0";
+    }
+    if (!other.parentNode) $("bar").append(other);
+    other.style.width = total && used != null ? (Math.max(used - attributed, 0) / total * 100) + "%" : "0";
+    $("memtext").textContent = total ? `${gb(used)} of ${gb(total)}` : "n/a";
+    $("util").textContent = num(data.gpu.utilization_percent, "%");
+    $("tps").textContent = num(data.tokens.last_tokens_per_sec);
+    $("avg").textContent = num(data.tokens.avg_tokens_per_sec);
+    $("temp").textContent = num(data.gpu.temperature_c, "°C");
+    $("power").textContent = num(data.gpu.power_watts, " W");
+    $("status").textContent = data.gpu.available ? (data.gpu.name || "GPU") + " · live" : "GPU stats unavailable";
+    $("status").classList.toggle("bad", !data.gpu.available);
+  }
+
+  async function tick() {
+    try {
+      const response = await fetch("api/stats", { cache: "no-store" });
+      if (!response.ok) throw new Error(response.status);
+      render(await response.json());
+    } catch {
+      $("status").textContent = "Reconnecting…";
+      $("status").classList.add("bad");
+      for (const parts of cards.values()) {
+        parts.card.classList.remove("on");
+        parts.seg.classList.remove("on");
+        parts.state.textContent = "No data";
+      }
+    }
+    setTimeout(tick, 500);
+  }
+  tick();
+</script>
+</body>
+</html>

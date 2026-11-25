@@ -5,6 +5,7 @@ services:
   tracker:
     restart: unless-stopped
     container_name: tracker
+    hostname: tracker
     image: tracker:latest
     depends_on:
       redpanda:

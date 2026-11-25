@@ -18,6 +18,7 @@ members = [
     "camera-service",
     "interaction-manager-service",
     "metrics-service",
+    "model-wall-service",
     "remote-control-service",
     "robot-controller-service",
     "speech-to-text-service",
