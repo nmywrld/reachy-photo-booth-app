@@ -36,15 +36,16 @@ configs:
     # comes from REACHY_HOST in the root .env (set it with scripts/reachy-ip.sh);
     # mDNS names such as reachy-mini.local usually do not resolve in containers.
     #
-    # The live stream (camera_frame topic, UI preview, person tracking) is
-    # reduced to fit Wi-Fi: 640x360 at 12 fps, JPEG quality 65 is ~0.3 MB/s.
+    # The live stream (camera_frame topic, magic mirror, person detection) is
+    # reduced to fit Wi-Fi: 640x360 at 15 fps, JPEG quality 65 is ~0.4 MB/s.
+    # The mirror centre-crops it to a square and stylizes it at 512x512.
     # Photos (/capture) are fetched separately at the robot's full 1280x720.
     #
     # For a USB webcam instead, set camera_serial_or_url to its serial number
     # (see README.md) and the resolutions to what the webcam supports.
     content: |
       camera_serial_or_url: reachy://${REACHY_HOST:?set REACHY_HOST in .env (scripts/reachy-ip.sh)}
-      fps: 12
+      fps: 15
       reachy_stream_quality: 65
       streaming_resolution:
         width: 640

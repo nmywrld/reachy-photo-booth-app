@@ -18,3 +18,8 @@ class UiServerConfig(BaseConfig):
         default="127.0.0.1",
         description="The publicly accesible hostname/ip for the minio instances.",
     )
+    photo_display_seconds: float = Field(
+        default=90.0,
+        gt=0,
+        description="How long a shutter photo and its QR code stay on screen.",
+    )

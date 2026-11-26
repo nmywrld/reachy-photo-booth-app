@@ -3,7 +3,10 @@
 
 import asyncio
 import contextlib
+import json
 import time
+import uuid
+from collections.abc import Awaitable
 from typing import Any
 
 import statesman
@@ -16,8 +19,10 @@ from workmesh.messages import (
     Color,
     Command,
     FillCircleAnimation,
+    ImageGeneration,
     ServiceCommand,
     StaticAnimation,
+    ToolStatus,
 )
 from workmesh.messages import (
     Service as ServiceName,
@@ -27,9 +32,13 @@ from robots.robot_state_machine import RobotStateMachine
 from workmesh import (
     Service,
     UserUtterance,
+    mirror_capture_topic,
     routed_user_utterance_topic,
     service_command_topic,
+    tool_status_topic,
 )
+
+MIRROR_PHOTO_TOOL = "mirror_photo"
 
 
 class PhotoBoothBotStateMachine(RobotStateMachine):
@@ -55,6 +64,9 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
     user_centered_event: asyncio.Event = Field(default_factory=asyncio.Event)
 
     photo_gate: PhotoGate = Field(default_factory=PhotoGate)
+
+    # One shutter photo at a time
+    shutter_lock: asyncio.Lock = Field(default_factory=asyncio.Lock)
 
     # Animation UUIDs
     _tracking_animation_uuid: str | None = None
@@ -97,8 +109,12 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
     async def _restart_state_machine(self) -> None:
         self._logger.info(f"[{self.robot_name}] Restarting services...")
 
-        # Start with the tracker and STT services off
-        await self.service_off(ServiceName.TRACKER)
+        # Start with STT off. The magic mirror keeps person detection on in
+        # every state (presence, styles, shutter); otherwise start with it off.
+        if self.config.presence_always_on:
+            await self.service_on(ServiceName.TRACKER)
+        else:
+            await self.service_off(ServiceName.TRACKER)
         await self.service_off(ServiceName.STT)
 
         # Restart the agent service
@@ -138,10 +154,12 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
         if user_not_found:
             await self._user_not_found()
 
-        # Reset state variables
-        self.user_found_event.clear()
+        # Reset state variables. With always-on detection, presence is still
+        # true (no new "appeared" will come for someone already standing there).
+        if not self.config.presence_always_on:
+            self.user_found_event.clear()
+            self.photo_gate.clear()
         self.user_centered_event.clear()
-        self.photo_gate.clear()
         self._was_user_found = False
         self._user_last_body_angle = None
 
@@ -168,7 +186,10 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
     async def find_user(self) -> None:
         """Find User"""
         self._logger.info(f"[{self.robot_name}] Transition to FIND")
-        self.user_found_event.clear()
+        # The tracker restarts (and re-reports presence) on each search only
+        # when it is not always on.
+        if not self.config.presence_always_on:
+            self.user_found_event.clear()
 
     @statesman.event(
         source=States.find,
@@ -198,8 +219,9 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
         """Think"""
         self._logger.info(f"[{self.robot_name}] Transition to THINK")
 
-        # Stop the tracker service
-        await self.service_off(ServiceName.TRACKER)
+        # Stop the tracker service (unless the mirror needs presence all the time)
+        if not self.config.presence_always_on:
+            await self.service_off(ServiceName.TRACKER)
 
     @statesman.event(source=States.track, target=States.take_picture)  # type: ignore
     async def take_picture(self) -> None:
@@ -437,13 +459,15 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
 
         # Start TRACKING procedural animation
         if not self.tracking_event.is_set():
-            self._tracking_animation_uuid = await self.track_start(
-                slow_mode_distance_threshold=self.config.animation_config.tracking.slow_mode_distance_threshold,
-                fast_mode_distance_threshold=self.config.animation_config.tracking.fast_mode_distance_threshold,
-                slow_speed=self.config.animation_config.tracking.slow_speed,
-                fast_speed=self.config.animation_config.tracking.fast_speed,
-            )
-            await asyncio.sleep(0.5)
+            # Head tracking needs pose keypoints; the mirror's detector has none.
+            if self.config.head_tracking:
+                self._tracking_animation_uuid = await self.track_start(
+                    slow_mode_distance_threshold=self.config.animation_config.tracking.slow_mode_distance_threshold,
+                    fast_mode_distance_threshold=self.config.animation_config.tracking.fast_mode_distance_threshold,
+                    slow_speed=self.config.animation_config.tracking.slow_speed,
+                    fast_speed=self.config.animation_config.tracking.fast_speed,
+                )
+                await asyncio.sleep(0.5)
 
             # Turn on STT service if robot is not talking
             async with self.is_talking_lock:
@@ -817,6 +841,111 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
 
         self._logger.info(f"[{self.robot_name}] Picture taken!")
 
+    async def handle_mirror_shutter(self) -> None:
+        """Shutter button / voice photo: countdown, flash, then ask for a capture.
+
+        Works in any state and does not move the state machine, so a
+        conversation in progress carries on. Only a missing person cancels the
+        photo; the robot's animations are best-effort and never hold it up. The
+        capture itself (instant mirror frame, QR code, Flux render) runs in the
+        agent service; its progress comes back as `mirror_photo` tool statuses.
+        """
+        if self.shutter_lock.locked():
+            self._logger.info(f"[{self.robot_name}] Shutter ignored: photo in progress")
+            return
+        async with self.shutter_lock:
+            action_uuid = str(uuid.uuid4())
+            try:
+                async with asyncio.timeout(self.config.shutter_timeout):
+                    try:
+                        await self.wait_for_photo_subject()
+                    except TimeoutError:
+                        raise RuntimeError("No one in front of the mirror") from None
+                    await self.handle_mirror_countdown()
+                    self.require_photo_subject()
+                    self._logger.info(f"[{self.robot_name}] Taking mirror photo...")
+                    assert self.light_manager is not None
+                    # Countdown light off first: the flash restores whatever light
+                    # is underneath it, and a grey one would restart the countdown.
+                    await self.light_manager.light_off("picture_preparation")
+                    await self.light_manager.light_blink(
+                        LightEffect(
+                            animation=StaticAnimation,
+                            primary_color=Color.WHITE,
+                            in_transition_duration=0,
+                        ),
+                        duration=0.1,
+                    )
+                    await self.request_mirror_capture(action_uuid)
+            except (TimeoutError, RuntimeError) as exc:
+                self._logger.warning(f"[{self.robot_name}] Shutter cancelled: {exc}")
+                if self.light_manager is not None:
+                    await self.light_manager.light_off("picture_preparation")
+                await self._service.publish(
+                    tool_status_topic,
+                    ToolStatus(
+                        action_uuid=action_uuid,
+                        name=MIRROR_PHOTO_TOOL,
+                        status=ToolStatus.Status.TOOL_CALL_FAILED,
+                        timestamp=int(time.time() * 1000),
+                        response=json.dumps({"error": f"Photo cancelled: {exc}"}),
+                    ),
+                )
+                self._service.create_task(
+                    self.handle_talking("Step in front of the mirror so I can see you!")
+                )
+                return
+            self._service.create_task(
+                self._best_effort(
+                    self.play_and_wait(
+                        clip_name="takePicture", priority=0, opacity=1, blend_in=0.0
+                    )
+                )
+            )
+
+    async def _best_effort(
+        self, animation: Awaitable[Any], timeout: float = 10
+    ) -> None:
+        """Robot animations decorate the shutter; they must never block it."""
+        try:
+            async with asyncio.timeout(timeout):
+                await animation
+        except Exception as exc:  # e.g. compositor down, robot offline
+            self._logger.warning(f"[{self.robot_name}] Animation skipped: {exc!r}")
+
+    async def handle_mirror_countdown(self) -> None:
+        """Short countdown: the grey light fade drives the on-screen countdown."""
+        duration = self.config.mirror_countdown_seconds
+        assert self.light_manager is not None
+        await self.light_manager.light_on(
+            "picture_preparation",
+            LightEffect(
+                # Own slot above everything (0 = talking): the on-screen countdown
+                # shows even while Reachy speaks, and no state light is replaced.
+                priority=-1,
+                animation=StaticAnimation,
+                primary_color=Color.GRAY,
+                in_transition_duration=duration,
+            ),
+        )
+        self._service.create_task(
+            self._best_effort(
+                self.play_and_wait(
+                    clip_name="picturePreparation", priority=0, opacity=1, blend_out=0.0
+                ),
+                timeout=duration + 5,
+            )
+        )
+        await asyncio.sleep(duration)
+
+    async def request_mirror_capture(self, action_uuid: str) -> None:
+        self.require_photo_subject()
+        self._logger.info(f"[{self.robot_name}] Mirror capture {action_uuid}")
+        await self._service.publish(
+            mirror_capture_topic,
+            ImageGeneration(action_uuid=action_uuid, timestamp=int(time.time() * 1000)),
+        )
+
     #########################################################
     # Aux animations
     #########################################################
@@ -877,22 +1006,8 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
             await self.tracking_event.wait()
             await self.handle_talking("Hey! I need your help!")
         elif command == "TakePicture":
-            try:
-                async with asyncio.timeout(30):
-                    await self.safe_trigger_event("find_user")
-                    await self.tracking_event.wait()
-                    await self.wait_for_photo_subject()
-                    await self.safe_trigger_event("take_picture", stop_tracking=False)
-                    if self.state != self.States.take_picture:
-                        raise RuntimeError("Could not enter photo preparation")
-                    await self.handle_prepare_for_picture()
-                    await self.wait_for_photo_subject()
-                    await self.handle_take_picture()
-            except (TimeoutError, RuntimeError) as exc:
-                self._logger.warning(f"Photo cancelled: {exc}")
-            finally:
-                if self.state == self.States.take_picture:
-                    await self.safe_trigger_event("think")
+            # Shutter button on the kiosk, the remote control, or the voice tool.
+            await self.handle_mirror_shutter()
         elif command.lower() == "abort":
             # Handled in the interaction manager
             pass

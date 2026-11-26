@@ -1,0 +1,14 @@
+matmul torch.float16: 88.1 TFLOPS
+matmul torch.bfloat16: 94.6 TFLOPS
+unet ms 35.2
+taesd enc ms 10.0
+taesd dec ms 10.3
+unet (no SDPA) ms 52.0
+cudnn 92700
+dec benchmark=False channels_last=False: 10.4 ms
+dec benchmark=False channels_last=True: 6.5 ms
+dec benchmark=True channels_last=False: 10.3 ms
+dec benchmark=True channels_last=True: 6.5 ms
+dec cudnn disabled: 29.7 ms
+dec bf16 channels_last: 6.6 ms
+single 3x3 conv 64ch @512: 1.17 ms = 16.5 TFLOPS

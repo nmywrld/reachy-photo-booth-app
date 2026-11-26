@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import os
 import time
 from collections.abc import AsyncGenerator, Awaitable, Callable
 
@@ -16,6 +17,9 @@ from nat.data_models.interactive import (
     InteractionPrompt,
 )
 from nat.runtime.loader import PluginTypes, discover_and_register_plugins, load_workflow
+from photo_booth_agent.configs.minio import MinioConfig
+from photo_booth_agent.mirror_photo import MirrorPhotoConfig, MirrorPhotoService
+from pydantic import SecretStr
 from workmesh.config import load_config
 from workmesh.messages import (
     Command,
@@ -182,10 +186,29 @@ class AgentService(Service):
                 self.logger.warning(f"User response is too old: {message.text}")
 
 
+def mirror_photo_config() -> MirrorPhotoConfig:
+    """Same storage as generate_image: internal MinIO for the kiosk, external
+    (S3/MinIO, from the EXTERNAL_MINIO_* variables) for the QR download page."""
+    external = None
+    if os.getenv("EXTERNAL_MINIO_BASE_URL") and os.getenv("EXTERNAL_MINIO_BUCKET"):
+        external = MinioConfig(
+            base_url=os.environ["EXTERNAL_MINIO_BASE_URL"],
+            access_key=os.getenv("EXTERNAL_MINIO_ACCESS_KEY", ""),
+            secret_key=SecretStr(os.getenv("EXTERNAL_MINIO_SECRET_KEY", "")),
+            bucket=os.environ["EXTERNAL_MINIO_BUCKET"],
+            secure=os.getenv("EXTERNAL_MINIO_SECURE", "true").lower() != "false",
+            create_bucket=False,
+            # Hi-res PNGs are a few MB; the 5 s default times out on slower uplinks.
+            timeout=60.0,
+        )
+    return MirrorPhotoConfig(external_minio=external)
+
+
 async def main() -> None:
     config = load_config(AgentServiceConfig)
     service = AgentService(config)
-    await ServiceExecutor([service]).run()
+    photos = MirrorPhotoService(config, mirror_photo_config())
+    await ServiceExecutor([service, photos]).run()
 
 
 if __name__ == "__main__":

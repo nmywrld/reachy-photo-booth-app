@@ -64,6 +64,16 @@ class GenerateImage(BaseModel):
     generated_image: HttpUrl | None = None
 
 
+class MirrorPhoto(BaseModel):
+    """A shutter photo: the instant mirror frame first, the Flux render later."""
+
+    action_uuid: str
+    instant_image: HttpUrl
+    hires_image: HttpUrl | None = None
+    qr_code: HttpUrl | None = None
+    status: Literal["processing", "ready", "failed"] = "processing"
+
+
 class AppState(BaseModel):
     message_type: Literal["AppState"] = "AppState"
     transcript: Transcript | None = None
@@ -77,6 +87,10 @@ class AppState(BaseModel):
     qr_code: HttpUrl | None = None
     countdown_started_at: float | None = None
     countdown_duration: float | None = None
+    user_present: bool = False
+    mirror_photo: MirrorPhoto | None = None
+    # Shutter pressed and countdown/capture in progress; the button is disabled.
+    shutter_busy: bool = False
 
 
 class Signalling(BaseModel):
@@ -89,5 +103,13 @@ class AbortMessage(BaseModel):
     message_type: Literal["AbortMessage"] = "AbortMessage"
 
 
+class ShutterMessage(BaseModel):
+    """The kiosk's shutter button was pressed."""
+
+    message_type: Literal["ShutterMessage"] = "ShutterMessage"
+
+
 class BaseMessage(RootModel):
-    root: AppState | Signalling | AbortMessage = Field(discriminator="message_type")
+    root: AppState | Signalling | AbortMessage | ShutterMessage = Field(
+        discriminator="message_type"
+    )

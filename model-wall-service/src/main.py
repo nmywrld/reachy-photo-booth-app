@@ -15,6 +15,7 @@ from gpu import GpuSampler
 from workmesh.config import load_config
 from workmesh.messages import (
     ClipData,
+    Frame,
     HumanSpeechRequest,
     ToolStatus,
     UserDetection,
@@ -27,6 +28,7 @@ from workmesh.service_executor import ServiceExecutor
 from workmesh import (
     clip_data_topic,
     human_speech_request_topic,
+    stylized_frame_topic,
     tool_status_topic,
     user_detection_topic,
     user_utterance_topic,
@@ -34,6 +36,9 @@ from workmesh import (
 
 INDEX_HTML = Path(__file__).parent / "static" / "index.html"
 IMAGE_TOOL = "generate_image"
+# Shutter photos: STARTED when the instant photo is out and the Flux render
+# begins, COMPLETED/FAILED when the render ends.
+MIRROR_PHOTO_TOOL = "mirror_photo"
 
 
 class ModelWallService(Service):
@@ -61,7 +66,7 @@ class ModelWallService(Service):
 
     @subscribe(tool_status_topic)
     async def on_tool(self, message: ToolStatus) -> None:
-        if message.name != IMAGE_TOOL:
+        if message.name not in (IMAGE_TOOL, MIRROR_PHOTO_TOOL):
             return
         if message.status == ToolStatus.TOOL_CALL_STARTED:
             self.tracker.start("flux", message.action_uuid, ttl=180)
@@ -74,6 +79,10 @@ class ModelWallService(Service):
     @subscribe(user_detection_topic)
     async def on_detection(self, _message: UserDetection) -> None:
         self.tracker.pulse("vision", 1.0)
+
+    @subscribe(stylized_frame_topic)
+    async def on_stylized_frame(self, _message: Frame) -> None:
+        self.tracker.pulse("mirror", 1.0)
 
 
 class LlmReportProtocol(asyncio.DatagramProtocol):

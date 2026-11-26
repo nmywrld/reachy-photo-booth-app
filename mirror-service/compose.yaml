@@ -1,0 +1,58 @@
+# SPDX-License-Identifier: Apache-2.0
+
+services:
+  mirror:
+    restart: unless-stopped
+    container_name: mirror
+    hostname: mirror
+    image: mirror:latest
+    depends_on:
+      redpanda:
+        condition: service_healthy
+      # GB10 memory is shared by CPU and GPU: load after the LLM has reserved
+      # its (capped) KV cache, the same ordering riva uses.
+      llm:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./src
+          target: /app/src
+    build:
+      context: ..
+      dockerfile: mirror-service/Dockerfile
+    ipc: host
+    ports:
+      - 7072:7072
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:7072/health')"]
+      # First start downloads SD-Turbo and builds TensorRT engines (~5 min,
+      # longer while Flux is busy); later starts load the cached engines.
+      start_period: 30m
+      start_interval: 10s
+    volumes:
+      - mirror_hf:/root/.cache/huggingface
+      - mirror_engines:/cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    configs:
+      - source: config_mirror
+        target: /config.yaml
+
+volumes:
+  mirror_hf: {}
+  mirror_engines: {}
+
+configs:
+  config_mirror:
+    content: |
+      backend: trt
+      dtype: bf16
+      steps: 1
+      strength: 0.5
+      max_fps: 20

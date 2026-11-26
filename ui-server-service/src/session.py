@@ -11,6 +11,7 @@ from messages import (
     AbortMessage,
     AppState,
     BaseMessage,
+    ShutterMessage,
     Signalling,
 )
 from workmesh.messages import Frame
@@ -21,20 +22,23 @@ class Session:
         self,
         websocket: WebSocket,
         on_abort: Callable[[], Awaitable[None]] | None = None,
+        on_shutter: Callable[[], Awaitable[None]] | None = None,
     ):
-        self.video_track = StreamTrack(1920, 1080)
+        # Square, at the mirror's own resolution: no upscaling to 1080p on the CPU.
+        self.video_track = StreamTrack(512)
         self.peer_connection: RTCPeerConnection = RTCPeerConnection(
             configuration=RTCConfiguration(iceServers=[])
         )
         self.peer_connection.addTrack(self.video_track)
         self.websocket = websocket
         self.on_abort = on_abort
+        self.on_shutter = on_shutter
 
     async def send(self, msg: Signalling | AppState):
         data = msg.model_dump_json()
         await self.websocket.send_text(data)
 
-    async def receive(self) -> Signalling | AppState | AbortMessage:
+    async def receive(self) -> Signalling | AppState | AbortMessage | ShutterMessage:
         data = await self.websocket.receive_text()
         return BaseMessage.model_validate_json(data).root
 
@@ -49,8 +53,8 @@ class Session:
     async def update(self, state: AppState):
         await self.send(state)
 
-    async def update_frame(self, frame: Frame):
-        self.video_track.update_frame(frame)
+    async def update_frame(self, frame: Frame, stylized: bool = False):
+        self.video_track.update_frame(frame, stylized)
 
     async def __aenter__(self):
         await self.websocket.accept()
@@ -76,6 +80,10 @@ class Session:
                     print("abort message received")
                     if self.on_abort:
                         await self.on_abort()
+                elif isinstance(message, ShutterMessage):
+                    print("shutter message received")
+                    if self.on_shutter:
+                        await self.on_shutter()
                 else:
                     print(data)
 

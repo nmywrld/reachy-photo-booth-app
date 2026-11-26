@@ -9,6 +9,7 @@ include:
   - animation-database-service/compose.yaml
   - camera-service/compose.yaml
   - interaction-manager-service/compose.yaml
+  - mirror-service/compose.yaml
   - model-wall-service/compose.yaml
   - ui-server-service/compose.yaml
   - ui-frontend/compose.yaml
@@ -200,6 +201,10 @@ services:
               valueProtoType: workmesh.messages.ImageGeneration
             - topicName: light_command
               valueProtoType: workmesh.messages.LightCommand
+            - topicName: mirror_capture
+              valueProtoType: workmesh.messages.ImageGeneration
+            - topicName: mirror_style
+              valueProtoType: workmesh.messages.ImageGeneration
             - topicName: ping
               valueProtoType: workmesh.messages.Ping
             - topicName: play_clip
@@ -220,6 +225,8 @@ services:
               valueProtoType: workmesh.messages.RobotSpeechRequest
             - topicName: stop_clip
               valueProtoType: workmesh.messages.StopClip
+            - topicName: stylized_frame
+              valueProtoType: workmesh.messages.Frame
             - topicName: service_command
               valueProtoType: workmesh.messages.ServiceCommand
             - topicName: routed_user_utterance
@@ -388,7 +395,16 @@ configs:
           mv "$$f.part" "$$f"
         fi
       done
-      trtllm-serve "openai/gpt-oss-20b" --host 0.0.0.0 --max_batch_size 64 --trust_remote_code
+      # Cap the KV cache: by default TensorRT-LLM reserves ~90% of free memory
+      # (~33 GB on GB10), which leaves too little for the magic mirror, Flux
+      # and Riva on the shared memory. 128k tokens is ~6 GB, plenty for a kiosk.
+      cat > /tmp/extra_llm_api_options.yaml <<'YAML'
+      kv_cache_config:
+        max_tokens: 131072
+        free_gpu_memory_fraction: 0.5
+      YAML
+      trtllm-serve "openai/gpt-oss-20b" --host 0.0.0.0 --max_batch_size 8 --trust_remote_code \
+        --extra_llm_api_options /tmp/extra_llm_api_options.yaml
   otel:
     content: |
       receivers:

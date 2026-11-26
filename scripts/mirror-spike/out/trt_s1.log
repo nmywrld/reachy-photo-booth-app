@@ -1,0 +1,50 @@
+Loading pipeline components...:   0%|          | 0/5 [00:00<?, ?it/s]Loading pipeline components...:  60%|██████    | 3/5 [00:00<00:00, 14.07it/s]Loading pipeline components...: 100%|██████████| 5/5 [00:00<00:00, 21.81it/s]
+You have disabled the safety checker for <class 'diffusers.pipelines.stable_diffusion.pipeline_stable_diffusion_img2img.StableDiffusionImg2ImgPipeline'> by passing `safety_checker=None`. Ensure that you abide to the conditions of the Stable Diffusion license and do not expose unfiltered results in services or applications open to the public. Both the diffusers team and Hugging Face strongly recommend to keep the safety filter enabled in all public facing circumstances, disabling it only for use-cases that involve analyzing network behavior or auditing its results. For more information, please have a look at https://github.com/huggingface/diffusers/pull/254 .
+/usr/local/lib/python3.12/dist-packages/modelopt/torch/__init__.py:36: UserWarning: transformers version 4.55.0 is incompatible with nvidia-modelopt and may cause issues. Please install recommended version with `pip install nvidia-modelopt[hf]` if working with HF models.
+  _warnings.warn(
+2026-11-26 06:25:59,982 - INFO - flashinfer.jit: Prebuilt kernels not found, using JIT backend
+[TensorRT-LLM] TensorRT-LLM version: 1.1.0rc3
+[11/26/2026-06:26:00] [TRT] [W] Functionality provided through tensorrt.plugin module is experimental.
+WARNING:py.warnings:/usr/local/lib/python3.12/dist-packages/torch_tensorrt/dynamo/utils.py:274: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(inputs),
+
+WARNING:py.warnings:/usr/local/lib/python3.12/dist-packages/torch_tensorrt/dynamo/utils.py:423: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  return torch.tensor(tensor).dtype
+
+WARNING:torch_tensorrt [TensorRT Conversion Context]:sizeInBytes -1 should not be negative value, IBuilderConfig::setL2LimitForTiling(-1) has no effect.
+WARNING:torch_tensorrt [TensorRT Conversion Context]:Unknown embedded device detected. Using 93409MiB as the allocation cap for memory on embedded devices.
+ERROR:torch_tensorrt [TensorRT Conversion Context]:[virtualMemoryBuffer.cpp::resizePhysical::154] Error Code 2: OutOfMemory (Requested size was 1889533952 bytes.)
+ERROR:torch_tensorrt [TensorRT Conversion Context]:[virtualMemoryBuffer.cpp::resizePhysical::154] Error Code 2: OutOfMemory (Requested size was 1889533952 bytes.)
+WARNING:torch_tensorrt [TensorRT Conversion Context]:Requested amount of GPU memory (1889533952 bytes) could not be allocated. There may not be enough free memory for allocation to succeed.
+ERROR:torch_tensorrt [TensorRT Conversion Context]:[globWriter.cpp::makeResizableGpuMemory::514] Error Code 2: OutOfMemory (Requested size was 1889533952 bytes.)
+Traceback (most recent call last):
+  File "/work/bench.py", line 225, in <module>
+    main()
+  File "/work/bench.py", line 177, in main
+    m = accelerate(m, args.backend, args.size)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/bench.py", line 129, in accelerate
+    uw = trt(UNetWrap(m.unet), [
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/bench.py", line 123, in trt
+    return torch_tensorrt.compile(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch_tensorrt/_compile.py", line 289, in compile
+    trt_graph_module = dynamo_compile(
+                       ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch_tensorrt/dynamo/_compiler.py", line 693, in compile
+    trt_gm = compile_module(
+             ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch_tensorrt/dynamo/_compiler.py", line 897, in compile_module
+    trt_module = convert_module(
+                 ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch_tensorrt/dynamo/conversion/_conversion.py", line 90, in convert_module
+    interpreter_result = interpret_module_to_result(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch_tensorrt/dynamo/conversion/_conversion.py", line 69, in interpret_module_to_result
+    interpreter_result = interpreter.run()
+                         ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch_tensorrt/dynamo/conversion/_TRTInterpreter.py", line 744, in run
+    assert serialized_engine
+           ^^^^^^^^^^^^^^^^^
+AssertionError

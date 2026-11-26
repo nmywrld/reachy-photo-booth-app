@@ -1,0 +1,66 @@
+Loading pipeline components...:   0%|          | 0/5 [00:00<?, ?it/s]Loading pipeline components...:  20%|██        | 1/5 [00:00<00:00,  5.71it/s]Loading pipeline components...:  60%|██████    | 3/5 [00:00<00:00, 12.04it/s]Loading pipeline components...: 100%|██████████| 5/5 [00:00<00:00, 16.57it/s]
+You have disabled the safety checker for <class 'diffusers.pipelines.stable_diffusion.pipeline_stable_diffusion_img2img.StableDiffusionImg2ImgPipeline'> by passing `safety_checker=None`. Ensure that you abide to the conditions of the Stable Diffusion license and do not expose unfiltered results in services or applications open to the public. Both the diffusers team and Hugging Face strongly recommend to keep the safety filter enabled in all public facing circumstances, disabling it only for use-cases that involve analyzing network behavior or auditing its results. For more information, please have a look at https://github.com/huggingface/diffusers/pull/254 .
+/work/bench.py:191: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:203.)
+  x = torch.from_numpy(np.asarray(im)).cuda().permute(2, 0, 1)[None].half() / 255
+W1126 06:30:14.420000 1 torch/_inductor/utils.py:1281] [0/0] Not enough SMs to use max_autotune_gemm mode
+AUTOTUNE addmm(1024x640, 1024x320, 320x640)
+strides: [0, 1], [320, 1], [1, 320]
+dtypes: torch.float16, torch.float16, torch.float16
+  addmm 0.0217 ms 100.0% 
+  bias_addmm 0.0225 ms 96.3% 
+SingleProcess AUTOTUNE benchmarking takes 0.0688 seconds and 0.0002 seconds precompiling for 2 choices
+AUTOTUNE addmm(256x1280, 256x640, 640x1280)
+strides: [0, 1], [640, 1], [1, 640]
+dtypes: torch.float16, torch.float16, torch.float16
+  bias_addmm 0.0195 ms 100.0% 
+  addmm 0.0286 ms 68.2% 
+SingleProcess AUTOTUNE benchmarking takes 0.0666 seconds and 0.0001 seconds precompiling for 2 choices
+AUTOTUNE addmm(64x1280, 64x2560, 2560x1280)
+strides: [0, 1], [2560, 1], [1, 2560]
+dtypes: torch.float16, torch.float16, torch.float16
+  addmm 0.0389 ms 100.0% 
+  bias_addmm 0.0396 ms 98.2% 
+SingleProcess AUTOTUNE benchmarking takes 0.0702 seconds and 0.0001 seconds precompiling for 2 choices
+AUTOTUNE addmm(256x1280, 256x2560, 2560x1280)
+strides: [0, 1], [2560, 1], [1, 2560]
+dtypes: torch.float16, torch.float16, torch.float16
+  bias_addmm 0.0480 ms 100.0% 
+  addmm 0.0530 ms 90.6% 
+SingleProcess AUTOTUNE benchmarking takes 0.0764 seconds and 0.0001 seconds precompiling for 2 choices
+AUTOTUNE addmm(256x1280, 256x1920, 1920x1280)
+strides: [0, 1], [1920, 1], [1, 1920]
+dtypes: torch.float16, torch.float16, torch.float16
+  bias_addmm 0.0563 ms 100.0% 
+  addmm 0.0768 ms 73.2% 
+SingleProcess AUTOTUNE benchmarking takes 0.0707 seconds and 0.0001 seconds precompiling for 2 choices
+AUTOTUNE addmm(1024x640, 1024x1920, 1920x640)
+strides: [0, 1], [1920, 1], [1, 1920]
+dtypes: torch.float16, torch.float16, torch.float16
+  bias_addmm 0.0528 ms 100.0% 
+  addmm 0.0565 ms 93.5% 
+SingleProcess AUTOTUNE benchmarking takes 0.0760 seconds and 0.0001 seconds precompiling for 2 choices
+AUTOTUNE addmm(1024x640, 1024x1280, 1280x640)
+strides: [0, 1], [1280, 1], [1, 1280]
+dtypes: torch.float16, torch.float16, torch.float16
+  addmm 0.0400 ms 100.0% 
+  bias_addmm 0.0512 ms 78.1% 
+SingleProcess AUTOTUNE benchmarking takes 0.0733 seconds and 0.0001 seconds precompiling for 2 choices
+AUTOTUNE addmm(1024x640, 1024x960, 960x640)
+strides: [0, 1], [960, 1], [1, 960]
+dtypes: torch.float16, torch.float16, torch.float16
+  bias_addmm 0.0341 ms 100.0% 
+  addmm 0.0359 ms 95.2% 
+SingleProcess AUTOTUNE benchmarking takes 0.0711 seconds and 0.0001 seconds precompiling for 2 choices
+AUTOTUNE addmm(4096x320, 4096x960, 960x320)
+strides: [0, 1], [960, 1], [1, 960]
+dtypes: torch.float16, torch.float16, torch.float16
+  addmm 0.0608 ms 100.0% 
+  bias_addmm 0.0799 ms 76.2% 
+SingleProcess AUTOTUNE benchmarking takes 0.0785 seconds and 0.0001 seconds precompiling for 2 choices
+AUTOTUNE addmm(4096x320, 4096x640, 640x320)
+strides: [0, 1], [640, 1], [1, 640]
+dtypes: torch.float16, torch.float16, torch.float16
+  addmm 0.0685 ms 100.0% 
+  bias_addmm 0.0737 ms 92.9% 
+SingleProcess AUTOTUNE benchmarking takes 0.0766 seconds and 0.0001 seconds precompiling for 2 choices
+{"backend": "compile", "steps": 1, "size": 512, "strength": 0.5, "tag": "", "timesteps": [499], "prediction_type": "epsilon", "fps": 5.7, "gpu_ms_p50": 172.6, "gpu_ms_p95": 175.2, "e2e_ms_p50": 175.5, "e2e_ms_p95": 177.9, "peak_alloc_gb": 1.93, "process_used_gb": 6.09, "system_free_gb_after": 15.9, "total_gb": 130.6, "build_s": 183.8}

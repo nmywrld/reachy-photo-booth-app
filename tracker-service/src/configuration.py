@@ -49,8 +49,9 @@ class TrackerConfig(BaseConfig):
     """Configuration for the tracker service."""
 
     model_type: str = Field(
-        default="models.detector.byte_track.ByteTrackDetector",
-        description="The class of model to use. "
+        default="models.detector.ssdlite.SSDLiteDetector",
+        description="The class of model to use (magic mirror: light presence "
+        "detector; models.detector.byte_track.ByteTrackDetector for pose + IDs). "
         "Note: this class must be a fully qualified path to the class",
     )
     robot_id: Robot = Field(
@@ -70,7 +71,7 @@ class TrackerConfig(BaseConfig):
         le=1080,
     )
     model: dict[str, Any] = Field(
-        default={"confidence_threshold": 0.95, "iou_threshold": 0.2},
+        default={"confidence_threshold": 0.5, "iou_threshold": 0.45},
         description="The configuration for the model. "
         "Note: this configuration must be a dictionary of the model's configuration",
     )
