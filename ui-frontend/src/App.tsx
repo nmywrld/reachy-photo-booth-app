@@ -3,25 +3,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import useAppState from "./hooks/useAppState";
 import useWebsocket from "./hooks/useWebsocket";
 import useWebRTC from "./hooks/useWebRTC";
 import ImageGeneration from "./ImageGeneration";
-import VideoFeed from "./VideoFeed";
 import Transcript from "./Transcript";
 import BigMessage from "./BigMessage";
-import type { BaseMessage } from "./types/api";
+import type { BaseMessage, ShutterMessage } from "./types/api";
 import FullScreen from "./FullScreen";
 import UserTracking from "./UserTracking";
 import Crosshair from "./Crosshair";
 import LightBorder from "./LightBorder";
-import Binoculars from "./Binoculars";
 import CapturedImage from "./CapturedImage";
-import Sleeping from "./Sleeping";
 import QRCode from "./QRCode";
 import Countdown from "./Countdown";
 import WakeUpAnimation from "./WakeUpAnimation";
+import MirrorFeed from "./MirrorFeed";
+import ShutterButton from "./ShutterButton";
+import MirrorPhotoCard from "./MirrorPhotoCard";
 
 const WS_URL =
   import.meta.env.VITE_UI_SERVER_WS_URL || "ws://localhost:9000/ws";
@@ -33,6 +33,10 @@ function App() {
   const appState = useAppState(lastMessage);
   const [showWakeUp, setShowWakeUp] = useState(false);
   const prevToolTypeRef = useRef<string | null>(null);
+  const pressShutter = useCallback(() => {
+    const message: ShutterMessage = { message_type: "ShutterMessage" };
+    sendMessage(message);
+  }, [sendMessage]);
 
   useEffect(() => {
     if (!appState) return;
@@ -83,44 +87,54 @@ function App() {
     tracking_data,
     qr_code,
     countdown_started_at,
-    countdown_duration
+    countdown_duration,
+    user_present,
+    mirror_photo,
+    shutter_busy
   } = appState;
 
-  if (!tool) {
-    return (
-      <FullScreen>
-        <Sleeping className="h-full w-full" />
-        <Binoculars className="absolute h-full w-full" />
-      </FullScreen>
-    );
-  }
-
-  const showVideoFeed =
-    tool.type === "AskHuman" ||
-    tool.type === "GreetUser" ||
-    (tool.type === "LookAtHuman" && !tool.captured_image);
-  const showImageGeneration = tool.type === "GenerateImage";
+  // The magic mirror is the default screen. The original prompt-driven flow
+  // (look_at_human -> generate_image) still takes over the screen when used.
+  const showImageGeneration = tool?.type === "GenerateImage";
   const capturedImageUrl =
-    tool.type === "LookAtHuman" ? tool.captured_image : null;
+    tool?.type === "LookAtHuman" ? tool.captured_image : null;
+  const showMirror = !showImageGeneration && !capturedImageUrl;
 
   return (
     <FullScreen>
-      {showVideoFeed && (
+      {showMirror && (
         <>
-          <VideoFeed className="h-full w-full" stream={stream} />
+          <MirrorFeed className="absolute inset-0" stream={stream} />
           <UserTracking
             className="absolute h-full w-full"
             circles={tracking_data}
           />
-          {tool.type === "LookAtHuman" && (
+          {tool?.type === "LookAtHuman" && (
             <Crosshair className="absolute h-full w-full" />
           )}
           {showWakeUp && <WakeUpAnimation className="absolute h-full w-full" />}
-          <Binoculars className="absolute h-full w-full" />
           <Countdown
             className="absolute h-full w-full"
             timestamp={countdown_started_at}
             duration={countdown_duration ?? 0}
+          />
+          {!tool && !mirror_photo && (
+            <p className="absolute top-[4vh] left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-[3vh] py-[1.2vh] text-center text-[3vh] backdrop-blur-sm">
+              {user_present
+                ? "Tell Reachy a style, like “make me a pirate”, then press the shutter!"
+                : "Step in front of the magic mirror"}
+            </p>
+          )}
+          {mirror_photo && (
+            <MirrorPhotoCard
+              className="absolute right-[3vw] top-1/2 w-[30vw] -translate-y-1/2"
+              photo={mirror_photo}
+            />
+          )}
+          <ShutterButton
+            className="absolute bottom-[5vh] right-[4vw] h-[13vh] w-[13vh]"
+            disabled={shutter_busy || !user_present}
+            onPress={pressShutter}
           />
         </>
       )}

@@ -27,7 +27,8 @@ MODELS = (
     Model("flux", "FLUX.1 Kontext", "Image generation", "image-generator"),
     Model("stt", "Parakeet + VAD + Sortformer", "Speech to text", "riva"),
     Model("tts", "Kokoro", "Text to speech", "text-to-speech"),
-    Model("vision", "Detectron2 Keypoint R-CNN", "Person tracking", "tracker"),
+    Model("mirror", "SD-Turbo + TAESD", "Magic mirror", "mirror"),
+    Model("vision", "SSDLite MobileNetV3", "Presence detection", "tracker"),
 )
 
 

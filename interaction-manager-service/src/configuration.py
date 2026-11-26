@@ -147,6 +147,29 @@ class PhotoBoothBotConfig(RobotConfig):
         description="The timeout to center the user in seconds",
     )
 
+    # Magic mirror
+    head_tracking: bool = Field(
+        default=False,
+        description="Follow the person's head. Needs a pose detector (keypoints); "
+        "the magic mirror's light detector only reports presence.",
+    )
+    presence_always_on: bool = Field(
+        default=True,
+        description="Keep person detection running in every state, so the mirror "
+        "knows who is there and the shutter works even while Reachy sleeps.",
+    )
+    mirror_countdown_seconds: float = Field(
+        default=3.0,
+        ge=0.0,
+        le=10.0,
+        description="Countdown between pressing the shutter and the photo",
+    )
+    shutter_timeout: float = Field(
+        default=20.0,
+        gt=0.0,
+        description="Give up on a shutter press after this long",
+    )
+
     enable_listening_while_speaking: bool = Field(
         default=False,
         description="Whether to enable listening while the robot is speaking. \
@@ -185,6 +208,8 @@ class InteractionManagerConfig(BaseConfig):
             "image_generation": ["generate_image"],
             "taking_picture": ["look_at_human"],
             "end": ["farewell_user"],
+            "mirror_photo": ["mirror_photo"],
+            "mirror": ["set_mirror_style", "take_mirror_photo"],
         },
     )
 

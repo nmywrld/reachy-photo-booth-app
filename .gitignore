@@ -18,3 +18,7 @@ docker-compose.override.yaml
 assets/*
 !assets/.gitkeep
 logs/
+
+# Magic mirror spike: benchmark outputs and test image
+scripts/mirror-spike/out/
+scripts/mirror-spike/person.png

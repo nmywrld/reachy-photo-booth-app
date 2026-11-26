@@ -60,6 +60,14 @@ type GenerateImage = {
 };
 
 type Tool = AskHuman | LookAtHuman | GenerateImage | GreetUser;
+
+export type MirrorPhoto = {
+  action_uuid: string;
+  instant_image: string;
+  hires_image: string | null;
+  qr_code: string | null;
+  status: "processing" | "ready" | "failed";
+};
 type Animation = StaticAnimation | FillCircleAnimation;
 
 export type AppState = {
@@ -71,6 +79,9 @@ export type AppState = {
   qr_code: string | null;
   countdown_started_at: number | null;
   countdown_duration: number | null;
+  user_present: boolean;
+  mirror_photo: MirrorPhoto | null;
+  shutter_busy: boolean;
 };
 
 export type Signalling = {
@@ -83,4 +94,8 @@ export type AbortMessage = {
   message_type: "AbortMessage";
 };
 
-export type BaseMessage = AppState | Signalling | AbortMessage;
+export type ShutterMessage = {
+  message_type: "ShutterMessage";
+};
+
+export type BaseMessage = AppState | Signalling | AbortMessage | ShutterMessage;

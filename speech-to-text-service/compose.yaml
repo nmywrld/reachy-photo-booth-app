@@ -37,23 +37,20 @@ services:
     configs:
      - source: config_speech_to_text
        target: /config.yaml
-     - source: alsa_booth_input
-       target: /etc/alsa/conf.d/60-booth-input.conf
 
+# either reachy default audio input or own external microphone name, comment out the one you don't want to use
 configs:
-  # The service records from the "pipewire" device, i.e. through the host's
-  # PipeWire, so any microphone the host sees works and PipeWire resamples to
-  # sample_rate. Which microphone is set by AUDIO_SOURCE in the root .env.
   config_speech_to_text:
     content: |
-      input_devices_index_or_name: ["pipewire"]
+      input_devices_index_or_name: ["Wireless Microphone RX"]
       audio_config:
         sample_rate: 48000
 
-  # Which host microphone to record from: AUDIO_SOURCE in the root .env holds a
-  # PipeWire source name (scripts/audio-input.sh lists and sets it). Empty means
-  # the host's default input. If the named source disappears, PipeWire falls
-  # back to the default input.
-  alsa_booth_input:
-    content: |
-      defaults.pipewire.node "${AUDIO_SOURCE:--1}"
+#configs:
+#  config_speech_to_text:
+#    content: |
+#      input_device_index_or_name: ["<your_input_device_index_or_name>"]  # e.g.["Wireless Microphone RX"], ["Reachy Mini Audio"]
+#      audio_config:
+#        sample_rate: <your_device_sample_rate>  # e.g, 48000, 16000
+
+# ["Wireless Microphone RX"] - 48000

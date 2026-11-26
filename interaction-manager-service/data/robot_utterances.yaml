@@ -46,6 +46,17 @@ generate_image:
     - "Your image is finished."
     - "Done with the image!"
 
+mirror_photo:
+  started:
+    - "Gotcha! Scan the QR code to grab your photo."
+    - "Snap! Your photo is on the screen. Scan the QR code to keep it."
+    - "Perfect shot! The QR code is right there for you."
+    - "Got it! Scan the code, and I'll paint a high resolution version too."
+  completed:
+    - "Your high resolution masterpiece is ready on the download page!"
+    - "The fancy version is done. Check the QR code page!"
+    - "All painted! Refresh the download page for the high resolution photo."
+
 qr_code_preparation:
     - "QR code incoming. Get your phone ready!"
     - "Ready your camera to scan and claim your masterpiece!"

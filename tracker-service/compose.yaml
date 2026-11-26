@@ -27,9 +27,12 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    environment:
+      # torchvision (SSDLite person detector) caches its weights in the volume too.
+      - TORCH_HOME=/home/app/.torch/iopath_cache/torch
     volumes:
-      # Keep Detectron2's downloaded weights across container restarts and
-      # rebuilds, so the tracker doesn't need dl.fbaipublicfiles.com at every start.
+      # Keep downloaded weights across container restarts and rebuilds, so the
+      # tracker doesn't need the internet at every start.
       - tracker_models:/home/app/.torch/iopath_cache
 
 volumes:

@@ -67,6 +67,10 @@ user_utterance_topic = Topic("user_utterance", UserUtterance)
 service_command_topic = Topic("service_command", ServiceCommand)
 tool_status_topic = Topic("tool_status", ToolStatus)
 light_command_topic = Topic("light_command", LightCommand)
+# Magic mirror: style requests (prompt), shutter capture requests, stylized feed.
+mirror_capture_topic = Topic("mirror_capture", ImageGeneration)
+mirror_style_topic = Topic("mirror_style", ImageGeneration)
+stylized_frame_topic = Topic("stylized_frame", Frame)
 
 __all__: list[str] = [
     # Topics
@@ -96,6 +100,9 @@ __all__: list[str] = [
     "user_tracking_status_topic",
     "user_utterance_topic",
     "light_command_topic",
+    "mirror_capture_topic",
+    "mirror_style_topic",
+    "stylized_frame_topic",
     # Functions
     "dict_to_protobuf_map",
     "load_config",

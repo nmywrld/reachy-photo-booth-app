@@ -231,10 +231,29 @@ class InteractionManagerService(Service):
             take_picture_tools = self.config.tool_names.get("taking_picture", [])
             end_tools = self.config.tool_names.get("end", [])
             start_tools = self.config.tool_names.get("start", [])
+            mirror_photo_tools = self.config.tool_names.get("mirror_photo", [])
+            mirror_tools = self.config.tool_names.get("mirror", [])
             # Room mapping
             screen_position = self.config.room_mapping.get(
                 "screen", Position(x=-1, y=-1)
             )
+
+            # Magic mirror photo progress (from the shutter pipeline, not the
+            # LLM): only comment on it, there is nothing to acknowledge.
+            if tool_name in mirror_photo_tools:
+                if message.status in (
+                    ToolStatus.Status.TOOL_CALL_STARTED,
+                    ToolStatus.Status.TOOL_CALL_COMPLETED,
+                ):
+                    self.create_task(self._speak(tool_name, message.status))
+                continue
+
+            # Mirror tools act on their own (style change, shutter); just let
+            # them run without moving the robot.
+            if tool_name in mirror_tools:
+                if message.status == ToolStatus.Status.TOOL_CALL_STARTED:
+                    await self._send_tool_processed_message(message)
+                continue
 
             if message.status == ToolStatus.Status.TOOL_CALL_STARTED:
                 if (

@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import asyncio
+import json
 import os
 import re
 import signal
@@ -21,6 +22,7 @@ from messages import (
     FillCircleAnimation,
     GenerateImage,
     LookAtHuman,
+    MirrorPhoto,
     StaticAnimation,
     Transcript,
 )
@@ -58,21 +60,133 @@ from workmesh import (
     remote_control_command_topic,
     routed_user_utterance_topic,
     service_command_topic,
+    stylized_frame_topic,
     subscribe,
     tool_status_topic,
     user_detection_topic,
     user_state_topic,
 )
 
+MIRROR_PHOTO_TOOL = "mirror_photo"
+
 
 class State:
-    def __init__(self, minio_host: str):
+    def __init__(
+        self,
+        minio_host: str,
+        photo_display_seconds: float = 90.0,
+        shutter_timeout_seconds: float = 30.0,
+    ):
         self.state = AppState(tracking_data=[])
         self.user_state: PresenceStatus | None = None
         self.tracker_enabled: bool = True
         self.minio_host = minio_host
+        self.photo_display_seconds = photo_display_seconds
+        self.shutter_timeout_seconds = shutter_timeout_seconds
         self.qr_code_task: asyncio.Task[None] | None = None
         self.transcript_task: asyncio.Task[None] | None = None
+        self.photo_task: asyncio.Task[None] | None = None
+        self.shutter_task: asyncio.Task[None] | None = None
+
+    def _public_url(self, url: str) -> HttpUrl:
+        """Internal MinIO URL -> one the kiosk browser can load."""
+        return HttpUrl(urlparse(url)._replace(netloc=self.minio_host).geturl())
+
+    def _fresh_state(self) -> AppState:
+        """New interaction, but presence and an on-screen photo carry over."""
+        return AppState(
+            tracking_data=[],
+            user_present=self.state.user_present,
+            mirror_photo=self.state.mirror_photo,
+        )
+
+    def _later(
+        self,
+        current: asyncio.Task[None] | None,
+        delay: float,
+        action: Callable[[], bool],
+        update_callback: Callable[[AppState], Awaitable[None]],
+    ) -> asyncio.Task[None]:
+        if current:
+            current.cancel()
+
+        async def run():
+            await asyncio.sleep(delay)
+            if action():
+                await update_callback(self.state)
+
+        return asyncio.create_task(run())
+
+    def shutter_pressed(
+        self, update_callback: Callable[[AppState], Awaitable[None]]
+    ) -> bool:
+        """Returns False if a photo is already being taken."""
+        if self.state.shutter_busy:
+            return False
+        self.state.shutter_busy = True
+
+        def release() -> bool:
+            self.state.shutter_busy = False
+            return True
+
+        self.shutter_task = self._later(
+            self.shutter_task, self.shutter_timeout_seconds, release, update_callback
+        )
+        return True
+
+    async def update_mirror_photo(
+        self, tool: ToolStatus, update_callback: Callable[[AppState], Awaitable[None]]
+    ):
+        """The shutter pipeline reports progress as `mirror_photo` tool statuses:
+        STARTED (instant frame + QR), COMPLETED (Flux render), FAILED."""
+        try:
+            data = json.loads(tool.response) if tool.response else {}
+        except json.JSONDecodeError:
+            data = {}
+        photo = self.state.mirror_photo
+        match tool.status:
+            case ToolStatus.Status.TOOL_CALL_STARTED:
+                if not data.get("image_url"):
+                    return None
+                self.state.mirror_photo = MirrorPhoto(
+                    action_uuid=tool.action_uuid,
+                    instant_image=self._public_url(data["image_url"]),
+                    qr_code=(
+                        self._public_url(data["qrcode_url"])
+                        if data.get("qrcode_url")
+                        else None
+                    ),
+                )
+            case ToolStatus.Status.TOOL_CALL_COMPLETED:
+                if photo is None or photo.action_uuid != tool.action_uuid:
+                    return None
+                if data.get("image_url"):
+                    photo.hires_image = self._public_url(data["image_url"])
+                photo.status = "ready"
+            case ToolStatus.Status.TOOL_CALL_FAILED:
+                if photo is not None and photo.action_uuid == tool.action_uuid:
+                    # The instant photo and its QR code stay; only the render failed.
+                    photo.status = "failed"
+            case _:
+                return None
+        self.state.shutter_busy = False
+        if self.shutter_task:
+            self.shutter_task.cancel()
+            self.shutter_task = None
+        if self.state.mirror_photo is not None:
+            uuid = self.state.mirror_photo.action_uuid
+
+            def clear() -> bool:
+                photo = self.state.mirror_photo
+                if photo is None or photo.action_uuid != uuid:
+                    return False
+                self.state.mirror_photo = None
+                return True
+
+            self.photo_task = self._later(
+                self.photo_task, self.photo_display_seconds, clear, update_callback
+            )
+        return self.state
 
     async def update(
         self,
@@ -143,7 +257,7 @@ class State:
         match command.target_service:
             case ServiceEnum.AGENT:
                 if command.command == Command.RESTART:
-                    self.state = AppState(tracking_data=[])
+                    self.state = self._fresh_state()
                     print("Restarting, going to sleep...")
                     return self.state
             case ServiceEnum.TRACKER:
@@ -156,6 +270,8 @@ class State:
             return None
         tracking_data = []
         for i, skel in enumerate(detection.skeletons):
+            if len(skel.keypoints) < 5:
+                continue  # box-only detector (magic mirror): no head to circle
             nose = skel.keypoints[0]
             left_ear = skel.keypoints[3]
             right_ear = skel.keypoints[4]
@@ -187,6 +303,8 @@ class State:
     async def update_tool(
         self, tool: ToolStatus, update_callback: Callable[[AppState], Awaitable[None]]
     ):
+        if tool.name == MIRROR_PHOTO_TOOL:
+            return await self.update_mirror_photo(tool, update_callback)
         match tool.status:
             case ToolStatus.Status.TOOL_CALL_STARTED:
                 match tool.name:
@@ -248,11 +366,11 @@ class State:
 
     async def update_user_state(self, user_state: UserState):
         self.user_state = user_state.status
+        self.state.user_present = user_state.status == PresenceStatus.USER_APPEARED
         if user_state.status == PresenceStatus.USER_DISAPPEARED:
             for circle in self.state.tracking_data:
                 circle.is_primary = False
-            return self.state
-        return None
+        return self.state
 
     async def update_light(self, command: LightCommand):
         if command.HasField("static_animation"):
@@ -280,14 +398,18 @@ class State:
         return self.state
 
     def handle_abort(self):
-        self.state = AppState(tracking_data=[])
+        self.state = self._fresh_state()
+        self.state.mirror_photo = None
         return self.state
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     config = load_config(UiServerConfig)
-    app.state.app_state = State(config.minio_public_host)
+    app.state.app_state = State(
+        config.minio_public_host,
+        photo_display_seconds=config.photo_display_seconds,
+    )
     app.state.sessions = []
 
     service = UiServerService(config)
@@ -311,7 +433,11 @@ app = FastAPI(lifespan=lifespan)
 
 @app.websocket("/ws")
 async def connect(websocket: WebSocket):
-    async with Session(websocket, on_abort=app.state.service.send_abort) as session:
+    async with Session(
+        websocket,
+        on_abort=app.state.service.send_abort,
+        on_shutter=app.state.service.send_shutter,
+    ) as session:
         app.state.sessions.append(session)
         await session.update(app.state.app_state.state)
         await session.run()
@@ -325,6 +451,19 @@ class UiServerService(Service):
     async def send_abort(self):
         await self.publish(
             remote_control_command_topic, RemoteControlCommand(command="abort")
+        )
+
+    async def send_shutter(self):
+        async def update_callback(state):
+            for s in app.state.sessions:
+                await s.update(state)
+
+        if not app.state.app_state.shutter_pressed(update_callback):
+            return  # a photo is already being taken
+        await update_callback(app.state.app_state.state)
+        # The interaction manager runs the countdown, flash and capture.
+        await self.publish(
+            remote_control_command_topic, RemoteControlCommand(command="TakePicture")
         )
 
     @subscribe(remote_control_command_topic)
@@ -371,7 +510,12 @@ class UiServerService(Service):
     @subscribe(camera_frame_topic)
     async def camera_frame(self, frame: Frame):
         for s in app.state.sessions:
-            await s.update_frame(frame)
+            await s.update_frame(frame, stylized=False)
+
+    @subscribe(stylized_frame_topic)
+    async def stylized_frame(self, frame: Frame):
+        for s in app.state.sessions:
+            await s.update_frame(frame, stylized=True)
 
     @subscribe(tool_status_topic)
     async def tool_status(self, tool: ToolStatus):

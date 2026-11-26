@@ -95,7 +95,9 @@ class AnimationDatabaseService(Service):
                 return
             skeleton = message.skeletons[marker_id]
             if not skeleton.keypoints:
-                self.logger.error(
+                # Box-only detectors (magic mirror SSDLite) give no pose: no head
+                # tracking, which is expected, so don't log an error every frame.
+                self.logger.debug(
                     f"No keypoints available for skeleton at marker_id {marker_id}"
                 )
                 return
