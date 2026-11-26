@@ -56,3 +56,6 @@ configs:
       steps: 1
       strength: 0.5
       max_fps: 20
+      # Keep the mirror live while hi-res Flux renders run (renders take ~80 s
+      # instead of ~45 s). true freezes the mirror on its last frame instead.
+      pause_during_render: false

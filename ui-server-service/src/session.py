@@ -24,8 +24,9 @@ class Session:
         on_abort: Callable[[], Awaitable[None]] | None = None,
         on_shutter: Callable[[], Awaitable[None]] | None = None,
     ):
-        # Square, at the mirror's own resolution: no upscaling to 1080p on the CPU.
-        self.video_track = StreamTrack(512)
+        # 1080p, as the original booth: the square mirror is centred on a blurred
+        # 16:9 background server-side, so the kiosk needs a single plain <video>.
+        self.video_track = StreamTrack(1920, 1080)
         self.peer_connection: RTCPeerConnection = RTCPeerConnection(
             configuration=RTCConfiguration(iceServers=[])
         )

@@ -19,7 +19,7 @@ import CapturedImage from "./CapturedImage";
 import QRCode from "./QRCode";
 import Countdown from "./Countdown";
 import WakeUpAnimation from "./WakeUpAnimation";
-import MirrorFeed from "./MirrorFeed";
+import VideoFeed from "./VideoFeed";
 import ShutterButton from "./ShutterButton";
 import MirrorPhotoCard from "./MirrorPhotoCard";
 
@@ -104,7 +104,7 @@ function App() {
     <FullScreen>
       {showMirror && (
         <>
-          <MirrorFeed className="absolute inset-0" stream={stream} />
+          <VideoFeed className="h-full w-full" stream={stream} />
           <UserTracking
             className="absolute h-full w-full"
             circles={tracking_data}
@@ -152,7 +152,8 @@ function App() {
         />
       )}
       {animation && (
-        <LightBorder className="absolute inset-0" animation={animation} />
+        // Decorative: must never take clicks meant for the shutter button.
+        <LightBorder className="absolute inset-0 pointer-events-none" animation={animation} />
       )}
       {qr_code ? (
         <div className="absolute bottom-10 w-3/4 left-1/2 -translate-x-1/2 flex flex-row items-center gap-8">

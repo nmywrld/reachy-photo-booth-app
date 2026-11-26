@@ -741,7 +741,10 @@ class PhotoBoothBotStateMachine(RobotStateMachine):
                     finally:
                         async with self.is_talking_lock:
                             self._is_talking = False
-                            if self.state == self.States.track:
+                            # Listen again in a conversation (track) and while
+                            # asleep, where speaking wakes Reachy. The mirror's
+                            # photo announcements can make Reachy talk in sleep.
+                            if self.state in (self.States.track, self.States.sleep):
                                 await self.service_on(ServiceName.STT)
 
     async def handle_listening(self) -> None:

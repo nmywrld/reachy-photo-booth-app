@@ -305,6 +305,61 @@ class PresenceTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(event.is_set(), still_found)
 
 
+class TalkingTests(unittest.IsolatedAsyncioTestCase):
+    """Speaking turns listening off; it must come back on afterwards both in a
+    conversation and asleep (where speaking to Reachy wakes it up)."""
+
+    async def speak_in(self, state):
+        talk = load_functions(
+            BOT,
+            ["handle_talking"],
+            dict(
+                asyncio=asyncio,
+                LightEffect=lambda **k: NS(**k),
+                StaticAnimation="static",
+                Color=NS(INTENSE_BLUE="blue"),
+                ServiceName=NS(STT="stt"),
+            ),
+        )["handle_talking"]
+        States = NS(track="track", sleep="sleep", think="think")
+        bot = NS(
+            _logger=Mock(),
+            robot_name="BOT",
+            state=state,
+            States=States,
+            config=NS(
+                enable_listening_while_speaking=False,
+                light_config=NS(quick_transition_duration=0),
+            ),
+            light_manager=NS(light_on=AsyncMock(), light_off=AsyncMock()),
+            is_talking_lock=asyncio.Lock(),
+            _is_talking=False,
+            _tracking_animation_uuid=None,
+            service_on=AsyncMock(),
+            service_off=AsyncMock(),
+            request_human_speech=AsyncMock(return_value="speech"),
+            wait_for_clip_started=AsyncMock(return_value=True),
+            play_clip=AsyncMock(return_value="clip"),
+            wait_for_clip=AsyncMock(),
+            stop_clip=AsyncMock(),
+        )
+        await talk(bot, "Gotcha! Scan the QR code.")
+        return bot
+
+    async def test_listening_restored_after_speaking_asleep(self):
+        bot = await self.speak_in("sleep")
+        bot.service_off.assert_awaited_with("stt")
+        bot.service_on.assert_awaited_with("stt")
+
+    async def test_listening_restored_in_conversation(self):
+        bot = await self.speak_in("track")
+        bot.service_on.assert_awaited_with("stt")
+
+    async def test_not_listening_while_thinking(self):
+        bot = await self.speak_in("think")
+        bot.service_on.assert_not_awaited()
+
+
 class UiPhotoStateTests(unittest.IsolatedAsyncioTestCase):
     """The kiosk's view of a shutter photo, from `mirror_photo` tool statuses."""
 
@@ -444,14 +499,19 @@ class FrameSourceTests(unittest.TestCase):
 
     def test_mirror_preferred_raw_fallback_fixed_size(self):
         clock = Clock(0)
-        source = self.FrameSource(size=512, fallback_after=1.0, clock=clock)
-        self.assertEqual(source.current().shape, (512, 512, 3))  # black until frames
+        source = self.FrameSource(1920, 1080, fallback_after=1.0, clock=clock)
+        self.assertEqual(source.current().shape, (1080, 1920, 3))  # black at first
         source.update(self.frame(640, 360, 50), stylized=False)
         source.update(self.frame(512, 512, 200), stylized=True)
-        self.assertGreater(source.current().mean(), 150)  # mirror wins
-        clock.t = 2.0  # mirror silent for 2 s
         image = source.current()
-        self.assertEqual(image.shape, (512, 512, 3))  # raw, cropped to the same size
+        self.assertEqual(image.shape, (1080, 1920, 3))
+        # The whole square mirror frame sits in the middle at full height ...
+        self.assertGreater(image[:, 420:1500].mean(), 190)
+        # ... on a dimmed, blurred copy of itself at the sides.
+        self.assertLess(image[:, :400].mean(), 150)
+        clock.t = 2.0  # mirror silent for 2 s: the raw camera fills the frame
+        image = source.current()
+        self.assertEqual(image.shape, (1080, 1920, 3))
         self.assertLess(image.mean(), 100)
 
 

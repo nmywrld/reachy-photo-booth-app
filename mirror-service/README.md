@@ -28,8 +28,10 @@ of the kiosk see themselves transformed as they move.
 | `torch.compile` | ~24 | ~42 ms |
 | eager | ~17 | ~60 ms |
 
-- **Pause during hi-res renders:** with `pause_during_render` (the default),
-  the mirror stops stylizing while a shutter photo's Flux render runs, and keeps
+- **Pause during hi-res renders (off in this booth):** `compose.yaml` sets
+  `pause_during_render: false`, so the mirror stays live and photos can be taken
+  back to back, at the cost of slower renders (~80 s). With it on (the code
+  default), the mirror stops stylizing while a shutter photo's Flux render runs, and keeps
   re-sending its last frame, so the kiosk shows a still, stylized picture rather
   than the raw camera. A render takes about 43 s this way, against about 80 s
   with the mirror running. The `mirror_photo` STARTED and COMPLETED/FAILED

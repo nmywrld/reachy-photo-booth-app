@@ -154,7 +154,7 @@ class AsyncTests(unittest.IsolatedAsyncioTestCase):
         bot = NS(robot_name='test', _logger=Mock(), light_manager=NS(light_off=AsyncMock()),
             is_talking_lock=asyncio.Lock(), _is_talking=False,
             config=NS(enable_listening_while_speaking=False),
-            _tracking_animation_uuid='track', state='track', States=NS(track='track'),
+            _tracking_animation_uuid='track', state='track', States=NS(track='track', sleep='sleep'),
             track_pause=AsyncMock(), service_off=AsyncMock(), service_on=AsyncMock(),
             request_human_speech=AsyncMock(return_value='speech'),
             wait_for_clip_started=AsyncMock(return_value=True),

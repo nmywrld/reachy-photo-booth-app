@@ -38,7 +38,8 @@ export default function ShutterButton({
       disabled={disabled}
       onClick={onPress}
       className={classNames(
-        "rounded-full border-[0.8vh] border-white bg-white/25 backdrop-blur-sm",
+        // Above every overlay (light border, countdown, photo card).
+        "z-50 rounded-full border-[0.8vh] border-white bg-white/25 backdrop-blur-sm",
         "flex items-center justify-center transition-transform",
         "active:scale-90 disabled:opacity-40 disabled:active:scale-100",
         className

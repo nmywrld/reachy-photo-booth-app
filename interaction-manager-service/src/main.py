@@ -241,9 +241,13 @@ class InteractionManagerService(Service):
             # Magic mirror photo progress (from the shutter pipeline, not the
             # LLM): only comment on it, there is nothing to acknowledge.
             if tool_name in mirror_photo_tools:
-                if message.status in (
-                    ToolStatus.Status.TOOL_CALL_STARTED,
-                    ToolStatus.Status.TOOL_CALL_COMPLETED,
+                # "Gotcha, scan the QR code" right after the flash. The hi-res
+                # announcement comes ~1 min later and would talk over whatever
+                # the conversation is doing (the person's answer window), so it
+                # is only spoken when no conversation is going on.
+                idle = self.photo_bot.state == self.photo_bot.States.sleep
+                if message.status == ToolStatus.Status.TOOL_CALL_STARTED or (
+                    message.status == ToolStatus.Status.TOOL_CALL_COMPLETED and idle
                 ):
                     self.create_task(self._speak(tool_name, message.status))
                 continue
