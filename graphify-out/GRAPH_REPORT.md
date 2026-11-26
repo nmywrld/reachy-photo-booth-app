@@ -1,17 +1,17 @@
 # Graph Report - reachy-photo-booth-app  (2026-11-26)
 
 ## Corpus Check
-- 331 files · ~147,510 words
+- 330 files · ~147,837 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 64 file(s) not represented in the graph (top: (none) 30, .blenderAnim 17, .css 3)
 
 ## Summary
-- 3833 nodes · 6610 edges · 258 communities (161 shown, 97 thin omitted)
-- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 459 edges (avg confidence: 0.89)
+- 3848 nodes · 6608 edges · 261 communities (167 shown, 94 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 452 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `10b96a15`
+- Built from commit: `a69b8674`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -20,8 +20,7 @@
 - pygobject.h
 - test_agent.py
 - MirrorService
-- time
-- react_agent.py
+- model-wall-service/src/main.py
 - mirror
 - Pre-generated Style Images
 - ProceduralClip
@@ -29,7 +28,7 @@
 - service_executor.py
 - Photo Booth State Machine
 - UnifiedLLM
-- AdaptiveFilter
+- filters.py
 - ServiceExecutor
 - litellm.py
 - Procedural Audio Effects
@@ -38,7 +37,7 @@
 - Robot Controller Compose
 - CameraService
 - App.tsx
-- BaseConfig
+- speech-to-text-service/src/configuration.py
 - tracker-service/src/main.py
 - Agent Service Compose
 - Audio Envelopes & Generators
@@ -57,21 +56,21 @@
 - UI Server Runtime
 - Animation Compositor Service
 - model-wall
-- Interaction Manager Config
+- interaction-manager-service/src/configuration.py
 - Animation DB Compose
 - Remote Control Compose
-- mirror_photo.py
+- react_function.py
 - UI Server Compose
-- Mock User Service
+- service.py
 - Agent Service Main
 - InteractionManagerService
 - EulerAngles
 - reachy_camera_probe.py
 - Architecture Diagram
 - Frontend TS App Config
-- Producer
+- AudioClip
 - MetricsService
-- StreamTrack
+- session.py
 - TTS Compose
 - Tracker Compose
 - Photobooth Workflow Config
@@ -79,7 +78,7 @@
 - Camera Compose
 - play_positions.py
 - Frontend TS Node Config
-- tracker-service/src/main.py
+- photo_booth_bot.py
 - PhotoBoothReactAgentGraph
 - MotionController
 - animation-database-service/src/main.py
@@ -92,22 +91,22 @@
 - Workspace Packages
 - Template Compose
 - set_mirror_style
-- ._later
-- End Interaction Tool
+- UiServerService
+- pydantic
 - Stylizer
 - Audio Debug Docs
 - Remote Control Events
-- Topic
+- photo_booth_react_function
 - Metrics Compose
 - Pixelated Image Hook
 - Deployment Instructions
 - ReachyBoothCamera
-- UiServerService
+- AppState
 - PhotoGate
 - GPU Deploy Resources
 - MinIO Infrastructure
 - Agent Service
-- reachy_booth_camera.py
+- gpu.py
 - classnames
 - Animated Border UI
 - Agent Tool Call Tests
@@ -121,7 +120,7 @@
 - completion_client_langchain
 - Redpanda (Kafka broker)
 - Speech & Latency Docs
-- TrackerService
+- tracker-service/src/configuration.py
 - Kiosk Frontend Docs
 - .on_user_detection
 - model_wall.py
@@ -132,8 +131,8 @@
 - RobotStateMachine
 - Design
 - Agent Prompt Config
-- reachy_camera_probe.py
-- react
+- fake_camera.py
+- WakeUpAnimation.tsx
 - Shared Volumes
 - Photobooth Root Config
 - Agent MinIO Settings
@@ -198,48 +197,45 @@
 - FrameGrabber
 - register_routes
 - dependencies
-- guardrails_dataset.py
+- bench.py
 - AnimationData
 - camera-service/src/configuration.py
 - External applications: the reachy-bridge
-- TrackFilters
-- camera-service/src/main.py
-- UiPhotoStateTests
+- clean_reasoning
+- AsyncTests
+- load_functions
+- NoResponseError
 - BitCrushEffect
-- new-usage.md
+- TrackAnimation
 - AudioConfig
 - Every time you make changes
 - audio-input.sh
 - audio_debug.py
+- cv2
 - main.js
-- create_filter
+- accelerate
 - AgentServiceConfig
 - ConditionTimeoutError
 - RobotService
-- create_hitl_callback
-- filters.py
-- test_tts_generates_audio_from_text
-- config.py
+- Mirror service
+- UiPhotoStateTests
+- frame_to_dict
+- robot-controller-service/src/configuration.py
 - AudioConfig
-- BaseLowPassFilter
 - model-wall-service/src/main.py
 - README.md
 - DetectionFilter
 - animation-compositor-service/src/configuration.py
 - reachy_booth
-- profile_conv.py
-- ButterworthFilter
-- ExponentialMovingAverageFilter
-- PhotoBoothBotConfig
+- AudioConfig
+- MetricsService
 - FakeRobot
-- extract_positions.py
-- consumer_config
 - audio-output.sh
 - reachy-ip.sh
 
 ## God Nodes (most connected - your core abstractions)
 1. `Frame` - 67 edges
-2. `PhotoBoothBotStateMachine` - 60 edges
+2. `PhotoBoothBotStateMachine` - 58 edges
 3. `subscribe()` - 57 edges
 4. `Service` - 41 edges
 5. `Producer` - 36 edges
@@ -250,16 +246,16 @@
 10. `InteractionManagerService` - 24 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Styles` --references--> `set_mirror_style()`  [INFERRED]
-  mirror-service/README.md → agent-service/workflows/photo_booth_agent/src/photo_booth_agent/tools/mirror.py
 - `3. The app on the robot` --references--> `RobotLink`  [INFERRED]
   wireless-reachy-conn.md → reachy_booth/reachy_booth/link.py
 - `Model inventory` --references--> `PhotoGate`  [INFERRED]
   i-want-to-convert-resilient-lightning.md → workmesh/src/workmesh/photo_gate.py
-- `5. Settings you might change` --references--> `MirrorPhotoConfig`  [INFERRED]
-  new-usage.md → agent-service/workflows/photo_booth_agent/src/photo_booth_agent/mirror_photo.py
 - `Mirror service` --references--> `Frame`  [INFERRED]
   mirror-service/README.md → animation-compositor-service/src/clips/animations.py
+- `Styles` --references--> `set_mirror_style()`  [INFERRED]
+  mirror-service/README.md → agent-service/workflows/photo_booth_agent/src/photo_booth_agent/tools/mirror.py
+- `Design` --references--> `StreamTrack`  [INFERRED]
+  i-want-to-convert-resilient-lightning.md → ui-server-service/src/camera_track.py
 
 ## Import Cycles
 - None detected.
@@ -278,7 +274,7 @@
 - **Kafka-based dev trigger scripts** — speech_to_text_service_scripts_trigger_stt, tracker_service_scripts_trigger_tracker, tracker_service_scripts_trigger_user_state, text_to_speech_service_scripts_trigger_tts [INFERRED 0.85]
 - **Speech pipeline: STT -> user_utterance -> agent -> human_speech_request -> TTS -> clip_data -> compositor** — speech_to_text_service_readme_speech_to_text, metrics_service_readme_user_utterance_topic, metrics_service_readme_human_speech_request_topic, text_to_speech_service_readme_text_to_speech, metrics_service_readme_clip_data_topic, text_to_speech_service_readme_animation_compositor [INFERRED 0.85]
 
-## Communities (258 total, 97 thin omitted)
+## Communities (261 total, 94 thin omitted)
 
 ### Community 0 - "Frontend Build Dependencies"
 Cohesion: 0.09
@@ -289,16 +285,16 @@ Cohesion: 0.05
 Nodes (31): PyGBoxed, PyGClassInitFunc, PyGClosure, _PyGClosure, callback, closure, exception_handler, extra_args (+23 more)
 
 ### Community 2 - "test_agent.py"
-Cohesion: 0.09
-Nodes (17): check_deflection(), check_refusal(), multi_tool_completion_checker(), condition(), parse_tool_calls(), remove_all_punctuation(), send_user_utterance(), test_agent_answers_question() (+9 more)
+Cohesion: 0.05
+Nodes (27): KafkaAsyncCallbackHandler, play_clip_async(), check_deflection(), check_refusal(), get_critical_test_cases(), get_test_cases_by_category(), get_test_cases_by_severity(), GuardrailTestCase (+19 more)
 
 ### Community 3 - "MirrorService"
-Cohesion: 0.07
+Cohesion: 0.06
 Nodes (8): MirrorConfig, main(), MirrorService, clean_style(), LatestSlot, RenderPause, sd_prompt(), StyleState
 
-### Community 4 - "time"
-Cohesion: 0.16
-Nodes (9): change_volume(), look_at(), play_clip(), play_multiple(), producer_send(), Robot, stop_clip(), track() (+1 more)
+### Community 4 - "model-wall-service/src/main.py"
+Cohesion: 0.18
+Nodes (5): Model, GpuSampler, index(), lifespan(), sample_gpu()
 
 ### Community 6 - "mirror"
 Cohesion: 0.05
@@ -308,25 +304,29 @@ Nodes (39): context, dockerfile, content, configs, config_mirror, source, target
 Cohesion: 0.05
 Nodes (3): FloatingImages(), images, Sleeping()
 
-### Community 8 - "ProceduralClip"
-Cohesion: 0.08
-Nodes (3): LookAtAnimation, ProceduralClip, TrackAnimation
-
 ### Community 9 - "TTS Kokoro Engine"
-Cohesion: 0.11
-Nodes (5): TextToSpeechServiceConfig, main(), TextToSpeechService, BaseTTSModel, KokoroTTSModel
+Cohesion: 0.12
+Nodes (3): TextToSpeechService, BaseTTSModel, KokoroTTSModel
+
+### Community 10 - "service_executor.py"
+Cohesion: 0.09
+Nodes (4): SpeechToTextConfig, main(), SpeechToTextService, PausableRivaMicrophoneStream
 
 ### Community 11 - "Photo Booth State Machine"
-Cohesion: 0.09
+Cohesion: 0.11
 Nodes (3): PhotoBoothBotStateMachine, finding_user_sequence(), States
 
 ### Community 12 - "UnifiedLLM"
 Cohesion: 0.10
 Nodes (4): create_tool_from_basetool(), UnifiedLLM, convert_message_to_dict(), BaseMessage
 
+### Community 13 - "filters.py"
+Cohesion: 0.07
+Nodes (7): AdaptiveFilter, BaseLowPassFilter, ButterworthFilter, create_filter(), ExponentialMovingAverageFilter, FilterMethod, KalmanFilter
+
 ### Community 14 - "ServiceExecutor"
-Cohesion: 0.20
-Nodes (11): main(), main(), main(), main(), main(), main(), main(), main() (+3 more)
+Cohesion: 0.29
+Nodes (6): main(), main(), main(), main(), load_config(), ServiceExecutor
 
 ### Community 15 - "litellm.py"
 Cohesion: 0.09
@@ -342,23 +342,27 @@ Nodes (5): load_position_data(), main(), plot_positions(), plot_velocities(), sa
 
 ### Community 18 - "image_generation.py"
 Cohesion: 0.05
-Nodes (27): MinioConfig, InvalidImageError, square_to_landscape(), EndInteractionInput, HITLFunctionInput, StartInteractionInput, look_at_human_tool(), _inner() (+19 more)
+Nodes (22): main(), mirror_photo_config(), MinioConfig, InvalidImageError, download_page_html(), flux_prompt(), _minio(), MirrorPhotoConfig (+14 more)
 
 ### Community 19 - "Robot Controller Compose"
 Cohesion: 0.06
 Nodes (31): condition, context, dockerfile, content, configs, config_robot_controller, source, target (+23 more)
 
-### Community 21 - "App.tsx"
-Cohesion: 0.11
-Nodes (17): App(), BigMessage(), BigMessageProps, CapturedImage(), CapturedImageProps, FullScreen(), FullScreenProps, useAppState() (+9 more)
-
-### Community 22 - "BaseConfig"
+### Community 20 - "CameraService"
 Cohesion: 0.13
-Nodes (10): InteractionManagerConfig, MetricsServiceConfig, AudioConfig, EndpointingConfig, RivaConfig, Seconds, SpeechToTextConfig, VadConfig (+2 more)
+Nodes (3): CameraService, is_valid_url(), main()
+
+### Community 21 - "App.tsx"
+Cohesion: 0.10
+Nodes (18): react, App(), BigMessage(), BigMessageProps, Countdown(), CountdownProps, FullScreen(), FullScreenProps (+10 more)
+
+### Community 22 - "speech-to-text-service/src/configuration.py"
+Cohesion: 0.43
+Nodes (5): AudioConfig, EndpointingConfig, RivaConfig, Seconds, VadConfig
 
 ### Community 23 - "tracker-service/src/main.py"
-Cohesion: 0.17
-Nodes (3): BaseDetector, create_detector(), SSDLiteDetector
+Cohesion: 0.12
+Nodes (4): bench(), BaseDetector, create_detector(), SSDLiteDetector
 
 ### Community 24 - "Agent Service Compose"
 Cohesion: 0.07
@@ -377,7 +381,7 @@ Cohesion: 0.10
 Nodes (5): create_animation_frames(), create_robot_message(), find_output_device_index(), validate_audio_settings(), find_device_index()
 
 ### Community 30 - "Interaction Event Handling"
-Cohesion: 0.11
+Cohesion: 0.10
 Nodes (3): UserTrackerStateMachine, Config, States
 
 ### Community 31 - "Frequency Generator Effects"
@@ -389,7 +393,7 @@ Cohesion: 0.07
 Nodes (29): content, build, configs, container_name, depends_on, develop, devices, environment (+21 more)
 
 ### Community 33 - "RobotLink"
-Cohesion: 0.13
+Cohesion: 0.12
 Nodes (4): connect_localhost(), FixedLink, RobotLink, test_link_retries_until_the_daemon_is_reachable()
 
 ### Community 34 - "STT Compose"
@@ -401,20 +405,24 @@ Cohesion: 0.07
 Nodes (26): condition, context, dockerfile, content, configs, config_interaction_manager, source, target (+18 more)
 
 ### Community 36 - "asyncio"
-Cohesion: 0.07
-Nodes (10): main(), producer_send(), main(), Transcription, main(), producer_send(), Robot, main() (+2 more)
+Cohesion: 0.05
+Nodes (23): main(), producer_send(), change_volume(), look_at(), play_clip(), play_multiple(), producer_send(), Robot (+15 more)
 
 ### Community 38 - "UI Server Runtime"
-Cohesion: 0.10
-Nodes (11): lifespan(), State, AskHuman, BoundingCircle, FillCircleAnimation, GenerateImage, GreetUser, LookAtHuman (+3 more)
+Cohesion: 0.19
+Nodes (13): lifespan(), State, AbortMessage, AskHuman, BoundingCircle, FillCircleAnimation, GenerateImage, GreetUser (+5 more)
+
+### Community 39 - "Animation Compositor Service"
+Cohesion: 0.14
+Nodes (3): BlendingAnimationClip, CompositorConfig, AnimationCompositorService
 
 ### Community 40 - "model-wall"
 Cohesion: 0.11
 Nodes (18): context, dockerfile, redpanda, resources, build, cap_add, container_name, depends_on (+10 more)
 
-### Community 41 - "Interaction Manager Config"
-Cohesion: 0.18
-Nodes (5): AnimationConfig, LightConfig, Range, TrackingConfig, VoiceConfig
+### Community 41 - "interaction-manager-service/src/configuration.py"
+Cohesion: 0.08
+Nodes (16): AnimationConfig, InteractionManagerConfig, LightConfig, PhotoBoothBotConfig, Range, RobotConfig, TrackingConfig, VoiceConfig (+8 more)
 
 ### Community 42 - "Animation DB Compose"
 Cohesion: 0.08
@@ -424,25 +432,25 @@ Nodes (23): build, configs, container_name, depends_on, develop, image, restart,
 Cohesion: 0.08
 Nodes (23): context, dockerfile, content, configs, config_remote_control, source, target, redpanda (+15 more)
 
-### Community 44 - "mirror_photo.py"
-Cohesion: 0.16
-Nodes (4): flux_prompt(), _minio(), MirrorPhotoConfig, MirrorPhotoService
-
 ### Community 45 - "UI Server Compose"
 Cohesion: 0.08
 Nodes (23): context, dockerfile, content, configs, config_ui_server, source, target, redpanda (+15 more)
 
-### Community 46 - "Mock User Service"
-Cohesion: 0.11
-Nodes (3): MockUserService, run_mock_service(), main()
+### Community 46 - "service.py"
+Cohesion: 0.04
+Nodes (23): listen_only(), main(), MockUserService, run_mock_service(), main(), _arun(), _wait_for_photo(), wait_for_event() (+15 more)
+
+### Community 47 - "Agent Service Main"
+Cohesion: 0.14
+Nodes (3): AgentService, single_call(), create_hitl_callback()
 
 ### Community 49 - "EulerAngles"
-Cohesion: 0.10
+Cohesion: 0.11
 Nodes (5): blend_multiple_frames(), Degrees, EulerAngles, lerp(), slerp()
 
 ### Community 50 - "reachy_camera_probe.py"
-Cohesion: 0.06
-Nodes (22): Configuration (`/config.yaml`), Licence, Mirror service, Performance (GB10, GPT-OSS 20B and FLUX.1 Kontext loaded), Styles, Testing without the robot, fetch_daemon_info(), main() (+14 more)
+Cohesion: 0.13
+Nodes (7): fetch_daemon_info(), main(), patch_dtls_ciphers(), report(), run(), consume_video(), on_track()
 
 ### Community 51 - "Architecture Diagram"
 Cohesion: 0.11
@@ -452,17 +460,13 @@ Nodes (22): Architecture Diagram, Agent (NeMo Agent Toolkit), Animation Composit
 Cohesion: 0.09
 Nodes (21): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection, moduleResolution (+13 more)
 
-### Community 54 - "Producer"
-Cohesion: 0.09
-Nodes (8): KafkaAsyncCallbackHandler, play_clip_async(), producer_send(), producer(), restart_agent(), producer_send(), ProducerConfig, Producer
-
 ### Community 55 - "MetricsService"
-Cohesion: 0.15
-Nodes (4): MetricsService, PendingTTSRequest, TTSLatencyMetric, TTSRateMetric
+Cohesion: 0.19
+Nodes (3): PendingTTSRequest, TTSLatencyMetric, TTSRateMetric
 
-### Community 56 - "StreamTrack"
-Cohesion: 0.15
-Nodes (4): Design, FrameSource, square_crop(), StreamTrack
+### Community 56 - "session.py"
+Cohesion: 0.14
+Nodes (4): fit_on_blur(), FrameSource, StreamTrack, Signalling
 
 ### Community 58 - "TTS Compose"
 Cohesion: 0.09
@@ -480,28 +484,28 @@ Nodes (20): workflow, additional_instructions, allow_null_tool, greet_message, h
 Cohesion: 0.08
 Nodes (25): context, dockerfile, build, configs, container_name, depends_on, develop, devices (+17 more)
 
+### Community 63 - "play_positions.py"
+Cohesion: 0.21
+Nodes (3): extract_positions(), main(), read_positions_from_csv()
+
 ### Community 64 - "Frontend TS Node Config"
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, lib, module, moduleDetection, moduleResolution, noEmit (+11 more)
 
-### Community 66 - "PhotoBoothReactAgentGraph"
-Cohesion: 0.06
-Nodes (10): StructuredAgentAction, type_name(), PhotoBoothReactAgentGraph, _trim_messages(), photo_booth_react_function(), _response_fn(), _str_api_fn(), PhotoBoothReactWorkflowConfig (+2 more)
-
 ### Community 67 - "MotionController"
-Cohesion: 0.15
-Nodes (3): ReachyBooth, MotionController, test_controller_streams_latest_frame_and_pauses()
+Cohesion: 0.12
+Nodes (4): ReachyBooth, MotionController, MotionStats, test_controller_streams_latest_frame_and_pauses()
 
 ### Community 68 - "animation-database-service/src/main.py"
 Cohesion: 0.11
-Nodes (4): convert_audio(), LRUCacheDict, DatabaseConfig, Model
+Nodes (4): convert_audio(), LRUCacheDict, DatabaseConfig, Robot
 
 ### Community 69 - "Frontend Compose"
 Cohesion: 0.11
 Nodes (17): condition, args, context, dockerfile, agent, watch, services, ui (+9 more)
 
 ### Community 70 - "subscribe"
-Cohesion: 0.09
+Cohesion: 0.10
 Nodes (7): AnimationDatabaseService, AnimationData, produces(), decorator(), wrapper(), subscribe(), decorator()
 
 ### Community 71 - "remote-control-service/src/main.py"
@@ -516,6 +520,10 @@ Nodes (4): Degrees, KeyPosition, Position, Robot
 Cohesion: 0.11
 Nodes (17): AbortMessage, Animation, AppState, AskHuman, BaseMessage, BoundingCircle, COLOR, FillCircleAnimation (+9 more)
 
+### Community 75 - "animation-compositor-service/src/main.py"
+Cohesion: 0.09
+Nodes (4): AudioMixer, BaseClip, StaticClip, main()
+
 ### Community 76 - "Workspace Packages"
 Cohesion: 0.12
 Nodes (16): agent, animation-compositor, animation-database, camera, interaction-manager, metrics, model-wall, photo-booth-agent (+8 more)
@@ -525,12 +533,12 @@ Cohesion: 0.13
 Nodes (14): context, dockerfile, watch, build, container_name, develop, environment, image (+6 more)
 
 ### Community 78 - "set_mirror_style"
-Cohesion: 0.36
-Nodes (5): set_mirror_style(), _arun(), SetMirrorStyleConfig, take_mirror_photo(), TakeMirrorPhotoConfig
+Cohesion: 0.31
+Nodes (6): set_mirror_style(), _arun(), SetMirrorStyleConfig, take_mirror_photo(), TakeMirrorPhotoConfig, Styles
 
-### Community 80 - "End Interaction Tool"
-Cohesion: 0.11
-Nodes (12): NoResponseError, SuggestionMessage, end_interaction(), _arun(), EndInteractionToolConfig, hitl_function(), _arun(), HITLFunctionConfig (+4 more)
+### Community 80 - "pydantic"
+Cohesion: 0.07
+Nodes (22): end_interaction(), _arun(), EndInteractionInput, EndInteractionToolConfig, hitl_function(), _arun(), HITLFunctionConfig, HITLFunctionInput (+14 more)
 
 ### Community 81 - "Stylizer"
 Cohesion: 0.11
@@ -544,9 +552,9 @@ Nodes (14): plot_debug_positions.py script, Procedural Audio Generation (motor s
 Cohesion: 0.15
 Nodes (14): End Event, Listen Event, Start Event, Think Event, UserAppeared Event, UserDisappeared Event, WakeUp Event, Remote Control Output Log Area (+6 more)
 
-### Community 84 - "Topic"
-Cohesion: 0.14
-Nodes (9): listen_only(), main(), _arun(), _wait_for_photo(), wait_for_event(), _wait_for_event(), ConsumerConfig, Consumer (+1 more)
+### Community 84 - "photo_booth_react_function"
+Cohesion: 0.18
+Nodes (5): photo_booth_react_function(), _response_fn(), _str_api_fn(), PhotoBoothReactWorkflowConfig, remove_text_block()
 
 ### Community 85 - "Metrics Compose"
 Cohesion: 0.14
@@ -560,13 +568,17 @@ Nodes (8): canvasDimensions, usePixelatedImage(), ImageGeneration(), ImageGenera
 Cohesion: 0.10
 Nodes (23): Animation Compositor Service, audio_config (output_device_index_or_name, sample_rate), list_sound_devices.py script, Animation Database Service, Blender Animation Library (assets/animLibrary), Procedural Animation Generation (look_at, tracking), test_clips.py script, camera_serial_or_url config (+15 more)
 
-### Community 89 - "UiServerService"
-Cohesion: 0.09
-Nodes (4): clear_task(), clear_task(), UiServerService, update_callback()
+### Community 88 - "ReachyBoothCamera"
+Cohesion: 0.10
+Nodes (3): _decode(), parse_reachy_url(), ReachyBoothCamera
+
+### Community 89 - "AppState"
+Cohesion: 0.13
+Nodes (5): run(), clear_task(), clear_task(), update_callback(), AppState
 
 ### Community 90 - "PhotoGate"
-Cohesion: 0.14
-Nodes (7): AsyncTests, consume(), fresh_frame(), detection(), GateTests, load_method(), PhotoGate
+Cohesion: 0.24
+Nodes (4): fresh_frame(), detection(), GateTests, PhotoGate
 
 ### Community 91 - "GPU Deploy Resources"
 Cohesion: 0.18
@@ -580,17 +592,21 @@ Nodes (11): MINIO_ROOT_PASSWORD, MINIO_ROOT_USER, disable, command, container_na
 Cohesion: 0.16
 Nodes (21): Agent Service, EXTERNAL_MINIO_BASE_URL env var, mock_user.py script, Photo Booth Assistant config (photobooth.yml), trigger_agent_restart.py script, OpenTelemetry endpoints (lgtm-otel:4317/4318), .env config (NVIDIA_API_KEY, HF_TOKEN), QR-code sharing on local network (+13 more)
 
+### Community 94 - "gpu.py"
+Cohesion: 0.23
+Nodes (4): container_for_pid(), memory_by_container(), parse_meminfo(), _read()
+
 ### Community 95 - "classnames"
 Cohesion: 0.12
-Nodes (8): classnames, BinocularsProps, Crosshair(), CrosshairProps, MirrorPhotoCardProps, STATUS_TEXT, QRCodeProps, VideoFeedProps
+Nodes (9): classnames, BinocularsProps, CapturedImage(), CapturedImageProps, Crosshair(), CrosshairProps, MirrorPhotoCardProps, STATUS_TEXT (+1 more)
 
 ### Community 96 - "Animated Border UI"
-Cohesion: 0.35
-Nodes (7): FillCircleBorder(), FillCircleBorderProps, LightBorder(), LightBorderProps, AnimationProps, COLORS, StaticBorder()
+Cohesion: 0.24
+Nodes (9): FillCircleBorder(), FillCircleBorderProps, LightBorder(), LightBorderProps, AnimationProps, COLORS, StaticBorder(), UserTracking() (+1 more)
 
 ### Community 98 - "Animation"
-Cohesion: 0.09
-Nodes (6): Animation, AnimationClip, AudioClip, ProceduralAnimation, StaticAnimation, StaticClip
+Cohesion: 0.14
+Nodes (4): Animation, AnimationClip, ProceduralAnimation, StaticAnimation
 
 ### Community 99 - "LLM Params Config"
 Cohesion: 0.17
@@ -599,10 +615,6 @@ Nodes (12): allowed_openai_params, reasoning_effort, additional_kwargs, api_key,
 ### Community 100 - "Clock"
 Cohesion: 0.21
 Nodes (3): Clock, RenderPauseTests, StyleStateTests
-
-### Community 101 - "Session"
-Cohesion: 0.21
-Nodes (6): connect(), AbortMessage, AppState, ShutterMessage, Signalling, Session
 
 ### Community 102 - "Redpanda Console Config"
 Cohesion: 0.17
@@ -620,20 +632,20 @@ Nodes (32): Interaction Manager Service README, Agent Service (LLM-powered), Cam
 Cohesion: 0.18
 Nodes (11): e2e.latency histogram, user_utterance_topic (UserUtterance), ReSpeaker XVF3800 4-Mic Array, udev rules 99-reachy-mini.rules, speaker_setup.sh script, Speech-to-Text Service README, input_device_index_or_name / audio_config.sample_rate, list_sound_devices.py (+3 more)
 
-### Community 108 - "TrackerService"
-Cohesion: 0.10
-Nodes (3): FilterConfig, TrackerConfig, TrackerService
+### Community 108 - "tracker-service/src/configuration.py"
+Cohesion: 0.13
+Nodes (3): FilterConfig, Robot, TrackerConfig
 
 ### Community 109 - "Kiosk Frontend Docs"
 Cohesion: 0.20
 Nodes (9): ui-frontend AGENTS.md (Cursor Rules), FloatingImages component, React 19 / Vite 7 / Tailwind CSS 4 / TypeScript, ui-frontend index.html (Vite entry), Spark & Reachy Photo Booth UI README, UI Server WebRTC test page (index.html), WebRTC Signalling over WebSocket (/ws), UI Server Service README (+1 more)
 
 ### Community 110 - ".on_user_detection"
-Cohesion: 0.29
+Cohesion: 0.17
 Nodes (4): convert_bits_per_sample(), Degrees, EulerAngle, TrackingData
 
 ### Community 111 - "model_wall.py"
-Cohesion: 0.31
+Cohesion: 0.42
 Nodes (4): _report(), report_end(), report_start(), _send()
 
 ### Community 112 - "flux_load.py"
@@ -653,20 +665,16 @@ Cohesion: 0.14
 Nodes (13): demo_information, facts, performance, generate_image, completed, look_at_human, completed, started (+5 more)
 
 ### Community 118 - "Design"
-Cohesion: 0.33
-Nodes (5): Context, Magic Mirror conversion: models and plan, Model inventory, Risks, Verification
+Cohesion: 0.29
+Nodes (6): Context, Design, Magic Mirror conversion: models and plan, Model inventory, Risks, Verification
 
 ### Community 119 - "Agent Prompt Config"
 Cohesion: 0.14
 Nodes (14): prompt, _type, _type, functions, ask_human, farewell_user, greet_user, look_at_human (+6 more)
 
-### Community 120 - "reachy_camera_probe.py"
-Cohesion: 0.09
-Nodes (7): encode_jpeg(), letterbox(), main(), publish(), Source, from_cv2_to_torch(), from_torch_to_cv2()
-
-### Community 121 - "react"
-Cohesion: 0.18
-Nodes (7): react, Countdown(), CountdownProps, useWebRTC(), UseWebRTCOptions, wait(), WakeUpAnimation()
+### Community 120 - "fake_camera.py"
+Cohesion: 0.27
+Nodes (4): letterbox(), main(), publish(), Source
 
 ### Community 122 - "Shared Volumes"
 Cohesion: 0.18
@@ -679,6 +687,10 @@ Nodes (8): general, telemetry, llms, endpoint, project, _type, tracing, phoenix
 ### Community 124 - "Agent MinIO Settings"
 Cohesion: 0.22
 Nodes (9): access_key, base_url, bucket, create_bucket, image_base_url, internal_base_url, secret_key, secure (+1 more)
+
+### Community 125 - "DetectionResult"
+Cohesion: 0.07
+Nodes (3): TrackerService, DetectionResult, Config
 
 ### Community 126 - "resources"
 Cohesion: 0.33
@@ -697,7 +709,7 @@ Cohesion: 0.16
 Nodes (14): talkingForward Speech Animation, Metrics Service README, clip_data_topic (ClipData), human_speech_request_topic (HumanSpeechRequest), LGTM OpenTelemetry Collector (Grafana), Metrics Service, tts.latency histogram, tts.rate histogram (+6 more)
 
 ### Community 130 - "workmesh/__init__.py"
-Cohesion: 0.21
+Cohesion: 0.19
 Nodes (4): dict_to_protobuf_map(), protobuf_map_to_dict(), protobuf_value_to_python(), python_to_protobuf_value()
 
 ### Community 132 - "make_bot"
@@ -769,8 +781,8 @@ Cohesion: 0.40
 Nodes (4): Agent State (messages + agent_scratchpad), PhotoBoothReactWorkflowConfig, Tool call Kafka events (TOOL_CALL_STARTED/COMPLETED/FAILED), NeMo Agent Toolkit
 
 ### Community 150 - "test_motion.py"
-Cohesion: 0.11
-Nodes (14): get_format_from_width(), ws_motion(), measured_pose(), MotionStats, parse_frame(), pose_to_dict(), pose_to_targets(), step_towards() (+6 more)
+Cohesion: 0.15
+Nodes (12): get_format_from_width(), measured_pose(), parse_frame(), pose_to_dict(), pose_to_targets(), step_towards(), test_parse_frame_defaults_missing_fields_to_zero(), test_parse_frame_rejects_bad_values() (+4 more)
 
 ### Community 153 - "Development Guide"
 Cohesion: 0.19
@@ -857,36 +869,40 @@ Cohesion: 0.40
 Nodes (5): scripts, build, dev, lint, preview
 
 ### Community 194 - "register_routes"
-Cohesion: 0.20
-Nodes (8): register_routes(), connected_robot(), scripted_move(), sleep(), status(), stream(), wake_up(), zero()
+Cohesion: 0.18
+Nodes (9): register_routes(), connected_robot(), scripted_move(), sleep(), status(), stream(), wake_up(), ws_motion() (+1 more)
 
 ### Community 195 - "dependencies"
-Cohesion: 0.22
+Cohesion: 0.29
 Nodes (7): react-dom, tailwindcss, dependencies, classnames@^2.5.1, react@^19.2.3, react-dom@^19.2.3, tailwindcss@^4.1.17
 
-### Community 196 - "guardrails_dataset.py"
-Cohesion: 0.25
-Nodes (4): get_critical_test_cases(), get_test_cases_by_category(), get_test_cases_by_severity(), GuardrailTestCase
+### Community 196 - "bench.py"
+Cohesion: 0.23
+Nodes (5): center_crop_square(), load(), main(), make_frames(), parse_args()
 
 ### Community 197 - "AnimationData"
 Cohesion: 0.20
 Nodes (3): Animation, JointData1D, JointData2D
 
 ### Community 198 - "camera-service/src/configuration.py"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (4): CameraConfig, ImageEncoding, Resolution, Robot
 
 ### Community 199 - "External applications: the reachy-bridge"
 Cohesion: 0.17
 Nodes (11): 1. Commands: forwarding to the robot, 2. Data: receiving from the robot, 3. The app on the robot, Call the bridge from your application, Configure the bridge, Connecting from the Hermes (OpenShell) sandbox, Connecting to the wireless Reachy, External applications: the reachy-bridge (+3 more)
 
-### Community 202 - "UiPhotoStateTests"
-Cohesion: 0.26
-Nodes (3): load_functions(), PresenceTests, UiPhotoStateTests
+### Community 200 - "clean_reasoning"
+Cohesion: 0.20
+Nodes (3): type_name(), _trim_messages(), clean_reasoning()
 
-### Community 205 - "new-usage.md"
-Cohesion: 0.25
-Nodes (7): 1. One-time setup, 2. Start the booth, 3. Open the screens, 4. What a visitor does, 6. Testing without the robot, 7. If something's off, Not tested yet
+### Community 201 - "AsyncTests"
+Cohesion: 0.24
+Nodes (3): AsyncTests, consume(), load_method()
+
+### Community 202 - "load_functions"
+Cohesion: 0.24
+Nodes (3): load_functions(), PresenceTests, TalkingTests
 
 ### Community 207 - "Every time you make changes"
 Cohesion: 0.25
@@ -900,25 +916,29 @@ Nodes (4): dc(), host_default(), list_sources(), audio-input.sh script
 Cohesion: 0.29
 Nodes (5): daemonEl, healthEl, moveResult, preview, previewBtn
 
-### Community 217 - "RobotService"
-Cohesion: 0.14
-Nodes (3): RobotControllerConfig, frame_to_dict(), RobotService
+### Community 214 - "accelerate"
+Cohesion: 0.29
+Nodes (3): accelerate(), __init__(), Mirror
 
-### Community 223 - "config.py"
-Cohesion: 0.06
-Nodes (8): main(), mirror_photo_config(), Robot, BoothAppConfig, Robot, pytest_addoption(), Robot, OffsetType
+### Community 219 - "Mirror service"
+Cohesion: 0.33
+Nodes (6): Configuration (`/config.yaml`), Licence, Mirror service, Performance (GB10, GPT-OSS 20B and FLUX.1 Kontext loaded), Testing without the robot, trt()
+
+### Community 223 - "robot-controller-service/src/configuration.py"
+Cohesion: 0.22
+Nodes (3): BoothAppConfig, Robot, RobotControllerConfig
 
 ### Community 230 - "model-wall-service/src/main.py"
-Cohesion: 0.06
-Nodes (13): ActivityTracker, ModelWallConfig, container_for_pid(), GpuSampler, memory_by_container(), parse_meminfo(), _read(), index() (+5 more)
+Cohesion: 0.12
+Nodes (4): ActivityTracker, LlmReportProtocol, ModelWallService, stats()
 
-### Community 237 - "animation-compositor-service/src/configuration.py"
+### Community 235 - "DetectionFilter"
+Cohesion: 0.10
+Nodes (4): compute_box_center_distance(), compute_iou(), DetectionFilter, TrackFilters
+
+### Community 248 - "MetricsService"
 Cohesion: 0.18
-Nodes (3): AudioConfig, CompositorConfig, Robot
-
-### Community 247 - "PhotoBoothBotConfig"
-Cohesion: 0.40
-Nodes (3): PhotoBoothBotConfig, RobotConfig, 5. Settings you might change
+Nodes (3): E2ELatencyMetric, main(), MetricsService
 
 ### Community 254 - "audio-output.sh"
 Cohesion: 0.83
@@ -932,22 +952,22 @@ Nodes (3): dc(), list_sinks(), audio-output.sh script
 
 ## Knowledge Gaps
 - **96 isolated node(s):** `callback`, `closure`, `exception_handler`, `extra_args`, `swap_data` (+91 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1764 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **97 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1773 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **94 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Service` connect `Service` to `workmesh/__init__.py`, `MirrorService`, `TTS Kokoro Engine`, `service_executor.py`, `CameraService`, `BaseConfig`, `BaseMetric`, `.stop`, `asyncio`, `Animation Compositor Service`, `mirror_photo.py`, `Agent Service Main`, `InteractionManagerService`, `MyService`, `Producer`, `MetricsService`, `StreamTrack`, `subscribe`, `remote-control-service/src/main.py`, `Topic`, `UiServerService`, `RobotService`, `model-wall-service/src/main.py`, `TrackerService`, `RobotStateMachine`?**
-  _High betweenness centrality (0.071) - this node is a cross-community bridge._
+- **Why does `Service` connect `Service` to `test_agent.py`, `MirrorService`, `TTS Kokoro Engine`, `service_executor.py`, `ServiceExecutor`, `image_generation.py`, `CameraService`, `BaseMetric`, `.stop`, `asyncio`, `Animation Compositor Service`, `service.py`, `Agent Service Main`, `InteractionManagerService`, `MyService`, `MetricsService`, `subscribe`, `remote-control-service/src/main.py`, `UiServerService`, `RobotService`, `model-wall-service/src/main.py`, `RobotStateMachine`, `Design`, `MetricsService`, `DetectionResult`?**
+  _High betweenness centrality (0.080) - this node is a cross-community bridge._
 - **Are the 10 inferred relationships involving `Frame` (e.g. with `BlendingAnimationClip` and `LookAtAnimation`) actually correct?**
   _`Frame` has 10 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `callback`, `closure`, `exception_handler` to the rest of the system?**
   _96 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Frontend Build Dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.09269162210338681 - nodes in this community are weakly interconnected._
-- **Why does `Design` connect `StreamTrack` to `Service`, `Pixelated Image Hook`, `tracker-service/src/main.py`, `Design`, `PhotoGate`, `ProceduralClip`?**
-  _High betweenness centrality (0.064) - this node is a cross-community bridge._
+- **Why does `Design` connect `Design` to `Service`, `Pixelated Image Hook`, `tracker-service/src/main.py`, `session.py`, `PhotoGate`, `ProceduralClip`?**
+  _High betweenness centrality (0.078) - this node is a cross-community bridge._
 
 ### Low-confidence Hints
 _AMBIGUOUS edges — the extractor was unsure. Verify before acting on these._
