@@ -4,6 +4,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   "3": "BaseConfig",
   "4": "CameraService",
   "5": "mirror",
@@ -16,6 +17,8 @@
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   "3": "procedural_clips.py",
   "4": "AsyncTests",
   "5": "react_agent.py",
@@ -25,6 +28,7 @@
   "12": "UnifiedLLM",
   "13": "AdaptiveFilter",
   "14": "ServiceExecutor",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 >>>>>>> Stashed changes
   "15": "litellm.py",
@@ -44,12 +48,17 @@
   "14": "ServiceExecutor",
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
   "15": "litellm.py",
   "20": "CameraService",
   "22": "react_function.py",
   "23": "time",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -77,6 +86,9 @@
   "66": "PhotoBoothReactAgentGraph",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -86,6 +98,7 @@
   "68": "animation-database-service/src/main.py",
   "70": "subscribe",
   "71": "remote-control-service/src/main.py",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -260,6 +273,49 @@
   "174": "FakeRobot",
   "175": ".update_detection",
 >>>>>>> Stashed changes
+=======
+  "74": "bench.py",
+  "75": "animation-compositor-service/src/main.py",
+  "78": "react_function.py",
+  "79": "update_callback",
+  "81": "completion_client_langchain",
+  "84": "ConsumerConfig",
+  "87": "Deployment Instructions",
+  "88": "ReachyBoothCamera",
+  "89": "UiServerService",
+  "90": "PhotoGate",
+  "93": "Agent Service",
+  "94": "Service",
+  "95": "classnames",
+  "98": "Animation",
+  "101": "Session",
+  "103": "Tensor",
+  "104": "reachy_booth/main.py",
+  "105": "gpu.py",
+  "106": "Redpanda (Kafka broker)",
+  "108": "tracker-service/src/configuration.py",
+  "110": "camera-service/src/main.py",
+  "111": "model_wall.py",
+  "112": "flux_load.py",
+  "117": "service_telemetry.py",
+  "118": "Design",
+  "120": "profile_conv.py",
+  "121": "TrackFilters",
+  "125": "TrackerService",
+  "126": "resources",
+  "130": "workmesh/__init__.py",
+  "132": "create_filter",
+  "133": "os",
+  "143": "test_photo_behavior.py",
+  "148": "Detectron2Detector",
+  "150": "test_motion.py",
+  "152": ".safe_trigger_event",
+  "153": "Development Guide",
+  "158": "EventManager",
+  "169": ".stop",
+  "174": "FakeRobot",
+  "175": ".update_detection",
+>>>>>>> Stashed changes
   "176": "Running the photo booth with a wireless Reachy Mini",
   "177": "scripts",
   "193": "FrameGrabber",
@@ -268,6 +324,7 @@
   "197": "AnimationData",
   "198": "camera-service/src/configuration.py",
   "199": "External applications: the reachy-bridge",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -290,11 +347,17 @@
   "201": "ButterworthFilter",
   "203": "ExponentialMovingAverageFilter",
 >>>>>>> Stashed changes
+=======
+  "200": "BaseLowPassFilter",
+  "201": "ButterworthFilter",
+  "203": "ExponentialMovingAverageFilter",
+>>>>>>> Stashed changes
   "204": "BitCrushEffect",
   "207": "Every time you make changes",
   "208": "time",
   "209": "audio_debug.py",
   "210": "Activate.ps1",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -327,10 +390,18 @@
   "216": ".wait_for",
   "217": "robot-controller-service/src/main.py",
 >>>>>>> Stashed changes
+=======
+  "212": "main.js",
+  "213": "filters.py",
+  "215": "robot-controller-service/src/configuration.py",
+  "216": ".wait_for",
+  "217": "robot-controller-service/src/main.py",
+>>>>>>> Stashed changes
   "220": "audio/__init__.py",
   "221": "BaseMetric",
   "222": "gpu.py",
   "223": "service.py",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -368,6 +439,15 @@
   "252": "AsyncTests",
   "253": "procedural_clips.py",
 =======
+  "231": "README.md",
+  "235": "DetectionFilter",
+  "237": "animation-compositor-service/src/configuration.py",
+  "238": "reachy_booth",
+>>>>>>> Stashed changes
+=======
+  "224": "enter_state",
+  "228": "trigger_tts.py",
+  "230": "model-wall-service/src/main.py",
   "231": "README.md",
   "235": "DetectionFilter",
   "237": "animation-compositor-service/src/configuration.py",

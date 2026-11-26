@@ -6,7 +6,11 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - 310 files · ~136,833 words
+=======
+- 309 files · ~136,271 words
+>>>>>>> Stashed changes
 =======
 - 309 files · ~136,271 words
 >>>>>>> Stashed changes
@@ -20,6 +24,7 @@
 - Unclassified: 62 file(s) not represented in the graph (top: (none) 28, .blenderAnim 17, .css 3)
 
 ## Summary
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -49,10 +54,15 @@
 - 3479 nodes · 5974 edges · 231 communities (144 shown, 87 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 413 edges (avg confidence: 0.89)
 >>>>>>> Stashed changes
+=======
+- 3479 nodes · 5974 edges · 231 communities (144 shown, 87 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 413 edges (avg confidence: 0.89)
+>>>>>>> Stashed changes
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
 - Built from commit: `e8042205`
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -76,6 +86,8 @@
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -83,6 +95,7 @@
 - Frontend Build Dependencies
 - pygobject.h
 - test_agent.py
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -120,6 +133,8 @@
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 - procedural_clips.py
 - PhotoGate
 - typing
@@ -134,6 +149,9 @@
 - ServiceExecutor
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -144,6 +162,7 @@
 - Robot Position Debug Plots
 - Image Generation Tool
 - Robot Controller Compose
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -160,6 +179,8 @@
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 - CameraService
 - Frontend App & Messages
 - react_function.py
@@ -170,6 +191,9 @@
 - .__init__
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -198,6 +222,10 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+- InteractionManagerService
+>>>>>>> Stashed changes
 =======
 - InteractionManagerService
 >>>>>>> Stashed changes
@@ -215,7 +243,11 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - TTSLatencyMetric
+=======
+- metrics-service/src/main.py
+>>>>>>> Stashed changes
 =======
 - metrics-service/src/main.py
 >>>>>>> Stashed changes
@@ -232,7 +264,11 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - Frame
+=======
+- ProceduralClip
+>>>>>>> Stashed changes
 =======
 - ProceduralClip
 >>>>>>> Stashed changes
@@ -257,6 +293,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - bench.py
 - animation-compositor-service/src/main.py
 - Workspace Packages
@@ -278,6 +315,8 @@
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 - animation-compositor-service/src/main.py
 - Workspace Packages
 - Template Compose
@@ -287,6 +326,9 @@
 - get_parameter_schema
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -303,7 +345,11 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - PhotoGate
+=======
+- MetricsService
+>>>>>>> Stashed changes
 =======
 - MetricsService
 >>>>>>> Stashed changes
@@ -323,7 +369,11 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - procedural_clips.py
+=======
+- Animation
+>>>>>>> Stashed changes
 =======
 - Animation
 >>>>>>> Stashed changes
@@ -338,6 +388,7 @@
 - Session
 - Redpanda Console Config
 - reachy_booth/main.py
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -387,6 +438,8 @@
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 - parse_tool_calls
 - Redpanda (Kafka broker)
 - Speech & Latency Docs
@@ -408,6 +461,9 @@
 - .__init__
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -433,6 +489,10 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+- frame_to_dict
+>>>>>>> Stashed changes
 =======
 - frame_to_dict
 >>>>>>> Stashed changes
@@ -453,6 +513,10 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+- .__init__
+>>>>>>> Stashed changes
 =======
 - .__init__
 >>>>>>> Stashed changes
@@ -472,12 +536,15 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - AnimationDatabaseService
 =======
 - EventManager
 >>>>>>> Stashed changes
 =======
 - EventManager
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -513,6 +580,10 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+- AgentServiceConfig
+>>>>>>> Stashed changes
 =======
 - AgentServiceConfig
 >>>>>>> Stashed changes
@@ -526,6 +597,7 @@
 - AnimationData
 - camera-service/src/configuration.py
 - External applications: the reachy-bridge
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -600,6 +672,8 @@
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 - BaseLowPassFilter
 - ButterworthFilter
 - AudioConfig
@@ -629,6 +703,9 @@
 - reachy-ip.sh
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -643,8 +720,13 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 5. `Producer` - 33 edges
 6. `ProceduralClip` - 33 edges
+=======
+5. `ProceduralClip` - 33 edges
+6. `Producer` - 33 edges
+>>>>>>> Stashed changes
 =======
 5. `ProceduralClip` - 33 edges
 6. `Producer` - 33 edges
@@ -668,6 +750,7 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - `Model inventory` --references--> `PhotoGate`  [INFERRED]
   i-want-to-convert-resilient-lightning.md → workmesh/src/workmesh/photo_gate.py
 - `Design` --references--> `PhotoGate`  [INFERRED]
@@ -677,6 +760,8 @@
 - `Design` --references--> `Frame`  [INFERRED]
   i-want-to-convert-resilient-lightning.md → animation-compositor-service/src/clips/animations.py
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -691,6 +776,9 @@
   i-want-to-convert-resilient-lightning.md → ui-server-service/src/camera_track.py
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -719,12 +807,16 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ## Communities (264 total, 104 thin omitted)
 =======
 ## Communities (223 total, 69 thin omitted)
 >>>>>>> Stashed changes
 =======
 ## Communities (223 total, 69 thin omitted)
+>>>>>>> Stashed changes
+=======
+## Communities (231 total, 87 thin omitted)
 >>>>>>> Stashed changes
 =======
 ## Communities (231 total, 87 thin omitted)
@@ -745,6 +837,7 @@ Cohesion: 0.05
 Nodes (31): PyGBoxed, PyGClassInitFunc, PyGClosure, _PyGClosure, callback, closure, exception_handler, extra_args (+23 more)
 
 ### Community 2 - "test_agent.py"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -830,6 +923,8 @@ Nodes (8): create_tool_from_callable(), ToolCall, ToolParameter, convert_delta_t
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 Cohesion: 0.12
 Nodes (11): check_deflection(), check_refusal(), remove_all_punctuation(), send_user_utterance(), test_agent_answers_question(), test_agent_comprehensive_guardrails(), test_agent_critical_guardrails_only(), test_agent_photobooth_workflow() (+3 more)
 
@@ -862,6 +957,9 @@ Cohesion: 0.09
 Nodes (6): completion_client_langchain(), completion_client_provider(), CompletionClientConfig, create_tool_from_callable(), ToolCall, ToolParameter
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -873,6 +971,7 @@ Cohesion: 0.07
 Nodes (8): AudioEffect, DistortionEffect, EchoEffect, NoiseEffect, PitchBendEffect, StutterEffect, TremoloEffect, WobbleEffect
 
 ### Community 17 - "Robot Position Debug Plots"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -894,6 +993,8 @@ Cohesion: 0.11
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 Cohesion: 0.26
 Nodes (5): load_position_data(), main(), plot_positions(), plot_velocities(), save_highest_velocities()
 
@@ -901,6 +1002,9 @@ Nodes (5): load_position_data(), main(), plot_positions(), plot_velocities(), sa
 Cohesion: 0.10
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -917,6 +1021,7 @@ Cohesion: 0.10
 Nodes (20): react, App(), BigMessage(), BigMessageProps, Countdown(), CountdownProps, FullScreen(), FullScreenProps (+12 more)
 
 ### Community 22 - "react_function.py"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -938,6 +1043,10 @@ Nodes (7): MinioConfig, look_at_human_tool(), _inner(), LookAtHumanInput, LookAt
 Cohesion: 0.09
 Nodes (7): MinioConfig, look_at_human_tool(), _inner(), LookAtHumanInput, LookAtHumanOutput, LookAtHumanToolConfig, capture_image()
 >>>>>>> Stashed changes
+=======
+Cohesion: 0.09
+Nodes (7): MinioConfig, look_at_human_tool(), _inner(), LookAtHumanInput, LookAtHumanOutput, LookAtHumanToolConfig, capture_image()
+>>>>>>> Stashed changes
 
 ### Community 24 - "Agent Service Compose"
 Cohesion: 0.07
@@ -947,8 +1056,13 @@ Nodes (29): build, container_name, depends_on, develop, environment, healthcheck
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.06
 Nodes (31): ease_in_bounce(), ease_in_circ(), ease_in_elastic(), ease_in_expo(), ease_in_out_back(), ease_in_out_bounce(), ease_in_out_circ(), ease_in_out_cubic() (+23 more)
+=======
+Cohesion: 0.08
+Nodes (27): ease_in_bounce(), ease_in_circ(), ease_in_elastic(), ease_in_expo(), ease_in_out_back(), ease_in_out_bounce(), ease_in_out_circ(), ease_in_out_cubic() (+19 more)
+>>>>>>> Stashed changes
 =======
 Cohesion: 0.08
 Nodes (27): ease_in_bounce(), ease_in_circ(), ease_in_elastic(), ease_in_expo(), ease_in_out_back(), ease_in_out_bounce(), ease_in_out_circ(), ease_in_out_cubic() (+19 more)
@@ -967,6 +1081,7 @@ Cohesion: 0.12
 Nodes (3): CompletionClient, LLMResponse, Tool
 
 ### Community 29 - "Compositor Audio Devices"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -994,6 +1109,8 @@ Cohesion: 0.12
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 Cohesion: 0.09
 Nodes (6): create_animation_frames(), create_robot_message(), find_output_device_index(), validate_audio_settings(), find_device_index(), Transcription
 
@@ -1001,6 +1118,9 @@ Nodes (6): create_animation_frames(), create_robot_message(), find_output_device
 Cohesion: 0.11
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1022,7 +1142,11 @@ Nodes (29): content, build, configs, container_name, depends_on, develop, device
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.12
+=======
+Cohesion: 0.13
+>>>>>>> Stashed changes
 =======
 Cohesion: 0.13
 >>>>>>> Stashed changes
@@ -1045,7 +1169,11 @@ Cohesion: 0.07
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Nodes (29): content, context, dockerfile, content, configs, alsa_booth_input, config_speech_to_text, source (+21 more)
+=======
+Nodes (27): context, dockerfile, content, configs, config_speech_to_text, source, target, redpanda (+19 more)
+>>>>>>> Stashed changes
 =======
 Nodes (27): context, dockerfile, content, configs, config_speech_to_text, source, target, redpanda (+19 more)
 >>>>>>> Stashed changes
@@ -1061,6 +1189,7 @@ Cohesion: 0.07
 Nodes (26): condition, context, dockerfile, content, configs, config_interaction_manager, source, target (+18 more)
 
 ### Community 36 - "asyncio"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1093,6 +1222,8 @@ Nodes (9): State, AskHuman, BoundingCircle, FillCircleAnimation, GenerateImage, 
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 Cohesion: 0.23
 Nodes (9): run_mock_service(), change_volume(), look_at(), play_clip(), play_multiple(), producer_send(), Robot, stop_clip() (+1 more)
 
@@ -1101,6 +1232,9 @@ Cohesion: 0.20
 Nodes (10): State, clear_task(), AskHuman, BoundingCircle, FillCircleAnimation, GenerateImage, GreetUser, LookAtHuman (+2 more)
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1116,7 +1250,11 @@ Cohesion: 0.13
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Nodes (7): AnimationConfig, LightConfig, PhotoBoothBotConfig, Range, RobotConfig, TrackingConfig, VoiceConfig
+=======
+Nodes (7): AnimationConfig, InteractionManagerConfig, LightConfig, PhotoBoothBotConfig, Range, RobotConfig, TrackingConfig
+>>>>>>> Stashed changes
 =======
 Nodes (7): AnimationConfig, InteractionManagerConfig, LightConfig, PhotoBoothBotConfig, Range, RobotConfig, TrackingConfig
 >>>>>>> Stashed changes
@@ -1143,6 +1281,7 @@ Nodes (23): context, dockerfile, content, configs, config_ui_server, source, tar
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.15
 Nodes (3): AgentService, single_call(), create_hitl_callback()
 
@@ -1153,6 +1292,8 @@ Nodes (6): blend_multiple_frames(), Degrees, EulerAngles, lerp(), slerp(), main(
 ### Community 50 - "reachy_camera_probe.py"
 Cohesion: 0.13
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -1168,6 +1309,9 @@ Nodes (6): blend_multiple_frames(), Degrees, EulerAngles, interpolate(), lerp(),
 Cohesion: 0.11
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1184,6 +1328,7 @@ Cohesion: 0.09
 Nodes (21): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, jsx, lib, module, moduleDetection, moduleResolution (+13 more)
 
 ### Community 54 - "Producer"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1206,6 +1351,8 @@ Nodes (3): PendingTTSRequest, TTSLatencyMetric, TTSRateMetric
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 Cohesion: 0.09
 Nodes (7): KafkaAsyncCallbackHandler, play_clip_async(), producer(), restart_agent(), test_tts_generates_audio_from_text(), test_tts_handles_multiple_requests(), Producer
 
@@ -1214,6 +1361,9 @@ Cohesion: 0.10
 Nodes (4): BaseMetric, PendingTTSRequest, TTSLatencyMetric, TTSRateMetric
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1232,6 +1382,7 @@ Nodes (24): context, dockerfile, redpanda, resources, watch, condition, devices,
 Cohesion: 0.10
 Nodes (20): workflow, additional_instructions, allow_null_tool, greet_message, human_feedback_tool, llm_name, max_history, max_retries (+12 more)
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1257,6 +1408,8 @@ Nodes (3): Frame, interpolate(), ProceduralClip
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Community 62 - "Camera Compose"
 Cohesion: 0.08
 Nodes (25): context, dockerfile, build, configs, container_name, depends_on, develop, devices (+17 more)
@@ -1265,7 +1418,11 @@ Nodes (25): context, dockerfile, build, configs, container_name, depends_on, dev
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.13
+=======
+Cohesion: 0.17
+>>>>>>> Stashed changes
 =======
 Cohesion: 0.17
 >>>>>>> Stashed changes
@@ -1282,6 +1439,7 @@ Cohesion: 0.10
 Nodes (19): compilerOptions, allowImportingTsExtensions, erasableSyntaxOnly, lib, module, moduleDetection, moduleResolution, noEmit (+11 more)
 
 ### Community 65 - "interaction-manager-service/src/main.py"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1307,6 +1465,8 @@ Nodes (3): PhotoBoothReactAgentGraph, _trim_messages(), StructuredReActGraphStat
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 Cohesion: 0.06
 Nodes (7): VoiceConfig, EventManager, ControlMessage, main(), RobotUtteranceManager, RobotStateMachine, Config
 
@@ -1315,6 +1475,9 @@ Cohesion: 0.07
 Nodes (9): StructuredAgentAction, type_name(), PhotoBoothReactAgentGraph, photo_booth_react_function(), _response_fn(), _str_api_fn(), PhotoBoothReactWorkflowConfig, remove_text_block() (+1 more)
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1326,6 +1489,7 @@ Cohesion: 0.12
 Nodes (4): ReachyBooth, MotionController, MotionStats, test_controller_streams_latest_frame_and_pauses()
 
 ### Community 68 - "animation-database-service/src/main.py"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1347,11 +1511,16 @@ Nodes (3): convert_audio(), LRUCacheDict, DatabaseConfig
 Cohesion: 0.14
 Nodes (3): convert_audio(), LRUCacheDict, DatabaseConfig
 >>>>>>> Stashed changes
+=======
+Cohesion: 0.14
+Nodes (3): convert_audio(), LRUCacheDict, DatabaseConfig
+>>>>>>> Stashed changes
 
 ### Community 69 - "Frontend Compose"
 Cohesion: 0.11
 Nodes (17): condition, args, context, dockerfile, agent, watch, services, ui (+9 more)
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1382,6 +1551,8 @@ Cohesion: 0.10
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Community 70 - "subscribe"
 Cohesion: 0.09
 Nodes (6): AnimationDatabaseService, produces(), decorator(), wrapper(), subscribe(), decorator()
@@ -1394,6 +1565,9 @@ Nodes (4): main(), RemoteControlConfig, RemoteControlService, TriggerCommandRequ
 Cohesion: 0.15
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1405,6 +1579,7 @@ Nodes (4): Degrees, KeyPosition, Position, Robot
 Cohesion: 0.12
 Nodes (15): AbortMessage, Animation, AppState, AskHuman, BaseMessage, BoundingCircle, COLOR, FillCircleAnimation (+7 more)
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1438,6 +1613,11 @@ Nodes (3): AudioMixer, BaseClip, StaticClip
 Cohesion: 0.09
 Nodes (3): AudioMixer, BaseClip, StaticClip
 >>>>>>> Stashed changes
+=======
+### Community 75 - "animation-compositor-service/src/main.py"
+Cohesion: 0.09
+Nodes (3): AudioMixer, BaseClip, StaticClip
+>>>>>>> Stashed changes
 
 ### Community 76 - "Workspace Packages"
 Cohesion: 0.12
@@ -1447,6 +1627,7 @@ Nodes (16): agent, animation-compositor, animation-database, camera, interaction
 Cohesion: 0.13
 Nodes (14): context, dockerfile, watch, build, container_name, develop, environment, image (+6 more)
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1488,6 +1669,8 @@ Nodes (3): completion_client_langchain(), completion_client_provider(), Completi
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Community 80 - "End Interaction Tool"
 Cohesion: 0.12
 Nodes (14): end_interaction(), _arun(), EndInteractionInput, EndInteractionToolConfig, hitl_function(), _arun(), HITLFunctionConfig, HITLFunctionInput (+6 more)
@@ -1497,6 +1680,9 @@ Cohesion: 0.20
 Nodes (5): convert_delta_to_message_chunk(), convert_dict_to_message(), extract_and_parse_json(), get_item_type_schema(), get_parameter_schema()
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1515,8 +1701,13 @@ Nodes (14): End Event, Listen Event, Start Event, Think Event, UserAppeared Even
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.16
 Nodes (6): listen_only(), main(), _wait_for_event(), MessageListener, ConsumerConfig, Consumer
+=======
+Cohesion: 0.25
+Nodes (5): listen_only(), main(), _wait_for_event(), ConsumerConfig, Consumer
+>>>>>>> Stashed changes
 =======
 Cohesion: 0.25
 Nodes (5): listen_only(), main(), _wait_for_event(), ConsumerConfig, Consumer
@@ -1545,6 +1736,7 @@ Nodes (23): Animation Compositor Service, audio_config (output_device_index_or_n
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ### Community 88 - "ReachyBoothCamera"
 Cohesion: 0.10
 Nodes (3): _decode(), parse_reachy_url(), ReachyBoothCamera
@@ -1565,6 +1757,8 @@ Cohesion: 0.27
 Nodes (3): detection(), GateTests, PhotoGate
 >>>>>>> Stashed changes
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -1595,6 +1789,7 @@ Nodes (7): FillCircleBorder(), FillCircleBorderProps, LightBorder(), LightBorder
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ### Community 98 - "procedural_clips.py"
 Cohesion: 0.09
 Nodes (5): Animation, AnimationClip, ProceduralAnimation, ProceduralType, StaticAnimation
@@ -1605,6 +1800,11 @@ Nodes (6): Animation, AnimationClip, AudioClip, ProceduralAnimation, StaticAnima
 <<<<<<< Updated upstream
 >>>>>>> Stashed changes
 =======
+>>>>>>> Stashed changes
+=======
+### Community 98 - "Animation"
+Cohesion: 0.13
+Nodes (4): Animation, AnimationClip, ProceduralAnimation, StaticAnimation
 >>>>>>> Stashed changes
 =======
 ### Community 98 - "Animation"
@@ -1636,6 +1836,7 @@ Nodes (3): InvalidImageError, NoResponseError, SuggestionMessage
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.26
 Nodes (4): connect(), AbortMessage, Signalling, Session
 =======
@@ -1658,6 +1859,10 @@ Nodes (5): connect(), AbortMessage, AppState, Signalling, Session
 Cohesion: 0.21
 Nodes (5): connect(), AbortMessage, AppState, Signalling, Session
 >>>>>>> Stashed changes
+=======
+Cohesion: 0.21
+Nodes (5): connect(), AbortMessage, AppState, Signalling, Session
+>>>>>>> Stashed changes
 
 ### Community 102 - "Redpanda Console Config"
 Cohesion: 0.17
@@ -1666,9 +1871,15 @@ Nodes (12): CONFIG_FILEPATH, CONSOLE_CONFIG_FILE, command, container_name, depen
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ### Community 105 - "gpu.py"
 Cohesion: 0.23
 Nodes (4): container_for_pid(), memory_by_container(), parse_meminfo(), _read()
+=======
+### Community 105 - "parse_tool_calls"
+Cohesion: 0.24
+Nodes (6): multi_tool_completion_checker(), condition(), parse_tool_calls(), condition(), tool_transition_checker(), condition()
+>>>>>>> Stashed changes
 =======
 ### Community 105 - "parse_tool_calls"
 Cohesion: 0.24
@@ -1693,6 +1904,7 @@ Nodes (32): Interaction Manager Service README, Agent Service (LLM-powered), Cam
 Cohesion: 0.18
 Nodes (11): e2e.latency histogram, user_utterance_topic (UserUtterance), ReSpeaker XVF3800 4-Mic Array, udev rules 99-reachy-mini.rules, speaker_setup.sh script, Speech-to-Text Service README, input_device_index_or_name / audio_config.sample_rate, list_sound_devices.py (+3 more)
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1726,11 +1938,17 @@ Nodes (8): main(), producer_send(), main(), producer_send(), main(), producer_se
 Cohesion: 0.13
 Nodes (8): main(), producer_send(), main(), producer_send(), main(), producer_send(), main(), producer_send()
 >>>>>>> Stashed changes
+=======
+### Community 108 - "trigger_stt.py"
+Cohesion: 0.13
+Nodes (8): main(), producer_send(), main(), producer_send(), main(), producer_send(), main(), producer_send()
+>>>>>>> Stashed changes
 
 ### Community 109 - "Kiosk Frontend Docs"
 Cohesion: 0.20
 Nodes (9): ui-frontend AGENTS.md (Cursor Rules), FloatingImages component, React 19 / Vite 7 / Tailwind CSS 4 / TypeScript, ui-frontend index.html (Vite entry), Spark & Reachy Photo Booth UI README, UI Server WebRTC test page (index.html), WebRTC Signalling over WebSocket (/ws), UI Server Service README (+1 more)
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1780,6 +1998,11 @@ Nodes (4): _report(), report_end(), report_start(), _send()
 Cohesion: 0.22
 Nodes (4): _report(), report_end(), report_start(), _send()
 >>>>>>> Stashed changes
+=======
+### Community 111 - "model_wall.py"
+Cohesion: 0.22
+Nodes (4): _report(), report_end(), report_start(), _send()
+>>>>>>> Stashed changes
 
 ### Community 113 - "Compose Config Mounts"
 Cohesion: 0.22
@@ -1796,6 +2019,7 @@ Nodes (10): demo_information, facts, performance, generate_image, completed, loo
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ### Community 118 - "Design"
 Cohesion: 0.29
 Nodes (6): Context, Design, Magic Mirror conversion: models and plan, Model inventory, Risks, Verification
@@ -1806,10 +2030,13 @@ Nodes (6): Context, Design, Magic Mirror conversion: models and plan, Model inve
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Community 119 - "Agent Prompt Config"
 Cohesion: 0.20
 Nodes (10): prompt, _type, _type, functions, ask_human, farewell_user, greet_user, look_at_human (+2 more)
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -1828,12 +2055,17 @@ Nodes (9): AgentServiceConfig, InteractionManagerConfig, AudioConfig, Endpointin
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Community 120 - "speech-to-text-service/src/configuration.py"
 Cohesion: 0.36
 Nodes (6): AudioConfig, EndpointingConfig, RivaConfig, Seconds, SpeechToTextConfig, VadConfig
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -1871,7 +2103,11 @@ Nodes (14): talkingForward Speech Animation, Metrics Service README, clip_data_t
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.27
+=======
+Cohesion: 0.19
+>>>>>>> Stashed changes
 =======
 Cohesion: 0.19
 >>>>>>> Stashed changes
@@ -1945,6 +2181,7 @@ Nodes (4): Agent State (messages + agent_scratchpad), PhotoBoothReactWorkflowCon
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.14
 Nodes (12): get_format_from_width(), MotionStats, parse_frame(), pose_to_targets(), step_towards(), test_controller_streams_latest_frame_and_pauses(), test_parse_frame_defaults_missing_fields_to_zero(), test_parse_frame_rejects_bad_values() (+4 more)
 =======
@@ -1954,6 +2191,10 @@ Nodes (14): ws_motion(), measured_pose(), parse_frame(), pose_to_dict(), pose_to
 =======
 Cohesion: 0.11
 Nodes (14): ws_motion(), measured_pose(), parse_frame(), pose_to_dict(), pose_to_targets(), Robot, step_towards(), connect() (+6 more)
+>>>>>>> Stashed changes
+=======
+Cohesion: 0.15
+Nodes (13): get_format_from_width(), status(), measured_pose(), parse_frame(), pose_to_dict(), pose_to_targets(), step_towards(), test_parse_frame_defaults_missing_fields_to_zero() (+5 more)
 >>>>>>> Stashed changes
 =======
 Cohesion: 0.15
@@ -2031,10 +2272,13 @@ Nodes (4): command, volumes, services, SERVICE_NAME
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ### Community 169 - ".stop"
 Cohesion: 0.21
 Nodes (3): MyServiceConfig, main(), MyService
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -2071,6 +2315,7 @@ Nodes (5): scripts, build, dev, lint, preview
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.11
 Nodes (11): register_routes(), connected_robot(), scripted_move(), sleep(), status(), stream(), wake_up(), ws_motion() (+3 more)
 
@@ -2097,6 +2342,10 @@ Nodes (8): register_routes(), connected_robot(), scripted_move(), sleep(), strea
 Cohesion: 0.19
 Nodes (8): register_routes(), connected_robot(), scripted_move(), sleep(), stream(), wake_up(), ws_motion(), zero()
 >>>>>>> Stashed changes
+=======
+Cohesion: 0.19
+Nodes (8): register_routes(), connected_robot(), scripted_move(), sleep(), stream(), wake_up(), ws_motion(), zero()
+>>>>>>> Stashed changes
 
 ### Community 196 - "guardrails_dataset.py"
 Cohesion: 0.25
@@ -2106,7 +2355,11 @@ Nodes (4): get_critical_test_cases(), get_test_cases_by_category(), get_test_cas
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Cohesion: 0.23
+=======
+Cohesion: 0.21
+>>>>>>> Stashed changes
 =======
 Cohesion: 0.21
 >>>>>>> Stashed changes
@@ -2129,6 +2382,7 @@ Nodes (11): 1. Commands: forwarding to the robot, 2. Data: receiving from the ro
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ### Community 200 - "ServiceExecutor"
 Cohesion: 0.21
 Nodes (7): main(), main(), main(), main(), lifespan(), load_config(), ServiceExecutor
@@ -2143,10 +2397,13 @@ Nodes (3): ModelWallConfig, pytest_addoption(), OffsetType
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Community 207 - "Every time you make changes"
 Cohesion: 0.25
 Nodes (7): 1. Edit and commit in the parent repo (normal workflow), 2. Copy the changes into the HF clone, 3. Commit and push from the HF clone, Every time you make changes, One-time setup: create the HF push clone, Quick reference, Syncing `reachy_booth/` to Hugging Face
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -2165,12 +2422,17 @@ Nodes (6): track_animation(), convert_bits_per_sample(), Degrees, EulerAngle, Ro
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Community 211 - "animation-database-service/src/utils.py"
 Cohesion: 0.29
 Nodes (4): convert_bits_per_sample(), Degrees, EulerAngle, TrackingData
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2180,6 +2442,7 @@ Nodes (4): convert_bits_per_sample(), Degrees, EulerAngle, TrackingData
 Cohesion: 0.29
 Nodes (5): daemonEl, healthEl, moveResult, preview, previewBtn
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -2235,6 +2498,8 @@ Nodes (11): AudioConfig, MetricsServiceConfig, ModelWallConfig, consumer_config(
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ### Community 215 - "robot-controller-service/src/configuration.py"
 Cohesion: 0.22
 Nodes (3): BoothAppConfig, Robot, RobotControllerConfig
@@ -2244,6 +2509,9 @@ Cohesion: 0.08
 Nodes (9): MetricsServiceConfig, ModelWallConfig, MyServiceConfig, pytest_addoption(), UiServerConfig, BaseConfig, OffsetType, ProducerConfig (+1 more)
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2255,6 +2523,7 @@ Cohesion: 0.36
 Nodes (3): main(), producer_send(), Robot
 
 ### Community 230 - "model-wall-service/src/main.py"
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -2288,11 +2557,16 @@ Nodes (13): ActivityTracker, Model, container_for_pid(), GpuSampler, memory_by_c
 Cohesion: 0.06
 Nodes (13): ActivityTracker, Model, container_for_pid(), GpuSampler, memory_by_container(), parse_meminfo(), _read(), index() (+5 more)
 >>>>>>> Stashed changes
+=======
+Cohesion: 0.06
+Nodes (13): ActivityTracker, Model, container_for_pid(), GpuSampler, memory_by_container(), parse_meminfo(), _read(), index() (+5 more)
+>>>>>>> Stashed changes
 
 ### Community 254 - "audio-output.sh"
 Cohesion: 0.83
 Nodes (3): dc(), list_sinks(), audio-output.sh script
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -2327,6 +2601,8 @@ Nodes (4): dc(), host_default(), list_sources(), audio-input.sh script
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 ## Ambiguous Edges - Review These
 - `Image Generator (FLUX.1 Kontext)` → `MinIO`  [AMBIGUOUS]
   docs/images/architecture-diagram.png · relation: shares_data_with
@@ -2339,6 +2615,9 @@ Nodes (4): dc(), host_default(), list_sources(), audio-input.sh script
 - **87 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2348,6 +2627,7 @@ Nodes (4): dc(), host_default(), list_sources(), audio-input.sh script
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
@@ -2392,6 +2672,8 @@ _Questions this graph is uniquely positioned to answer:_
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 - **Why does `Design` connect `PhotoGate` to `Pixelated Image Hook`, `base.py`, `session.py`, `ProceduralClip`, `Service`?**
   _High betweenness centrality (0.097) - this node is a cross-community bridge._
 - **Are the 8 inferred relationships involving `Frame` (e.g. with `BlendingAnimationClip` and `LookAtAnimation`) actually correct?**
@@ -2404,6 +2686,9 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.092) - this node is a cross-community bridge._
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -2416,10 +2701,17 @@ _AMBIGUOUS edges — the extractor was unsure. Verify before acting on these._
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 - **What is the exact relationship between `Workmesh Messaging Library` and `Service Template README`?**
   _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
 - **What is the exact relationship between `Image Generator (FLUX.1 Kontext)` and `MinIO`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
+=======
+- **What is the exact relationship between `Image Generator (FLUX.1 Kontext)` and `MinIO`?**
+  _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
+- **What is the exact relationship between `Workmesh Messaging Library` and `Service Template README`?**
+  _Edge tagged AMBIGUOUS (relation: conceptually_related_to) - confidence is low._
+>>>>>>> Stashed changes
 =======
 - **What is the exact relationship between `Image Generator (FLUX.1 Kontext)` and `MinIO`?**
   _Edge tagged AMBIGUOUS (relation: shares_data_with) - confidence is low._
