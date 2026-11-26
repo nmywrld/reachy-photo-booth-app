@@ -2,6 +2,10 @@
   "0": "Frontend Build Dependencies",
   "7": "Pre-generated Style Images",
   "9": "TTS Kokoro Engine",
+<<<<<<< Updated upstream
+=======
+  "10": "STT Riva Client",
+>>>>>>> Stashed changes
   "11": "Photo Booth State Machine",
   "16": "Procedural Audio Effects",
   "17": "Robot Position Debug Plots",
