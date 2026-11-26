@@ -2,7 +2,6 @@
   "0": "Frontend Build Dependencies",
   "7": "Pre-generated Style Images",
   "9": "TTS Kokoro Engine",
-  "10": "STT Riva Client",
   "11": "Photo Booth State Machine",
   "16": "Procedural Audio Effects",
   "17": "Robot Position Debug Plots",
@@ -47,27 +46,13 @@
   "83": "Remote Control Events",
   "85": "Metrics Compose",
   "86": "Pixelated Image Hook",
-<<<<<<< Updated upstream
-  "87": "Agent & Camera Docs",
   "91": "GPU Deploy Resources",
   "92": "MinIO Infrastructure",
-  "93": "Getting Started Docs",
-  "94": "Redpanda & Remote Control Docs",
-=======
-  "91": "GPU Deploy Resources",
-  "92": "MinIO Infrastructure",
->>>>>>> Stashed changes
   "96": "Animated Border UI",
   "97": "Agent Tool Call Tests",
   "99": "LLM Params Config",
   "100": "Agent Exceptions",
   "102": "Redpanda Console Config",
-<<<<<<< Updated upstream
-  "103": "Hardware & Model Overview",
-  "105": "Interaction & Robot Docs",
-  "106": "Photo Capture Flow Docs",
-=======
->>>>>>> Stashed changes
   "107": "Speech & Latency Docs",
   "109": "Kiosk Frontend Docs",
   "113": "Compose Config Mounts",
@@ -78,18 +63,10 @@
   "122": "Shared Volumes",
   "123": "Photobooth Root Config",
   "124": "Agent MinIO Settings",
-<<<<<<< Updated upstream
-  "125": "Shared Sample Rate Docs",
-=======
->>>>>>> Stashed changes
   "127": "Root Compose Includes",
   "128": "Infra Service Commands",
   "129": "TTS Docs",
   "131": "Compositor Range Model",
-<<<<<<< Updated upstream
-  "132": "Development Guide",
-=======
->>>>>>> Stashed changes
   "134": "Motor Config A",
   "135": "Motor Config B",
   "136": "Right Antenna Motor",
@@ -103,15 +80,8 @@
   "145": "Compose Healthchecks",
   "146": "Compose Port Services A",
   "147": "Compose Port Services B",
-<<<<<<< Updated upstream
-  "148": "Metrics Docs",
   "149": "ReAct Agent Docs",
   "151": "WahWah Effect",
-  "153": "Workmesh Framework Docs",
-=======
-  "149": "ReAct Agent Docs",
-  "151": "WahWah Effect",
->>>>>>> Stashed changes
   "154": "Transcript UI",
   "155": "Agent Debug Override",
   "156": "Image Gen Config",
@@ -130,10 +100,6 @@
   "171": "Tracker Debug Override",
   "172": "UI Server Debug Override",
   "173": "Remote Control Page JS",
-<<<<<<< Updated upstream
-  "175": "MinIO QR Sharing",
-=======
->>>>>>> Stashed changes
   "178": "Vite Env Types",
   "179": "Root TS Config",
   "180": "graphify Skill Docs",
