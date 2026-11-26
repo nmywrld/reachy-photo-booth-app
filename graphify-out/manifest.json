@@ -744,10 +744,10 @@
     "semantic_hash": ""
   },
   "speech-to-text-service/compose.yaml": {
-    "mtime": 1793864180.168527,
-    "seen": 1793864539.772894,
-    "ast_hash": "bca3165330982d7c585ab7daefb4d485",
-    "semantic_hash": "bca3165330982d7c585ab7daefb4d485"
+    "mtime": 1794826885.2353697,
+    "seen": 1794826925.1728024,
+    "ast_hash": "507bd5c4a47abbc7b017870759e6f6e3",
+    "semantic_hash": ""
   },
   "speech-to-text-service/pyproject.toml": {
     "mtime": 1793860538.5940344,
@@ -1572,9 +1572,9 @@
     "semantic_hash": ""
   },
   "agent-service/src/Dell_Technologies_logo.png": {
-    "mtime": 1793860538.5124753,
-    "seen": 1793933209.3733358,
-    "ast_hash": "5de80017c9e26c9feea964ecd467683c",
+    "mtime": 1794825941.1540046,
+    "seen": 1794825944.5155616,
+    "ast_hash": "32eb7276eef3840db27a84ba36127913",
     "semantic_hash": ""
   },
   "animation-database-service/assets/animLibrary/antennaLargeWiggle/antennaLargeWiggle.gif": {
@@ -2571,6 +2571,24 @@
     "mtime": 1794450007.5898871,
     "seen": 1794461097.116757,
     "ast_hash": "e01f86350972b8ea923da67013bdfa98",
+    "semantic_hash": ""
+  },
+  "agent-service/src/Dell_Technologies_logo-original.png": {
+    "mtime": 1794825941.1533806,
+    "seen": 1794825944.5155602,
+    "ast_hash": "5de80017c9e26c9feea964ecd467683c",
+    "semantic_hash": ""
+  },
+  "agent-service/src/Photo_Frame_1796x1206.png": {
+    "mtime": 1794825941.1548498,
+    "seen": 1794825944.515562,
+    "ast_hash": "771c83a2cbb58d0c9b8f3122a8cbc4d9",
+    "semantic_hash": ""
+  },
+  "scripts/audio-input.sh": {
+    "mtime": 1794826913.888503,
+    "seen": 1794826925.1727996,
+    "ast_hash": "563cc2f76ab8ec64df25ac49d2e3c275",
     "semantic_hash": ""
   },
   "ui-frontend/package-lock.json": {
